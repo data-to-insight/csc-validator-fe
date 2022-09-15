@@ -10,6 +10,7 @@ let api: null | APIControl = null;
 function App(props: AppProps) {
   const { apiMethod } = props;
   const [ready, setReady] = useState(false);
+  const [data, setData] = useState(null);
 
   /**
    * Lifecycle methods
@@ -19,7 +20,7 @@ function App(props: AppProps) {
     const init = async () => {
       console.log("init...");
       api = new APIControl();
-      await api.loadMethod(apiMethod);
+      await api.loadMethod(apiMethod, handleAPIResponse);
 
       setReady(true);
     };
@@ -33,6 +34,10 @@ function App(props: AppProps) {
    * Handlers
    */
 
+  const handleAPIResponse = (data: any) => {
+    setData(data.data);
+  };
+
   const handleClick = async () => {
     const response = await api?.callAPI("endpoint", {
       val: "hello, world",
@@ -45,7 +50,12 @@ function App(props: AppProps) {
    * Rendering
    */
 
-  return <div>{ready && <button onClick={handleClick}>Call API</button>}</div>;
+  return (
+    <div>
+      {data && <p>{data}</p>}
+      {ready && <button onClick={handleClick}>Call API</button>}
+    </div>
+  );
 }
 
 export default App;
