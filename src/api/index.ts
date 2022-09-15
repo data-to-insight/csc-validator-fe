@@ -7,7 +7,7 @@ export enum APIMethod{
 }
 
 export type API = {
-    handler: (cmd:any) => Promise<string>
+    handler: (endpoint: string, payload:any) => Promise<string>
     init: () => Promise<LoadStatus>
 }
 
@@ -15,7 +15,7 @@ interface IAPIControl {
     api: any,
     loadStatus: LoadStatus,
     loadMethod: (apiMethod: APIMethod) => Promise<LoadStatus>,
-    callAPI: (comd: string) => Promise<string>
+    callAPI: (endpoint:string, payload:any) => Promise<string>
 }
 
 export class APIControl implements IAPIControl {
@@ -38,8 +38,8 @@ export class APIControl implements IAPIControl {
         return this.api
     }
 
-    callAPI = async (cmd: string) => {
-        const response = await this.api.api.handler(cmd);
+    callAPI = async (endpoint:string, payload:any) => {
+        const response = await this.api.api.handler(endpoint, payload);
         return response;
     }
 

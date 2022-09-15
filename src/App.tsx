@@ -34,7 +34,10 @@ function App(props: AppProps) {
    */
 
   const handleClick = async () => {
-    const response = await api?.callAPI("hello world");
+    const response = await api?.callAPI("endpoint", {
+      val: "hello, world",
+      resource: "PROCESS_ONE",
+    });
     console.log(response);
   };
 
