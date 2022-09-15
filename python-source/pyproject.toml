@@ -1,0 +1,5 @@
+[tool.poetry]
+name = "sfdl-sample-pyodide"
+version = "0.1.0"
+description = "Sample build for pyodide"
+authors = ["dotloadmovie"]
