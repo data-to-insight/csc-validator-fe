@@ -1,44 +1,44 @@
+import { API, APIPayload, Response } from "./";
+import { LoadStatus } from "../enums/LoadStatus";
+import { PyodideWorkerAction } from "enums/WorkerActions";
 
-import { API, Response } from './'
-import { LoadStatus } from '../enums/LoadStatus'
+export type PyodideWorkerDTO = {
+  action: PyodideWorkerAction;
+  body?: any;
+};
 
-let worker:Worker;
+let worker: Worker;
 
-export const api:API = {
-    handler: async (endpoint:string, payload:any):Promise<string> => {
-       /* await pyodideInst.loadPackage("http://localhost:3000/bin/dist/main-0.0.0-py3-none-any.whl");
-        await pyodideInst.runPythonAsync(`from main import ${endpoint}`)
+export const api: API = {
+  handler: async (endpoint: string, payload: APIPayload): Promise<string> => {
+    const message: PyodideWorkerDTO = {
+      action: PyodideWorkerAction.RUN,
+      body: {
+        endpoint,
+        payload,
+      },
+    };
 
-        const val = await pyodideInst.runPythonAsync(`${endpoint}(${JSON.stringify(payload)})`);
-        return val.get('val');*/
-        worker.postMessage({
-            action: 'run',
-            body: {
-                endpoint,
-                payload
-            }
-        });
+    worker.postMessage(message);
 
-        return 'running code...'
-    },
+    return "running code...";
+  },
 
-    init: async (onResponse:Response) => {
-        worker = new Worker(
-            new URL('../workers/pyodide.worker.ts', import.meta.url)
-        )
+  init: async (onResponse: Response) => {
+    worker = new Worker(
+      new URL("../workers/pyodide.worker.ts", import.meta.url)
+    );
 
-        worker.onmessage = (rec:any) => {
-            onResponse(rec)
-        }
+    worker.onmessage = (rec: any) => {
+      onResponse(rec);
+    };
 
-        worker.postMessage({
-            action: 'init'
-        })
+    const message: PyodideWorkerDTO = {
+      action: PyodideWorkerAction.INIT,
+    };
 
+    worker.postMessage(message);
 
-        /*pyodideInst = await window.loadPyodide();
-        await pyodideInst.loadPackage("http://localhost:3000/bin/dist/main-0.0.0-py3-none-any.whl");*/
-       
-        return LoadStatus.READY
-    }
-}
+    return LoadStatus.READY;
+  },
+};

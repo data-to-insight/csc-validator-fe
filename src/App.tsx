@@ -1,14 +1,15 @@
+import { LoadStatus } from "enums/LoadStatus";
 import { useState, useEffect } from "react";
-import { APIControl, APIMethod } from "./api";
+import { APIControl, APITransport } from "./api";
 
 interface AppProps {
-  apiMethod: APIMethod;
+  apiTransport: APITransport;
 }
 
 let api: null | APIControl = null;
 
 function App(props: AppProps) {
-  const { apiMethod } = props;
+  const { apiTransport } = props;
   const [ready, setReady] = useState(false);
   const [data, setData] = useState(null);
 
@@ -20,30 +21,31 @@ function App(props: AppProps) {
     const init = async () => {
       console.log("init...");
       api = new APIControl();
-      await api.loadMethod(apiMethod, handleAPIResponse);
-
-      setReady(true);
+      await api.loadTransport(apiTransport, handleAPIResponse);
     };
 
     if (!api) {
       init();
     }
-  }, [apiMethod]);
+  }, [apiTransport]);
 
   /**
    * Handlers
    */
 
   const handleAPIResponse = (data: any) => {
-    setData(data.data);
+    if (data.data === LoadStatus.READY) {
+      setReady(true);
+    } else {
+      setData(data.data);
+    }
   };
 
   const handleClick = async () => {
-    const response = await api?.callAPI("endpoint", {
-      val: "hello, world",
-      resource: "PROCESS_ONE",
+    await api?.callAPI("endpoint", {
+      value: "hello, world",
+      method: "PROCESS_ONE",
     });
-    console.log(response);
   };
 
   /**
@@ -53,7 +55,11 @@ function App(props: AppProps) {
   return (
     <div>
       {data && <p>{data}</p>}
-      {ready && <button onClick={handleClick}>Call API</button>}
+      {ready ? (
+        <button onClick={handleClick}>Call API</button>
+      ) : (
+        <span>loading API transport ({apiTransport})...</span>
+      )}
     </div>
   );
 }
