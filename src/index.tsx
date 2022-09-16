@@ -8,6 +8,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App apiTransport={APITransport.PYODIDE} />
+    <App
+      apiTransport={APITransport.PYODIDE}
+      apiConfig={{ wheelPath: "/bin/dist/main-0.0.0-py3-none-any.whl" }}
+    />
   </React.StrictMode>
 );

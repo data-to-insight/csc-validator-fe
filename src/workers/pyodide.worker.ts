@@ -5,6 +5,7 @@ import { PyodideInterface } from "pyodide";
 import { PyodideWorkerAction } from "../enums/WorkerActions";
 import { LoadStatus } from "../enums/LoadStatus";
 
+//importScripts is a global. Only run it if it is available (ignore if the module is loaded onto window)
 if (typeof importScripts === "function") {
   importScripts("https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js");
 }
@@ -16,10 +17,8 @@ const initializePyodide = async () => {
   self.postMessage(LoadStatus.READY);
 };
 
-const runPyodideCode = async (endpoint: string, payload: any) => {
-  await pyodideInst.loadPackage(
-    "http://localhost:3000/bin/dist/main-0.0.0-py3-none-any.whl"
-  );
+const runPyodideCode = async (endpoint: string, payload: any, config: any) => {
+  await pyodideInst.loadPackage(config.wheelPath);
   await pyodideInst.runPythonAsync(`from main import ${endpoint}`);
 
   const val = await pyodideInst.runPythonAsync(
@@ -34,8 +33,8 @@ onmessage = async (evt: any) => {
   }
 
   if (evt.data.action === PyodideWorkerAction.RUN) {
-    const { endpoint, payload } = evt.data.body;
-    runPyodideCode(endpoint, payload);
+    const { endpoint, payload, config } = evt.data.body;
+    runPyodideCode(endpoint, payload, config);
   }
 };
 

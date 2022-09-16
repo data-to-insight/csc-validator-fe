@@ -10,12 +10,17 @@ export type PyodideWorkerDTO = {
 let worker: Worker;
 
 export const api: API = {
-  handler: async (endpoint: string, payload: APIPayload): Promise<string> => {
+  handler: async (
+    endpoint: string,
+    payload: APIPayload,
+    config?: any
+  ): Promise<string> => {
     const message: PyodideWorkerDTO = {
       action: PyodideWorkerAction.RUN,
       body: {
         endpoint,
         payload,
+        config: config || {},
       },
     };
 

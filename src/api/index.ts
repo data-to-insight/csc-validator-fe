@@ -25,7 +25,7 @@ interface IAPIControl {
     apiMethod: APITransport,
     onResponse: Response
   ) => Promise<LoadStatus>;
-  callAPI: (endpoint: string, payload: any) => Promise<string>;
+  callAPI: (endpoint: string, payload: any, config: any) => Promise<string>;
 }
 
 export class APIControl implements IAPIControl {
@@ -48,8 +48,8 @@ export class APIControl implements IAPIControl {
     return this.api;
   };
 
-  callAPI = async (endpoint: string, payload: APIPayload) => {
-    const startup = await this.api.api.handler(endpoint, payload);
+  callAPI = async (endpoint: string, payload: APIPayload, config: any) => {
+    const startup = await this.api.api.handler(endpoint, payload, config);
     return startup;
   };
 }
