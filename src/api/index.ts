@@ -1,48 +1,55 @@
-import { LoadStatus } from "../enums/LoadStatus"
+import { LoadStatus } from "../enums/LoadStatus";
 
-export enum APIMethod{
-    PYODIDE = 'pyodide',
-    WEB = 'web',
-    STATIC = 'static'
+export enum APITransport {
+  PYODIDE = "pyodide",
+  WEB = "web",
+  STATIC = "static",
 }
 
 export type API = {
-    handler: (endpoint: string, payload:any) => Promise<string>
-    init: (onResponse:Response) => Promise<LoadStatus>
-}
+  handler: (endpoint: string, payload: any) => Promise<string>;
+  init: (onResponse: Response) => Promise<LoadStatus>;
+};
 
-export type Response = (response:any) => void
+export type APIPayload = {
+  method: string;
+  value: string;
+};
+
+export type Response = (response: any) => void;
 
 interface IAPIControl {
-    api: any,
-    loadStatus: LoadStatus,
-    loadMethod: (apiMethod: APIMethod, onResponse:Response) => Promise<LoadStatus>,
-    callAPI: (endpoint:string, payload:any) => Promise<string>
+  api: any;
+  loadStatus: LoadStatus;
+  loadTransport: (
+    apiMethod: APITransport,
+    onResponse: Response
+  ) => Promise<LoadStatus>;
+  callAPI: (endpoint: string, payload: any, config: any) => Promise<string>;
 }
 
 export class APIControl implements IAPIControl {
-    api:any = null
+  api: any = null;
 
-    constructor() {
-        this.api = null
-    }
+  constructor() {
+    this.api = null;
+  }
 
-    loadStatus = LoadStatus.IDLE
+  loadStatus = LoadStatus.IDLE;
 
-    loadMethod = async (apiMethod: APIMethod, onResponse:Response) => {
-        this.api = await import(`./${apiMethod}`);
-        const apiReady = await this.api.api.init(onResponse);
+  loadTransport = async (apiTransport: APITransport, onResponse: Response) => {
+    this.api = await import(`./${apiTransport}`);
+    const apiReady = await this.api.api.init(onResponse);
 
-        return apiReady;
-    }
+    return apiReady;
+  };
 
-    getMethod = () => {
-        return this.api
-    }
+  getMethod = () => {
+    return this.api;
+  };
 
-    callAPI = async (endpoint:string, payload:any) => {
-        const startup = await this.api.api.handler(endpoint, payload);
-        return startup;
-    }
-
+  callAPI = async (endpoint: string, payload: APIPayload, config: any) => {
+    const startup = await this.api.api.handler(endpoint, payload, config);
+    return startup;
+  };
 }

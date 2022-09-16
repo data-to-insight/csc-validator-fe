@@ -5,10 +5,10 @@ import io
 def endpoint(payload):
     print('from inside package')
 
-    if payload['resource'] == 'PROCESS_ONE':
+    if payload['method'] == 'PROCESS_ONE':
         return processOne()
 
-    if payload['resource'] == 'PROCESS_TWO':
+    if payload['method'] == 'PROCESS_TWO':
         return processTwo()
 
 
