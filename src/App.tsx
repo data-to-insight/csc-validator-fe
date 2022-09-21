@@ -1,8 +1,9 @@
 import { LoadStatus } from "enums/LoadStatus";
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { APIControl, APITransport } from "./api";
-import { APIMethods } from "enums/APIMethods";
-import TestForm from "./components/TestForm";
+
+import Loader from "./components/loader";
+import Router from "./Router";
 
 interface AppProps {
   apiTransport: APITransport;
@@ -13,9 +14,8 @@ interface AppProps {
 let api: null | APIControl = null;
 
 function App(props: AppProps) {
-  const { apiTransport, apiConfig, apiEndpoint } = props;
+  const { apiTransport } = props;
   const [ready, setReady] = useState(false);
-  const [data, setData] = useState(null);
 
   /**
    * Lifecycle methods
@@ -40,34 +40,6 @@ function App(props: AppProps) {
   const handleAPIResponse = (data: any) => {
     if (data.data === LoadStatus.READY) {
       setReady(true);
-    } else {
-      setData(data.data);
-    }
-  };
-
-  const handleClick = async () => {
-    await api?.callAPI(
-      apiEndpoint,
-      {
-        value: "hello, world",
-        method: APIMethods.PROCESS_ONE,
-      },
-      apiConfig
-    );
-  };
-
-  const handleUpload = async (evt: ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files && evt.target.files.length > 0) {
-      const file = evt.target.files[0];
-
-      await api?.callAPI(
-        apiEndpoint,
-        {
-          method: APIMethods.UPLOAD,
-          value: file,
-        },
-        apiConfig
-      );
     }
   };
 
@@ -75,16 +47,7 @@ function App(props: AppProps) {
    * Rendering
    */
 
-  return (
-    <div>
-      {data && <p>{data}</p>}
-      {ready ? (
-        <TestForm onClick={handleClick} onUpload={handleUpload} />
-      ) : (
-        <span>loading API transport ({apiTransport})...</span>
-      )}
-    </div>
-  );
+  return <div>{ready ? <Router /> : <Loader />}</div>;
 }
 
 export default App;
