@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Start, LoadData, Report } from "pages";
+import { Body } from "components/layout";
 
 export enum RouteValue {
   START = "START",
@@ -29,7 +30,7 @@ const Router = () => {
     }
   };
 
-  return <div>{renderRoute()}</div>;
+  return <Body>{renderRoute()}</Body>;
 };
 
 export default Router;

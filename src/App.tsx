@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { APIControl, APITransport } from "./api";
 
 import Loader from "./components/loader";
+import { Container } from "./components/layout";
 import Router from "./Router";
 
 interface AppProps {
@@ -47,7 +48,7 @@ function App(props: AppProps) {
    * Rendering
    */
 
-  return <div>{ready ? <Router /> : <Loader />}</div>;
+  return <Container>{ready ? <Router /> : <Loader />}</Container>;
 }
 
 export default App;
