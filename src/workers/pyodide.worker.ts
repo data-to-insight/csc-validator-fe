@@ -21,6 +21,23 @@ const runPyodideCode = async (endpoint: string, payload: any, config: any) => {
   await pyodideInst.loadPackage(config.wheelPath);
   await pyodideInst.runPythonAsync(`from main import ${endpoint}`);
 
+  if (payload.method === "UPLOAD") {
+    const fileReader = new FileReader();
+    fileReader.onload = async () => {
+      const withRaw = { ...payload };
+      withRaw.value = fileReader.result;
+
+      const val = await pyodideInst.runPythonAsync(
+        `${endpoint}(${JSON.stringify(withRaw)})`
+      );
+      self.postMessage(val.get("val"));
+    };
+
+    fileReader.readAsText(payload.value);
+
+    return;
+  }
+
   const val = await pyodideInst.runPythonAsync(
     `${endpoint}(${JSON.stringify(payload)})`
   );

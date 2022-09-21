@@ -13,7 +13,7 @@ export type API = {
 
 export type APIPayload = {
   method: string;
-  value: string;
+  value: string | File;
 };
 
 export type Response = (response: any) => void;
