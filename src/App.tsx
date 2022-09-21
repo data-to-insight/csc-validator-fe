@@ -1,16 +1,19 @@
 import { LoadStatus } from "enums/LoadStatus";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { APIControl, APITransport } from "./api";
+import { APIMethods } from "enums/APIMethods";
+import TestForm from "./components/TestForm";
 
 interface AppProps {
   apiTransport: APITransport;
   apiConfig?: any;
+  apiEndpoint: string;
 }
 
 let api: null | APIControl = null;
 
 function App(props: AppProps) {
-  const { apiTransport, apiConfig } = props;
+  const { apiTransport, apiConfig, apiEndpoint } = props;
   const [ready, setReady] = useState(false);
   const [data, setData] = useState(null);
 
@@ -44,13 +47,28 @@ function App(props: AppProps) {
 
   const handleClick = async () => {
     await api?.callAPI(
-      "endpoint",
+      apiEndpoint,
       {
         value: "hello, world",
-        method: "PROCESS_ONE",
+        method: APIMethods.PROCESS_ONE,
       },
       apiConfig
     );
+  };
+
+  const handleUpload = async (evt: ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.files && evt.target.files.length > 0) {
+      const file = evt.target.files[0];
+
+      await api?.callAPI(
+        apiEndpoint,
+        {
+          method: APIMethods.UPLOAD,
+          value: file,
+        },
+        apiConfig
+      );
+    }
   };
 
   /**
@@ -61,7 +79,7 @@ function App(props: AppProps) {
     <div>
       {data && <p>{data}</p>}
       {ready ? (
-        <button onClick={handleClick}>Call API</button>
+        <TestForm onClick={handleClick} onUpload={handleUpload} />
       ) : (
         <span>loading API transport ({apiTransport})...</span>
       )}

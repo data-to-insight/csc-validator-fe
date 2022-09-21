@@ -11,6 +11,7 @@ root.render(
     <App
       apiTransport={APITransport.PYODIDE}
       apiConfig={{ wheelPath: "/bin/dist/main-0.0.0-py3-none-any.whl" }}
+      apiEndpoint={"endpoint"}
     />
   </React.StrictMode>
 );

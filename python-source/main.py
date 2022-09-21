@@ -11,6 +11,9 @@ def endpoint(payload):
     if payload['method'] == 'PROCESS_TWO':
         return processTwo()
 
+    if payload['method'] == 'UPLOAD':
+        return upload(payload)    
+
 
 def fileUpload():
     return {"val", ""}
@@ -22,3 +25,7 @@ def processOne():
 
 def processTwo():
     return {"val": "Response from Process Two"}
+
+def upload(file):
+    print(file)
+    return {"val": "Response from Upload"}
