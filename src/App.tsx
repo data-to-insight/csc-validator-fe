@@ -1,10 +1,13 @@
+import React, { useState, useEffect, useReducer } from "react";
+
 import { LoadStatus } from "enums/LoadStatus";
-import React, { useState, useEffect } from "react";
 import { APIControl, APITransport } from "./api";
 
 import Loader from "./components/loader";
 import { Container } from "./components/layout";
 import Router from "./Router";
+
+import { reportReducer, ReportActionType } from "reducers/ReportReducer";
 
 interface AppProps {
   apiTransport: APITransport;
@@ -17,6 +20,7 @@ let api: null | APIControl = null;
 function App(props: AppProps) {
   const { apiTransport } = props;
   const [ready, setReady] = useState(false);
+  const [reportState, reportDispatch] = useReducer(reportReducer, {});
 
   /**
    * Lifecycle methods
@@ -27,6 +31,11 @@ function App(props: AppProps) {
       console.log("init...");
       api = new APIControl();
       await api.loadTransport(apiTransport, handleAPIResponse);
+
+      reportDispatch({
+        type: ReportActionType.UPDATE,
+        payload: { value: "hello, world" },
+      });
     };
 
     if (!api) {
@@ -47,6 +56,8 @@ function App(props: AppProps) {
   /**
    * Rendering
    */
+
+  console.log(reportState);
 
   return <Container>{ready ? <Router /> : <Loader />}</Container>;
 }
