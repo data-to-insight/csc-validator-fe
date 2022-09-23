@@ -17,29 +17,12 @@ const initializePyodide = async () => {
   self.postMessage(LoadStatus.READY);
 };
 
-const runPyodideCode = async (endpoint: string, payload: any, config: any) => {
+const runPyodideCode = async (payload: any, config: any) => {
   await pyodideInst.loadPackage(config.wheelPath);
-  await pyodideInst.runPythonAsync(`from main import ${endpoint}`);
-
-  if (payload.method === "UPLOAD") {
-    const fileReader = new FileReader();
-    fileReader.onload = async () => {
-      const withRaw = { ...payload };
-      withRaw.value = fileReader.result;
-
-      const val = await pyodideInst.runPythonAsync(
-        `${endpoint}(${JSON.stringify(withRaw)})`
-      );
-      self.postMessage(val.get("val"));
-    };
-
-    fileReader.readAsText(payload.value);
-
-    return;
-  }
+  await pyodideInst.runPythonAsync(`from main import ${config.endPoint}`);
 
   const val = await pyodideInst.runPythonAsync(
-    `${endpoint}(${JSON.stringify(payload)})`
+    `${config.endPoint}(${JSON.stringify(payload)})`
   );
   self.postMessage(val.get("val"));
 };
@@ -50,8 +33,8 @@ onmessage = async (evt: any) => {
   }
 
   if (evt.data.action === PyodideWorkerAction.RUN) {
-    const { endpoint, payload, config } = evt.data.body;
-    runPyodideCode(endpoint, payload, config);
+    const { payload, config } = evt.data.body;
+    runPyodideCode(payload, config);
   }
 };
 
