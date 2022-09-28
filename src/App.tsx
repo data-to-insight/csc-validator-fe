@@ -15,6 +15,10 @@ interface AppProps {
   apiConfig: APIConfig;
 }
 
+type DataResponse = {
+  data: LoadStatus | unknown;
+};
+
 let api: null | APIControl = null;
 
 export const APIConfigContext = createContext<APIConfig | null>(null);
@@ -44,7 +48,7 @@ function App(props: AppProps) {
    * Handlers
    */
 
-  const handleAPIResponse = (data: any) => {
+  const handleAPIResponse = (data: DataResponse) => {
     if (data.data === LoadStatus.READY) {
       setReady(true);
     } else {
@@ -58,8 +62,6 @@ function App(props: AppProps) {
   /**
    * Rendering
    */
-
-  console.log(reportState);
 
   return (
     <APIConfigContext.Provider value={apiConfig}>

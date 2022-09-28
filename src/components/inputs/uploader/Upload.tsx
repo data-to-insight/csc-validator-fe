@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { Box, Paper } from "@mui/material";
+
 import UploadItem, { FileBody } from "./UploadItem";
 
 interface UploadProps {
@@ -68,31 +70,33 @@ const Upload = (props: UploadProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <div>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
-      </div>
-      <div>
-        {Object.values(fileList).map((fileListItem) => {
-          if (fileListItem) {
-            return (
-              <UploadItem
-                key={fileListItem.id}
-                file={fileListItem}
-                onRemoveItem={onRemoveFile}
-              ></UploadItem>
-            );
-          }
+    <Box>
+      <Paper>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </div>
+        <div>
+          {Object.values(fileList).map((fileListItem) => {
+            if (fileListItem) {
+              return (
+                <UploadItem
+                  key={fileListItem.id}
+                  file={fileListItem}
+                  onRemoveItem={onRemoveFile}
+                ></UploadItem>
+              );
+            }
 
-          return null;
-        })}
-      </div>
-    </div>
+            return null;
+          })}
+        </div>
+      </Paper>
+    </Box>
   );
 };
 
