@@ -1,8 +1,11 @@
-import React from "react";
+import React, { Dispatch } from "react";
+import { ReportAction } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 
 interface StartPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
+  dispatch: Dispatch<ReportAction>;
+  data?: unknown;
 }
 
 const Start = (props: StartPageProps) => {

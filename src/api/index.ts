@@ -1,3 +1,4 @@
+import { FileList } from "components/inputs/uploader/Upload";
 import { LoadStatus } from "../enums/LoadStatus";
 
 export enum APITransport {
@@ -7,16 +8,21 @@ export enum APITransport {
 }
 
 export type API = {
-  handler: (endpoint: string, payload: any) => Promise<string>;
+  handler: (payload: any, config: APIConfig) => Promise<string>;
   init: (onResponse: Response) => Promise<LoadStatus>;
 };
 
 export type APIPayload = {
   method: string;
-  value: string | File;
+  value: string | FileList;
 };
 
 export type Response = (response: any) => void;
+
+export type APIConfig = {
+  wheelPath: string;
+  endPoint: string;
+};
 
 interface IAPIControl {
   api: any;
@@ -25,7 +31,7 @@ interface IAPIControl {
     apiMethod: APITransport,
     onResponse: Response
   ) => Promise<LoadStatus>;
-  callAPI: (endpoint: string, payload: any, config: any) => Promise<string>;
+  callAPI: (payload: any, config: any) => Promise<string>;
 }
 
 export class APIControl implements IAPIControl {
@@ -48,8 +54,9 @@ export class APIControl implements IAPIControl {
     return this.api;
   };
 
-  callAPI = async (endpoint: string, payload: APIPayload, config: any) => {
-    const startup = await this.api.api.handler(endpoint, payload, config);
+  callAPI = async (payload: APIPayload, config: APIConfig) => {
+    console.log(config);
+    const startup = await this.api.api.handler(payload, config);
     return startup;
   };
 }
