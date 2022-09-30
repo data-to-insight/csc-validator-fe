@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { LoadStatus } from "enums/LoadStatus";
 import { APIControl, APITransport, APIConfig } from "./api";
@@ -9,6 +10,12 @@ import Router from "./Router";
 
 import { reportReducer, ReportActionType } from "reducers/ReportReducer";
 import { fileReducer } from "reducers/FileReducer";
+
+import { theme as SFTheme } from "./theme/theme";
+
+const theme = createTheme(SFTheme);
+
+console.log(theme);
 
 interface AppProps {
   apiTransport: APITransport;
@@ -65,19 +72,21 @@ function App(props: AppProps) {
 
   return (
     <APIConfigContext.Provider value={apiConfig}>
-      <Container>
-        {ready && api ? (
-          <Router
-            data={reportState}
-            fileData={fileState}
-            dispatch={reportDispatch}
-            fileDispatch={fileDispatch}
-            api={api}
-          />
-        ) : (
-          <Loader />
-        )}
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Container>
+          {ready && api ? (
+            <Router
+              data={reportState}
+              fileData={fileState}
+              dispatch={reportDispatch}
+              fileDispatch={fileDispatch}
+              api={api}
+            />
+          ) : (
+            <Loader />
+          )}
+        </Container>
+      </ThemeProvider>
     </APIConfigContext.Provider>
   );
 }
