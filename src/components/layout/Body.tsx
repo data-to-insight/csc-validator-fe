@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { PageWrapper } from "./Body.styles";
 
 interface BodyProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ const Body = (props: BodyProps) => {
         </AppBar>
       </Box>
 
-      {children}
+      <PageWrapper>{children}</PageWrapper>
     </div>
   );
 };
