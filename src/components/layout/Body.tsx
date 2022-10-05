@@ -1,8 +1,7 @@
-/** @jsxImportSource @emotion/react */
-
+import Header from "components/header";
 import { ReactNode } from "react";
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import { PageWrapper, SupHeader } from "./Body.styles";
+
+import { PageWrapper } from "./Body.styles";
 
 interface BodyProps {
   children: ReactNode;
@@ -13,19 +12,7 @@ const Body = (props: BodyProps) => {
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <Box css={SupHeader.box}>
-          {" "}
-          <Typography variant="body1">This is a Beta app</Typography>
-        </Box>
-        <AppBar position="relative">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              CIN Validator
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
+      <Header />
 
       <PageWrapper>{children}</PageWrapper>
     </div>
