@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import { spacing, padding } from "theme/spacing";
+
+import { spacing } from "theme/spacing";
 import { typography } from "theme/typography";
 
 const PageWrapper = styled.div`
@@ -9,10 +9,4 @@ const PageWrapper = styled.div`
   font-family: ${typography};
 `;
 
-const SupHeader = {
-  box: css`
-    padding: ${padding.l_s};
-  `,
-};
-
-export { PageWrapper, SupHeader };
+export { PageWrapper };
