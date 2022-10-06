@@ -2,11 +2,12 @@
 
 import React, { Dispatch } from "react";
 import { Box, Typography, Button, Grid } from "@mui/material";
+import { Description } from "@mui/icons-material";
 
 import { ReportAction } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { Layout } from "./Page.styles";
-import ReleaseNotes from "components/releasenotes";
+import Expando from "components/expando";
 
 interface StartPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -54,7 +55,13 @@ const Start = (props: StartPageProps) => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box css={Layout.block}>
-            <ReleaseNotes />
+            <Expando
+              id="release-notes-expander"
+              Icon={Description}
+              title="Release notes:"
+            >
+              <Typography>These are the release notes</Typography>
+            </Expando>
           </Box>
         </Grid>
       </Grid>
