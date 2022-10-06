@@ -1,7 +1,7 @@
 import Header from "components/header";
 import { ReactNode } from "react";
 
-import { PageWrapper } from "./Body.styles";
+import { PageWrapper } from "./Layout.styles";
 
 interface BodyProps {
   children: ReactNode;
