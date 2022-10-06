@@ -10,4 +10,16 @@ export const theme = {
   typography: {
     fontFamily: typography,
   },
+
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthLg: {
+          "&.MuiContainer-maxWidthLg": {
+            maxWidth: 1100,
+          },
+        },
+      },
+    },
+  },
 };
