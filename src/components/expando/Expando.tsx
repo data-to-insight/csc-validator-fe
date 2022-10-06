@@ -5,19 +5,19 @@ import {
   AccordionDetails,
   Typography,
 } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, SvgIconComponent } from "@mui/icons-material";
 
 import { IconContainer } from "./Expando.styles";
 
 interface ExpandoProps {
   title: string;
-  icon?: React.ReactNode;
+  Icon?: SvgIconComponent;
   id: string;
   children: React.ReactNode;
 }
 
 const Expando = (props: ExpandoProps) => {
-  const { title, children, icon, id } = props;
+  const { title, children, Icon, id } = props;
 
   return (
     <Accordion>
@@ -27,7 +27,7 @@ const Expando = (props: ExpandoProps) => {
         id={id}
       >
         <>
-          {icon && <IconContainer>{icon}</IconContainer>}
+          {Icon && <IconContainer>{<Icon />}</IconContainer>}
           <Typography>{title}</Typography>
         </>
       </AccordionSummary>

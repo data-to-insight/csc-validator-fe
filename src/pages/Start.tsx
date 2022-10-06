@@ -57,7 +57,7 @@ const Start = (props: StartPageProps) => {
           <Box css={Layout.block}>
             <Expando
               id="release-notes-expander"
-              icon={<Description />}
+              Icon={Description}
               title="Release notes:"
             >
               <Typography>These are the release notes</Typography>
