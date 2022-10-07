@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { Dispatch } from "react";
+import React, { Dispatch, useState } from "react";
 import {
   Box,
   Grid,
@@ -8,21 +8,26 @@ import {
   Step,
   StepLabel,
   StepContent,
-  Tabs,
-  Tab,
   Typography,
+  Select,
+  SelectChangeEvent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Button,
 } from "@mui/material";
-import { TabPanel } from "@mui/lab";
-import { FormatListNumbered } from "@mui/icons-material";
+import { FormatListNumbered, TableView } from "@mui/icons-material";
 
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
+import { Pre, Aligner } from "./Pages.styles";
 
 import { ReportAction } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
 import Expando from "components/expando";
+import Tabs from "components/tabs";
 
 interface LoadDataPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -32,8 +37,13 @@ interface LoadDataPageProps {
   fileData: FileList;
 }
 
+const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
+const las = ["Barking", "Barnet", "Bromley"];
+
 const LoadData = (props: LoadDataPageProps) => {
   const { handleRouteChange, fileData, fileDispatch } = props;
+  const [collectionYear, setCollectionYear] = useState(years[0]);
+  const [localAuthority, setLocalAuthority] = useState(las[0]);
 
   const handleButtonClick = () => {
     handleRouteChange(RouteValue.REPORT);
@@ -114,6 +124,118 @@ const LoadData = (props: LoadDataPageProps) => {
     );
   };
 
+  const renderCSVTab = () => {
+    return (
+      <Box>
+        <Block spacing="blockLarge">
+          <Expando
+            title="Show column headers for each CSV file - these must match exactly"
+            id="csv-header-expando"
+            Icon={TableView}
+          >
+            <p>
+              <strong>Header:</strong>
+              <Pre>CHILD,SEX,DOB,ETHNIC,UPN,MOTHER,MC_DOB</Pre>
+            </p>
+            <p>
+              <strong>Episodes:</strong>
+              <Pre>
+                CHILD,DECOM,RNE,LS,CIN,PLACE,PLACE_PROVIDER,DEC,REC,REASON_PLACE_CHANGE,HOME_POST,PL_POST,URN
+              </Pre>
+            </p>
+            <p>
+              <strong>UASC:</strong>
+              <Pre>CHILD,SEX,DOB,DUC</Pre>
+            </p>
+            <p>
+              <strong>Outcomes (OC2):</strong>
+              <Pre>
+                CHILD,DOB,SDQ_SCORE,SDQ_REASON,CONVICTED,HEALTH_CHECK,IMMUNISATIONS,TEETH_CHECK,HEALTH_ASSESSMENT,SUBSTANCE_MISUSE,INTERVENTION_RECEIVED,INTERVENTION_OFFERED
+              </Pre>
+            </p>
+            <p>
+              <strong>Adoption (AD1):</strong>
+              <Pre>
+                CHILD,DOB,DATE_INT,DATE_MATCH,FOSTER_CARE,NB_ADOPTR,SEX_ADOPTR,LS_ADOPTR
+              </Pre>
+            </p>
+            <p>
+              <strong>Should be Placed for Adoption:</strong>
+              <Pre>
+                CHILD,DOB,DATE_PLACED,DATE_PLACED_CEASED,REASON_PLACED_CEASED
+              </Pre>
+            </p>
+            <p>
+              <strong>Care Leavers (OC3):</strong>
+              <Pre>CHILD,DOB,IN_TOUCH,ACTIV,ACCOM</Pre>
+            </p>
+            <p>
+              <strong>Reviews:</strong>
+              <Pre>CHILD,DOB,REVIEW,REVIEW_CODE</Pre>
+            </p>
+            <p>
+              <strong>Previous Permanence:</strong>
+              <Pre>CHILD,DOB,PREV_PERM,LA_PERM,DATE_PERM</Pre>
+            </p>
+            <p>
+              <strong>Missing:</strong>
+              <Pre>CHILD,DOB,MISSING,MIS_START,MIS_END</Pre>
+            </p>
+          </Expando>
+        </Block>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant="h6">This year</Typography>
+            <Uploader onUploadReady={onUploadReady} />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Typography variant="h6">Previous year</Typography>
+            <Uploader onUploadReady={onUploadReady} />
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
+  const renderXMLTab = () => {
+    return (
+      <Box>
+        <Block>
+          <p>
+            There are known issues with XML loading at present; this may or may
+            not work depending on the structure of your file.
+          </p>
+          <p>
+            Please report any issues using the link at the top of this page.
+          </p>
+        </Block>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant="h6">This year</Typography>
+            <Uploader onUploadReady={onUploadReady} />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Typography variant="h6">Previous year</Typography>
+            <Uploader onUploadReady={onUploadReady} />
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
+  const renderFileTabs = () => {
+    const headers = [
+      { label: "CSV Files" },
+      { label: "XML Files (Experimental!)" },
+    ];
+
+    const bodies = [renderCSVTab(), renderXMLTab()];
+
+    return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
+  };
+
   return (
     <div>
       <Box flexGrow={1}>
@@ -157,13 +279,69 @@ const LoadData = (props: LoadDataPageProps) => {
             </Grid>
           </Grid>
         </Block>
+        <Block spacing="blockLarge">
+          <Box>{renderFileTabs()}</Box>
+        </Block>
         <Block>
-          <Box>
-            <Tabs>
-              <Tab label="CSV Files" />
-              <Tab label="XML Files (Experimental)" />
-            </Tabs>
-          </Box>
+          <Grid container columnSpacing={2}>
+            <Grid item xs={6}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="select-collection-year-label">
+                  Collection Year
+                </InputLabel>
+                <Select
+                  labelId="select-collection-year-label"
+                  id="select-collection-year"
+                  value={collectionYear}
+                  label="Collection Year"
+                  onChange={(evt: SelectChangeEvent) => {
+                    setCollectionYear(evt.target.value);
+                  }}
+                >
+                  {years.map((year, idx) => {
+                    return (
+                      <MenuItem value={year} key={`collection-year-${year}`}>
+                        {year}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="select-local-authority-label">
+                  Local Authority
+                </InputLabel>
+                <Select
+                  labelId="select-local-authority-label"
+                  id="select-local-authority"
+                  value={localAuthority}
+                  label="Local Authority"
+                  onChange={(evt: SelectChangeEvent) => {
+                    setLocalAuthority(evt.target.value);
+                  }}
+                >
+                  {las.map((year, idx) => {
+                    return (
+                      <MenuItem value={year} key={`collection-year-${year}`}>
+                        {year}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Block>
+        <Block spacing="blockLarge">
+          <Aligner>
+            <Button variant="contained">Validate</Button>
+            <Button variant="contained">Clear Data And Start Again</Button>
+            <Button variant="contained">Download Error Reports</Button>
+            <Button variant="contained">Download CSVs</Button>
+          </Aligner>
         </Block>
       </Box>
     </div>

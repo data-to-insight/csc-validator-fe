@@ -1,5 +1,5 @@
 import { typography } from "./typography";
-import { colors } from "./colors";
+import { colors, greys } from "./colors";
 
 export const theme = {
   palette: {
@@ -12,6 +12,16 @@ export const theme = {
   },
 
   components: {
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            background: greys.light,
+          },
+        },
+      },
+    },
+
     MuiContainer: {
       styleOverrides: {
         maxWidthLg: {

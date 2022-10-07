@@ -1,5 +1,9 @@
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
 import { Box } from "@mui/material";
+
+import { TabPanelLayout } from "./Tabs.styles";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -18,7 +22,7 @@ const TabPanel = (props: TabPanelProps) => {
       id={`${id}-${index}`}
       aria-labelledby={`${id}-${index}`}
     >
-      {!hidden && <Box sx={{ p: 3 }}>{children}</Box>}
+      {!hidden && <Box css={TabPanelLayout.panel}>{children}</Box>}
     </div>
   );
 };

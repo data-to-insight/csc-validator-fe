@@ -6,7 +6,6 @@ import { Description } from "@mui/icons-material";
 
 import { ReportAction } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
-import { Layout } from "./Page.styles";
 import Expando from "components/expando";
 import Block from "components/block";
 
