@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -7,20 +7,27 @@ import {
 } from "@mui/material";
 import { ExpandMore, SvgIconComponent } from "@mui/icons-material";
 
-import { IconContainer } from "./Expando.styles";
+import { IconContainer, ContentContainer } from "./Expando.styles";
 
 interface ExpandoProps {
   title: string;
   Icon?: SvgIconComponent;
   id: string;
   children: React.ReactNode;
+  defaultExpanded?: boolean;
 }
 
 const Expando = (props: ExpandoProps) => {
-  const { title, children, Icon, id } = props;
+  const { title, children, Icon, id, defaultExpanded } = props;
+  const [open, setOpen] = useState(defaultExpanded || false);
 
   return (
-    <Accordion>
+    <Accordion
+      defaultExpanded={defaultExpanded || false}
+      onChange={(evt, expanded) => {
+        setOpen(expanded);
+      }}
+    >
       <AccordionSummary
         expandIcon={<ExpandMore />}
         aria-controls={`${id}-controls`}
@@ -31,7 +38,9 @@ const Expando = (props: ExpandoProps) => {
           <Typography>{title}</Typography>
         </>
       </AccordionSummary>
-      <AccordionDetails>{children}</AccordionDetails>
+      <AccordionDetails>
+        <ContentContainer open={open}>{children}</ContentContainer>
+      </AccordionDetails>
     </Accordion>
   );
 };

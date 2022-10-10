@@ -16,7 +16,11 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { FormatListNumbered, TableView } from "@mui/icons-material";
+import {
+  FormatListBulleted,
+  FormatListNumbered,
+  TableView,
+} from "@mui/icons-material";
 
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
@@ -28,6 +32,9 @@ import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
 import Expando from "components/expando";
 import Tabs from "components/tabs";
+import Selectablelist from "components/selectablelist";
+
+import validationRules from "data/validation-rules-list.json";
 
 interface LoadDataPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -334,6 +341,21 @@ const LoadData = (props: LoadDataPageProps) => {
               </FormControl>
             </Grid>
           </Grid>
+        </Block>
+        <Block spacing="blockLarge">
+          <Expando
+            defaultExpanded={true}
+            Icon={FormatListBulleted}
+            id="validation-rules-expander"
+            title="Validation Rules"
+          >
+            <Selectablelist
+              values={validationRules}
+              onItemSelected={(selectedValidationRules: string[]) => {
+                console.log(selectedValidationRules);
+              }}
+            />
+          </Expando>
         </Block>
         <Block spacing="blockLarge">
           <Aligner>
