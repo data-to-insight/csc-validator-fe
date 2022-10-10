@@ -1,17 +1,7 @@
-import React, { useState } from "react";
-import {
-  Checkbox,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import { Box, Button, List } from "@mui/material";
 
-type SelectableListItem = {
-  value: string;
-  label: string;
-};
+import ListItem, { SelectableListItem } from "./ListItem";
 
 interface SelectableListProps {
   values: SelectableListItem[];
@@ -22,40 +12,68 @@ const SelectableList = (props: SelectableListProps) => {
   const { values, onItemSelected } = props;
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const handleClick = (value: SelectableListItem) => {
-    let newSelectedItems = [];
+  const handleClick = useCallback((value: SelectableListItem) => {
+    setSelectedItems((prevSelectedItems) => {
+      let newSelectedItems = [];
 
-    if (selectedItems.indexOf(value.value) > -1) {
-      newSelectedItems = selectedItems.filter((selectedItem) => {
-        return selectedItem !== value.value;
+      if (prevSelectedItems.indexOf(value.value) > -1) {
+        newSelectedItems = prevSelectedItems.filter((item) => {
+          return item !== value.value;
+        });
+      } else {
+        newSelectedItems = [value.value, ...prevSelectedItems];
+      }
+
+      onItemSelected(newSelectedItems);
+      return newSelectedItems;
+    });
+  }, []);
+
+  const handleSelectAllClick = () => {
+    setSelectedItems(() => {
+      const newSelectedItems = values.map((value) => {
+        return value.value;
       });
-    } else {
-      newSelectedItems = [value.value, ...selectedItems];
-    }
+      onItemSelected(newSelectedItems);
+      return newSelectedItems;
+    });
+  };
 
-    setSelectedItems(newSelectedItems);
-    onItemSelected(newSelectedItems);
+  const handleUnSelectAllClick = () => {
+    setSelectedItems(() => {
+      onItemSelected([]);
+      return [];
+    });
   };
 
   return (
-    <List>
-      {values.map((value: SelectableListItem, i) => {
-        return (
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => {
-                handleClick(value);
-              }}
-            >
-              <ListItemIcon>
-                <Checkbox checked={selectedItems.indexOf(value.value) > -1} />
-              </ListItemIcon>
-              <ListItemText>{value.label}</ListItemText>
-            </ListItemButton>
-          </ListItem>
-        );
-      })}
-    </List>
+    <Box>
+      <Button
+        disableRipple
+        disabled={selectedItems.length === values.length}
+        onClick={handleSelectAllClick}
+      >
+        Select all
+      </Button>
+      <Button
+        disableRipple
+        disabled={selectedItems.length === 0}
+        onClick={handleUnSelectAllClick}
+      >
+        Unselect all
+      </Button>
+      <List>
+        {values.map((value: SelectableListItem, i) => {
+          return (
+            <ListItem
+              onClick={handleClick}
+              checked={selectedItems.indexOf(value.value) > -1}
+              value={value}
+            />
+          );
+        })}
+      </List>
+    </Box>
   );
 };
 

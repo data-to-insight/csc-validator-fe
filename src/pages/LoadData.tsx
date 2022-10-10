@@ -51,6 +51,9 @@ const LoadData = (props: LoadDataPageProps) => {
   const { handleRouteChange, fileData, fileDispatch } = props;
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
+  const [selectedValidationRules, setSelectedValidationRules] = useState<
+    string[]
+  >([]);
 
   const handleButtonClick = () => {
     handleRouteChange(RouteValue.REPORT);
@@ -243,6 +246,14 @@ const LoadData = (props: LoadDataPageProps) => {
     return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
   };
 
+  const getValidationRulesSummary = () => {
+    const totalRulesLength = validationRules.length;
+    const selectedRulesLength = selectedValidationRules.length;
+    const unselectedRulesLength = totalRulesLength - selectedRulesLength;
+
+    return `${selectedRulesLength} selected, ${unselectedRulesLength} unselected`;
+  };
+
   return (
     <div>
       <Box flexGrow={1}>
@@ -347,12 +358,12 @@ const LoadData = (props: LoadDataPageProps) => {
             defaultExpanded={true}
             Icon={FormatListBulleted}
             id="validation-rules-expander"
-            title="Validation Rules"
+            title={`Validation Rules (${getValidationRulesSummary()})`}
           >
             <Selectablelist
               values={validationRules}
-              onItemSelected={(selectedValidationRules: string[]) => {
-                console.log(selectedValidationRules);
+              onItemSelected={(selectedRules: string[]) => {
+                setSelectedValidationRules(selectedRules);
               }}
             />
           </Expando>
