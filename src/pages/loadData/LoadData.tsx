@@ -25,7 +25,7 @@ import {
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
-import { Pre, Aligner } from "./Pages.styles";
+import { Pre, Aligner } from "../Pages.styles";
 
 import { ReportAction } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
@@ -61,14 +61,6 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const onUploadReady = (files: FileList) => {
     fileDispatch({ type: FileActionType.SET_FILES, payload: files });
-  };
-
-  const renderNextButton = () => {
-    if (Object.keys(fileData).length > 0) {
-      return <button onClick={handleButtonClick}>Process files</button>;
-    }
-
-    return null;
   };
 
   const renderInstructions = () => {
@@ -370,7 +362,9 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Aligner>
-            <Button variant="contained">Validate</Button>
+            <Button variant="contained" onClick={handleButtonClick}>
+              Validate
+            </Button>
             <Button variant="contained">Clear Data And Start Again</Button>
             <Button variant="contained">Download Error Reports</Button>
             <Button variant="contained">Download CSVs</Button>

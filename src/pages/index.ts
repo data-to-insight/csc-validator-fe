@@ -1,5 +1,5 @@
-import Start from "./Start";
-import LoadData from "./LoadData";
-import Report from "./Report";
+import Start from "./start/";
+import LoadData from "./loadData/";
+import Report from "./report/";
 
 export { Start, LoadData, Report };

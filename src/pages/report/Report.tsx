@@ -30,17 +30,11 @@ const Report = (props: ReportPageProps) => {
     }
   }, []);
 
-  const handleButtonClick = () => {
-    handleRouteChange(RouteValue.START);
-  };
-
   return (
     <Box flexGrow={1}>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <button onClick={handleButtonClick}>Next Page</button>
-        </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}></Grid>
+        <Grid item xs={9}>
           This is the report page
         </Grid>
       </Grid>
