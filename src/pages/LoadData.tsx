@@ -16,7 +16,11 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { FormatListNumbered, TableView } from "@mui/icons-material";
+import {
+  FormatListBulleted,
+  FormatListNumbered,
+  TableView,
+} from "@mui/icons-material";
 
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
@@ -28,6 +32,9 @@ import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
 import Expando from "components/expando";
 import Tabs from "components/tabs";
+import Selectablelist from "components/selectablelist";
+
+import validationRules from "data/validation-rules-list.json";
 
 interface LoadDataPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -44,6 +51,9 @@ const LoadData = (props: LoadDataPageProps) => {
   const { handleRouteChange, fileData, fileDispatch } = props;
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
+  const [selectedValidationRules, setSelectedValidationRules] = useState<
+    string[]
+  >([]);
 
   const handleButtonClick = () => {
     handleRouteChange(RouteValue.REPORT);
@@ -236,6 +246,14 @@ const LoadData = (props: LoadDataPageProps) => {
     return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
   };
 
+  const getValidationRulesSummary = () => {
+    const totalRulesLength = validationRules.length;
+    const selectedRulesLength = selectedValidationRules.length;
+    const unselectedRulesLength = totalRulesLength - selectedRulesLength;
+
+    return `${selectedRulesLength} selected, ${unselectedRulesLength} unselected`;
+  };
+
   return (
     <div>
       <Box flexGrow={1}>
@@ -334,6 +352,21 @@ const LoadData = (props: LoadDataPageProps) => {
               </FormControl>
             </Grid>
           </Grid>
+        </Block>
+        <Block spacing="blockLarge">
+          <Expando
+            defaultExpanded={true}
+            Icon={FormatListBulleted}
+            id="validation-rules-expander"
+            title={`Validation Rules (${getValidationRulesSummary()})`}
+          >
+            <Selectablelist
+              values={validationRules}
+              onItemSelected={(selectedRules: string[]) => {
+                setSelectedValidationRules(selectedRules);
+              }}
+            />
+          </Expando>
         </Block>
         <Block spacing="blockLarge">
           <Aligner>

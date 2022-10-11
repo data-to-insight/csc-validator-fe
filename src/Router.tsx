@@ -22,7 +22,7 @@ interface RouteProps {
 }
 
 const Router = (props: RouteProps) => {
-  const [route, setRoute] = useState(RouteValue.LOAD_DATA);
+  const [route, setRoute] = useState(RouteValue.START);
 
   const handleRouteChange = (newRoute: RouteValue): void => {
     console.log("route value", newRoute);
