@@ -27,7 +27,8 @@ import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
 import { Pre, Aligner } from "../Pages.styles";
 
-import { ReportAction } from "reducers/ReportReducer";
+import errorNums from "data/error-nums.json";
+import { ReportAction, ReportActionType } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
 import Expando from "components/expando";
@@ -48,7 +49,7 @@ const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
 const las = ["Barking", "Barnet", "Bromley"];
 
 const LoadData = (props: LoadDataPageProps) => {
-  const { handleRouteChange, fileData, fileDispatch } = props;
+  const { handleRouteChange, fileData, fileDispatch, dispatch } = props;
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
   const [selectedValidationRules, setSelectedValidationRules] = useState<
@@ -56,6 +57,12 @@ const LoadData = (props: LoadDataPageProps) => {
   >([]);
 
   const handleButtonClick = () => {
+    const errorList = errorNums.nums.map(({ code, errors }) => {
+      return { code, errors, display: true };
+    });
+
+    dispatch({ type: ReportActionType.SET_ERRORS, payload: errorList });
+
     handleRouteChange(RouteValue.REPORT);
   };
 
