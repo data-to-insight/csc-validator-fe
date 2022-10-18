@@ -25,9 +25,10 @@ import {
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
-import { Pre, Aligner } from "./Pages.styles";
+import { Pre, Aligner } from "../Pages.styles";
 
-import { ReportAction } from "reducers/ReportReducer";
+import errorNums from "data/error-nums.json";
+import { ReportAction, ReportActionType } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
 import Expando from "components/expando";
@@ -48,7 +49,7 @@ const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
 const las = ["Barking", "Barnet", "Bromley"];
 
 const LoadData = (props: LoadDataPageProps) => {
-  const { handleRouteChange, fileData, fileDispatch } = props;
+  const { handleRouteChange, fileData, fileDispatch, dispatch } = props;
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
   const [selectedValidationRules, setSelectedValidationRules] = useState<
@@ -56,19 +57,17 @@ const LoadData = (props: LoadDataPageProps) => {
   >([]);
 
   const handleButtonClick = () => {
+    const errorList = errorNums.nums.map(({ code, errors }) => {
+      return { code, errors, display: true };
+    });
+
+    dispatch({ type: ReportActionType.SET_ERRORS, payload: errorList });
+
     handleRouteChange(RouteValue.REPORT);
   };
 
   const onUploadReady = (files: FileList) => {
     fileDispatch({ type: FileActionType.SET_FILES, payload: files });
-  };
-
-  const renderNextButton = () => {
-    if (Object.keys(fileData).length > 0) {
-      return <button onClick={handleButtonClick}>Process files</button>;
-    }
-
-    return null;
   };
 
   const renderInstructions = () => {
@@ -355,7 +354,7 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Expando
-            defaultExpanded={true}
+            defaultExpanded={false}
             Icon={FormatListBulleted}
             id="validation-rules-expander"
             title={`Validation Rules (${getValidationRulesSummary()})`}
@@ -370,7 +369,9 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Aligner>
-            <Button variant="contained">Validate</Button>
+            <Button variant="contained" onClick={handleButtonClick}>
+              Validate
+            </Button>
             <Button variant="contained">Clear Data And Start Again</Button>
             <Button variant="contained">Download Error Reports</Button>
             <Button variant="contained">Download CSVs</Button>
