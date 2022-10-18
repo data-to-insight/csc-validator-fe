@@ -24,21 +24,11 @@ const Report = (props: ReportPageProps) => {
   const { handleRouteChange, api, data, dispatch } = props;
   const [selectedChild, setSelectedChild] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (apiConfig && Object.values(data as Object).length < 1) {
-      api.callAPI(
-        {
-          method: "UPLOAD",
-          value: props.fileData,
-        },
-        apiConfig
-      );
-    }
-  }, []);
-
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);
   };
+
+  console.log(data);
 
   const renderTable = () => {
     const errorList = data.errorList

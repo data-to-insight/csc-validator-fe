@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Paper } from "@mui/material";
 
@@ -6,6 +6,7 @@ import UploadItem, { FileBody } from "./UploadItem";
 
 interface UploadProps {
   onUploadReady: (files: FileList) => void;
+  fileList: FileList;
 }
 
 export interface FileList {
@@ -23,9 +24,7 @@ const getFileId = (file: FileHandle) => {
 };
 
 const Upload = (props: UploadProps) => {
-  const { onUploadReady } = props;
-  const [uploadReady, setUploadReady] = useState(false);
-  const [fileList, setFileList] = useState<FileList>({});
+  const { onUploadReady, fileList } = props;
 
   const onRemoveFile = (id: string) => {
     const newFileList: FileList = {};
@@ -38,12 +37,9 @@ const Upload = (props: UploadProps) => {
     }
 
     onUploadReady(newFileList);
-    setFileList(newFileList);
   };
 
   const onDrop = (acceptedFiles: unknown[]) => {
-    console.log(fileList);
-
     acceptedFiles.forEach((file) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
@@ -60,7 +56,6 @@ const Upload = (props: UploadProps) => {
         };
 
         onUploadReady(newFileList);
-        setFileList(newFileList);
       };
 
       fileReader.readAsArrayBuffer(file as Blob);

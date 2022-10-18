@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useState, useContext } from "react";
 import {
   Box,
   Grid,
@@ -22,12 +22,13 @@ import {
   TableView,
 } from "@mui/icons-material";
 
+import { APIControl } from "api";
 import Uploader from "components/inputs/uploader";
 import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
 import { Pre, Aligner } from "../Pages.styles";
 
-import errorNums from "data/error-nums.json";
+import { APIConfigContext } from "App";
 import { ReportAction, ReportActionType } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { FileAction, FileActionType } from "reducers/FileReducer";
@@ -36,38 +37,60 @@ import Tabs from "components/tabs";
 import Selectablelist from "components/selectablelist";
 
 import validationRules from "data/validation-rules-list.json";
+import Loader from "components/loader";
 
 interface LoadDataPageProps {
+  api: APIControl;
   handleRouteChange: (newRoute: RouteValue) => void;
   dispatch: Dispatch<ReportAction>;
   data?: unknown;
   fileDispatch: Dispatch<FileAction>;
-  fileData: FileList;
+  fileData: {
+    thisYear?: FileList;
+  };
 }
 
 const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
 const las = ["Barking", "Barnet", "Bromley"];
 
 const LoadData = (props: LoadDataPageProps) => {
-  const { handleRouteChange, fileData, fileDispatch, dispatch } = props;
+  const { handleRouteChange, fileData, fileDispatch, dispatch, api } = props;
+  const apiConfig = useContext(APIConfigContext);
+
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
   >([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleButtonClick = () => {
-    const errorList = errorNums.nums.map(({ code, errors }) => {
-      return { code, errors, display: true };
-    });
-
-    dispatch({ type: ReportActionType.SET_ERRORS, payload: errorList });
-
-    handleRouteChange(RouteValue.REPORT);
+  const handleResetClick = () => {
+    dispatch({ type: ReportActionType.RESET, payload: {} });
+    fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
   };
 
-  const onUploadReady = (files: FileList) => {
-    fileDispatch({ type: FileActionType.SET_FILES, payload: files });
+  const handleValidationClick = () => {
+    if (apiConfig && props.fileData.thisYear) {
+      setLoading(true);
+      fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
+
+      api.callAPI(
+        {
+          method: "UPLOAD",
+          value: props.fileData.thisYear,
+        },
+        (response) => {
+          dispatch({
+            type: ReportActionType.SET_REPORT_ERRORS,
+            payload: JSON.parse(response.data).nums,
+          });
+
+          setLoading(false);
+          handleRouteChange(RouteValue.REPORT);
+        },
+        apiConfig
+      );
+    }
   };
 
   const renderInstructions = () => {
@@ -195,12 +218,20 @@ const LoadData = (props: LoadDataPageProps) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography variant="h6">This year</Typography>
-            <Uploader onUploadReady={onUploadReady} />
+            <Uploader
+              onUploadReady={(fileList: FileList) => {
+                fileDispatch({
+                  type: FileActionType.SET_THIS_YEAR,
+                  payload: fileList,
+                });
+              }}
+              fileList={fileData.thisYear || {}}
+            />
           </Grid>
 
           <Grid item xs={6}>
             <Typography variant="h6">Previous year</Typography>
-            <Uploader onUploadReady={onUploadReady} />
+            <Uploader onUploadReady={() => {}} fileList={{}} />
           </Grid>
         </Grid>
       </Box>
@@ -222,12 +253,12 @@ const LoadData = (props: LoadDataPageProps) => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography variant="h6">This year</Typography>
-            <Uploader onUploadReady={onUploadReady} />
+            <Uploader onUploadReady={() => {}} fileList={{}} />
           </Grid>
 
           <Grid item xs={6}>
             <Typography variant="h6">Previous year</Typography>
-            <Uploader onUploadReady={onUploadReady} />
+            <Uploader onUploadReady={() => {}} fileList={{}} />
           </Grid>
         </Grid>
       </Box>
@@ -255,6 +286,7 @@ const LoadData = (props: LoadDataPageProps) => {
 
   return (
     <div>
+      {loading && <Loader type="cover" />}
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
@@ -288,11 +320,11 @@ const LoadData = (props: LoadDataPageProps) => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Typography variant="h6">Children's Homes List</Typography>
-              <Uploader onUploadReady={onUploadReady} />
+              <Uploader onUploadReady={() => {}} fileList={{}} />
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">Social Care Providers List</Typography>
-              <Uploader onUploadReady={onUploadReady} />
+              <Uploader onUploadReady={() => {}} fileList={{}} />
             </Grid>
           </Grid>
         </Block>
@@ -369,12 +401,32 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Aligner>
-            <Button variant="contained" onClick={handleButtonClick}>
+            <Button
+              variant="contained"
+              disabled={Object.keys(fileData).length < 1}
+              onClick={handleValidationClick}
+            >
               Validate
             </Button>
-            <Button variant="contained">Clear Data And Start Again</Button>
-            <Button variant="contained">Download Error Reports</Button>
-            <Button variant="contained">Download CSVs</Button>
+            <Button
+              disabled={Object.keys(fileData).length < 1}
+              variant="contained"
+              onClick={handleResetClick}
+            >
+              Clear Data And Start Again
+            </Button>
+            <Button
+              disabled={Object.keys(fileData).length < 1}
+              variant="contained"
+            >
+              Download Error Reports
+            </Button>
+            <Button
+              disabled={Object.keys(fileData).length < 1}
+              variant="contained"
+            >
+              Download CSVs
+            </Button>
           </Aligner>
         </Block>
       </Box>

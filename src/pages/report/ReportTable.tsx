@@ -12,3 +12,4 @@ const ReportTable = (props: ReportTableProps) => {
 };
 
 export default ReportTable;
+  

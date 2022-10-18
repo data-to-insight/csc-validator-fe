@@ -58,11 +58,6 @@ function App(props: AppProps) {
   const handleAPIResponse = (data: DataResponse) => {
     if (data.data === LoadStatus.READY) {
       setReady(true);
-    } else {
-      reportDispatch({
-        type: ReportActionType.UPDATE,
-        payload: data.data,
-      });
     }
   };
 
@@ -83,7 +78,7 @@ function App(props: AppProps) {
               api={api}
             />
           ) : (
-            <Loader />
+            <Loader type="cover" />
           )}
         </Container>
       </ThemeProvider>
