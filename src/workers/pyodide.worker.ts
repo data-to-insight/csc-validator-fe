@@ -24,6 +24,7 @@ const runPyodideCode = async (payload: any, config: any) => {
   const val = await pyodideInst.runPythonAsync(
     `${config.endPoint}(${JSON.stringify(payload)})`
   );
+  console.log(val.get("val"));
   self.postMessage(val.get("val"));
 };
 

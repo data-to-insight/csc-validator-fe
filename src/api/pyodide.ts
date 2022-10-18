@@ -8,9 +8,14 @@ export type PyodideWorkerDTO = {
 };
 
 let worker: Worker;
+let responseHandler: Response;
 
 export const api: API = {
-  handler: async (payload: APIPayload, config?: any): Promise<string> => {
+  handler: async (
+    payload: APIPayload,
+    onResponse: Response,
+    config?: any
+  ): Promise<string> => {
     const message: PyodideWorkerDTO = {
       action: PyodideWorkerAction.RUN,
       body: {
@@ -18,6 +23,8 @@ export const api: API = {
         config: config || {},
       },
     };
+
+    responseHandler = onResponse;
 
     worker.postMessage(message);
 
@@ -29,8 +36,10 @@ export const api: API = {
       new URL("../workers/pyodide.worker.ts", import.meta.url)
     );
 
+    responseHandler = onResponse;
+
     worker.onmessage = (rec: any) => {
-      onResponse(rec);
+      responseHandler(rec);
     };
 
     const message: PyodideWorkerDTO = {

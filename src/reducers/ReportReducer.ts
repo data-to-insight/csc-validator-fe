@@ -5,8 +5,9 @@ export type ReportAction = {
 
 export enum ReportActionType {
   UPDATE = "UPDATE",
-  SET_ERRORS = "SET_ERRORS",
+  SET_REPORT_ERRORS = "SET_REPORT_ERRORS",
   HIDE_ROWS = "HIDE_ROWS",
+  RESET = "RESET",
 }
 
 type ReportErrorItem = {
@@ -35,11 +36,14 @@ export const reportReducer = (reportState: any, reportAction: ReportAction) => {
   let newReportState = { ...reportState };
 
   switch (reportAction.type) {
+    case ReportActionType.RESET:
+      return {};
+
     case ReportActionType.UPDATE:
       newReportState = { ...reportAction.payload };
       return newReportState;
 
-    case ReportActionType.SET_ERRORS:
+    case ReportActionType.SET_REPORT_ERRORS:
       newReportState.errorList = reportAction.payload;
       return newReportState;
 
