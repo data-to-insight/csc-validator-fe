@@ -13,6 +13,18 @@ type ReportErrorItem = {
   code: string;
   errors: string;
   display: boolean;
+  Index: 1289;
+  DOB: string;
+  SDQ_SCORE: string | null;
+  SDQ_REASON: string;
+  CONVICTED: string;
+  HEALTH_CHECK: string;
+  IMMUNISATIONS: string;
+  TEETH_CHECK: string;
+  HEALTH_ASSESSMENT: string;
+  SUBSTANCE_MISUSE: string;
+  INTERVENTION_RECEIVED: string;
+  INTERVENTION_OFFERED: string;
 };
 
 export type ReportData = {

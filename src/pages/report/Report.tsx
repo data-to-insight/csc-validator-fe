@@ -1,6 +1,6 @@
 import { APIControl } from "api";
 import { FileList } from "components/inputs/uploader/Upload";
-import React, { Dispatch, useEffect, useContext } from "react";
+import React, { Dispatch, useEffect, useContext, useState } from "react";
 import { ReportAction, ReportData } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { APIConfigContext } from "App";
@@ -22,6 +22,7 @@ interface ReportPageProps {
 const Report = (props: ReportPageProps) => {
   const apiConfig = useContext(APIConfigContext);
   const { handleRouteChange, api, data, dispatch } = props;
+  const [selectedChild, setSelectedChild] = useState<string | null>(null);
 
   useEffect(() => {
     if (apiConfig && Object.values(data as Object).length < 1) {
@@ -35,8 +36,8 @@ const Report = (props: ReportPageProps) => {
     }
   }, []);
 
-  const handleRowSelect = (row: unknown) => {
-    console.log(row);
+  const handleRowSelect = (row: unknown[]) => {
+    setSelectedChild(row[0] as string);
   };
 
   const renderTable = () => {
@@ -49,6 +50,14 @@ const Report = (props: ReportPageProps) => {
       });
 
     return <SelectableTable rows={errorList} onRowSelect={handleRowSelect} />;
+  };
+
+  const renderDetailView = () => {
+    if (selectedChild) {
+      return selectedChild;
+    }
+
+    return <Typography variant="h6">Select child</Typography>;
   };
 
   return (
@@ -66,7 +75,7 @@ const Report = (props: ReportPageProps) => {
           </ScrollableFull>
         </Grid>
         <Grid item xs={9}>
-          This is the report page
+          {renderDetailView()}
         </Grid>
       </Grid>
     </Box>

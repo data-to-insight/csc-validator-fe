@@ -354,7 +354,7 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Expando
-            defaultExpanded={true}
+            defaultExpanded={false}
             Icon={FormatListBulleted}
             id="validation-rules-expander"
             title={`Validation Rules (${getValidationRulesSummary()})`}

@@ -8,7 +8,7 @@ import {
 
 interface SelectableTableProps {
   rows: unknown[][];
-  onRowSelect: (row: unknown) => void;
+  onRowSelect: (row: unknown[]) => void;
 }
 
 const SelectableTable = (props: SelectableTableProps) => {
@@ -16,7 +16,12 @@ const SelectableTable = (props: SelectableTableProps) => {
 
   const [selectedRow, setSelectedRow] = useState<null | string>(null);
 
-  const renderCell = (cell: string, idx: number, key: string, row: unknown) => {
+  const renderCell = (
+    cell: string,
+    idx: number,
+    key: string,
+    row: unknown[]
+  ) => {
     return (
       <SelectableTableCell
         selected={key === selectedRow}
