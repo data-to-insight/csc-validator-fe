@@ -1,5 +1,5 @@
 import React, { Dispatch, useState } from "react";
-import { ReportAction, ReportData } from "reducers/ReportReducer";
+import { ReportAction, ReportErrors } from "reducers/ReportReducer";
 import { FileAction } from "reducers/FileReducer";
 import { FileList } from "components/inputs/uploader/Upload";
 
@@ -14,7 +14,7 @@ export enum RouteValue {
 }
 
 interface RouteProps {
-  data: ReportData;
+  data: ReportErrors;
   dispatch: Dispatch<ReportAction>;
   fileData: FileList;
   fileDispatch: Dispatch<FileAction>;

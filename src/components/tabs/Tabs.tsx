@@ -11,10 +11,11 @@ interface TabsProps {
   headers: TabHeader[];
   bodies: React.ReactNode[];
   id: string;
+  overflowPanelY?: boolean;
 }
 
 const Tabs = (props: TabsProps) => {
-  const { headers, bodies, id } = props;
+  const { headers, bodies, id, overflowPanelY } = props;
 
   const [value, setValue] = useState(0);
 
@@ -36,6 +37,7 @@ const Tabs = (props: TabsProps) => {
           hidden={value !== idx}
           index={idx}
           key={`${id}-${idx}-body`}
+          overflowY={overflowPanelY}
         >
           {body}
         </TabPanel>
