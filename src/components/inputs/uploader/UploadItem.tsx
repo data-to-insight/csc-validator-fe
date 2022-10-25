@@ -1,8 +1,21 @@
 import React from "react";
+import {
+  ListItem,
+  ListItemText,
+  IconButton,
+  ListItemAvatar,
+  Avatar,
+} from "@mui/material";
+
+import { Delete, FilePresent } from "@mui/icons-material";
+
+type FileItem = {
+  name: string;
+};
 
 export type FileBody = {
   contents: unknown;
-  file: unknown;
+  file: File;
   id: string;
 };
 
@@ -15,17 +28,29 @@ const UploadItem = (props: UploadItemProps) => {
   const { file, onRemoveItem } = props;
 
   return (
-    <p>
-      <span
-        onClick={(evt) => {
-          evt.preventDefault();
-          onRemoveItem(file.id);
-        }}
-      >
-        x
-      </span>{" "}
-      {file.id}
-    </p>
+    <ListItem
+      secondaryAction={
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => {
+            onRemoveItem(file.id);
+          }}
+        >
+          <Delete />
+        </IconButton>
+      }
+    >
+      <ListItemAvatar>
+        <Avatar>
+          <FilePresent />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={`${file.file.name}`}
+        secondary={`${Math.floor(file.file.size / 1000)}kb`}
+      />
+    </ListItem>
   );
 };
 

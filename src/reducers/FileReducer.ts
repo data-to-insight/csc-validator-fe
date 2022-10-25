@@ -18,7 +18,11 @@ export const fileReducer = (fileState: any, fileAction: FileAction) => {
 
     case FileActionType.SET_THIS_YEAR:
       newState = { ...fileState };
-      newState.thisYear = fileAction.payload;
+      if (Object.keys(fileAction.payload).length < 1) {
+        newState = {};
+      } else {
+        newState.thisYear = fileAction.payload;
+      }
 
       return newState;
 

@@ -1,7 +1,12 @@
 import { APIControl } from "api";
 import { FileList } from "components/inputs/uploader/Upload";
 import React, { Dispatch, useEffect, useContext, useState } from "react";
-import { ReportAction, ReportErrors } from "reducers/ReportReducer";
+import {
+  ReportAction,
+  ReportErrors,
+  ReportActionType,
+} from "reducers/ReportReducer";
+import { FileActionType, FileAction } from "reducers/FileReducer";
 import { RouteValue } from "Router";
 import { APIConfigContext } from "App";
 import { Box, Button, Grid, Typography } from "@mui/material";
@@ -11,22 +16,33 @@ import SelectableTable from "components/selectabletable";
 import ButtonPopover from "components/buttonpopover";
 import ChildFilterDialog from "components/dialogs/childfilter";
 import ReportDetail from "./ReportDetail";
+import { Aligner } from "../Pages.styles";
+import Block from "components/block";
+import PrimaryControls from "components/controls/primaryControls";
 
 interface ReportPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
   dispatch: Dispatch<ReportAction>;
   fileData: FileList;
+  fileDispatch: Dispatch<FileAction>;
   data: ReportErrors;
   api: APIControl;
 }
 
 const Report = (props: ReportPageProps) => {
   const apiConfig = useContext(APIConfigContext);
-  const { handleRouteChange, api, data, dispatch } = props;
+  const { handleRouteChange, api, data, dispatch, fileDispatch } = props;
   const [selectedChild, setSelectedChild] = useState<string | null>(null);
 
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);
+  };
+
+  const handleResetClick = () => {
+    dispatch({ type: ReportActionType.RESET, payload: {} });
+    fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
+
+    handleRouteChange(RouteValue.LOAD_DATA);
   };
 
   const renderTable = () => {
@@ -80,6 +96,15 @@ const Report = (props: ReportPageProps) => {
           {renderDetailView()}
         </Grid>
       </Grid>
+      <Block spacing="blockLarge">
+        <Aligner>
+          <PrimaryControls
+            disableButtons={false}
+            onClearClick={handleResetClick}
+            onValidateClick={() => {}}
+          />
+        </Aligner>
+      </Block>
     </Box>
   );
 };
