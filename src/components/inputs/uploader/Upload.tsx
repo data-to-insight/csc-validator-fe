@@ -1,8 +1,10 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, List } from "@mui/material";
+import { Upload as UploadIcon } from "@mui/icons-material";
 
 import UploadItem, { FileBody } from "./UploadItem";
+import { DropArea } from "./Uploader.styles";
 
 interface UploadProps {
   onUploadReady: (files: FileList) => void;
@@ -40,17 +42,16 @@ const Upload = (props: UploadProps) => {
   };
 
   const onDrop = (acceptedFiles: unknown[]) => {
+    const newFileList = { ...fileList };
+
     acceptedFiles.forEach((file) => {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         const contents = fileReader.result;
         const id = getFileId(file as FileHandle);
 
-        const newFileList = { ...fileList };
-        console.log(newFileList);
-
         newFileList[id] = {
-          file,
+          file: file as File,
           contents,
           id,
         };
@@ -64,19 +65,13 @@ const Upload = (props: UploadProps) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  return (
-    <Box>
-      <Paper>
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
-        </div>
-        <div>
-          {Object.values(fileList).map((fileListItem) => {
+  const renderFileList = () => {
+    const files = Object.values(fileList);
+
+    if (files.length > 0) {
+      return (
+        <List>
+          {files.map((fileListItem) => {
             if (fileListItem) {
               return (
                 <UploadItem
@@ -89,7 +84,28 @@ const Upload = (props: UploadProps) => {
 
             return null;
           })}
-        </div>
+        </List>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <Box>
+      <Paper>
+        <DropArea {...getRootProps()} active={isDragActive}>
+          <input {...getInputProps()} />
+          <p>
+            <UploadIcon />
+          </p>
+          {isDragActive ? (
+            <p>Drop the files here</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </DropArea>
+        <div>{renderFileList()}</div>
       </Paper>
     </Box>
   );

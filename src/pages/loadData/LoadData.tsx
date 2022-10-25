@@ -38,6 +38,7 @@ import Selectablelist from "components/selectablelist";
 
 import validationRules from "data/validation-rules-list.json";
 import Loader from "components/loader";
+import PrimaryControls from "components/controls/primaryControls";
 
 interface LoadDataPageProps {
   api: APIControl;
@@ -80,7 +81,6 @@ const LoadData = (props: LoadDataPageProps) => {
           value: props.fileData.thisYear,
         },
         (response) => {
-          console.log(response.data);
           dispatch({
             type: ReportActionType.SET_REPORT_ERRORS,
             payload: JSON.parse(response.data),
@@ -402,32 +402,11 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Aligner>
-            <Button
-              variant="contained"
-              disabled={Object.keys(fileData).length < 1}
-              onClick={handleValidationClick}
-            >
-              Validate
-            </Button>
-            <Button
-              disabled={Object.keys(fileData).length < 1}
-              variant="contained"
-              onClick={handleResetClick}
-            >
-              Clear Data And Start Again
-            </Button>
-            <Button
-              disabled={Object.keys(fileData).length < 1}
-              variant="contained"
-            >
-              Download Error Reports
-            </Button>
-            <Button
-              disabled={Object.keys(fileData).length < 1}
-              variant="contained"
-            >
-              Download CSVs
-            </Button>
+            <PrimaryControls
+              disableButtons={Object.keys(fileData).length < 1}
+              onClearClick={handleResetClick}
+              onValidateClick={handleValidationClick}
+            />
           </Aligner>
         </Block>
       </Box>

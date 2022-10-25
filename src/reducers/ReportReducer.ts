@@ -58,7 +58,6 @@ const calculateErrors = (item: ReportErrorItem): number => {
 
   Object.keys(item).forEach((key) => {
     if (meta.indexOf(key) < 0) {
-      console.log(item[key]);
       total += parseInt(item[key] as string) || 0;
     }
   });
