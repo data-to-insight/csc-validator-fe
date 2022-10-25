@@ -8,11 +8,12 @@ import {
 
 interface SelectableTableProps {
   rows: unknown[][];
+  headers: string[];
   onRowSelect: (row: unknown[]) => void;
 }
 
 const SelectableTable = (props: SelectableTableProps) => {
-  const { rows, onRowSelect } = props;
+  const { rows, onRowSelect, headers } = props;
 
   const [selectedRow, setSelectedRow] = useState<null | string>(null);
 
@@ -50,6 +51,11 @@ const SelectableTable = (props: SelectableTableProps) => {
 
   return (
     <SelectableTableComponent>
+      <tr>
+        {headers.map((header) => {
+          return <th key={`selectable-table-header-header`}>{header}</th>;
+        })}
+      </tr>
       {rows.map((row, idx) => {
         return renderRow(row, idx);
       })}

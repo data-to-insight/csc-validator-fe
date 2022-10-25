@@ -80,9 +80,10 @@ const LoadData = (props: LoadDataPageProps) => {
           value: props.fileData.thisYear,
         },
         (response) => {
+          console.log(response.data);
           dispatch({
             type: ReportActionType.SET_REPORT_ERRORS,
-            payload: JSON.parse(response.data).nums,
+            payload: JSON.parse(response.data),
           });
 
           setLoading(false);

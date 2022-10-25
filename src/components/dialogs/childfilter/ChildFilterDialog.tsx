@@ -6,10 +6,11 @@ import { FilterHeader } from "./ChildFilterDialog.styles";
 
 interface ChildFilterDialogProps {
   dispatch: Dispatch<ReportAction>;
+  filterString?: string;
 }
 
 const ChildFilterDialog = (props: ChildFilterDialogProps) => {
-  const { dispatch } = props;
+  const { dispatch, filterString = "" } = props;
 
   const handleChange = (
     evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,7 +24,12 @@ const ChildFilterDialog = (props: ChildFilterDialogProps) => {
   return (
     <Box>
       <FilterHeader>
-        <TextField label="Child ID" size="small" onChange={handleChange} />
+        <TextField
+          value={filterString}
+          label="Child ID"
+          size="small"
+          onChange={handleChange}
+        />
       </FilterHeader>
     </Box>
   );

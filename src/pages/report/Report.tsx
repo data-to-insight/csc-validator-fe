@@ -1,7 +1,7 @@
 import { APIControl } from "api";
 import { FileList } from "components/inputs/uploader/Upload";
 import React, { Dispatch, useEffect, useContext, useState } from "react";
-import { ReportAction, ReportData } from "reducers/ReportReducer";
+import { ReportAction, ReportErrors } from "reducers/ReportReducer";
 import { RouteValue } from "Router";
 import { APIConfigContext } from "App";
 import { Box, Button, Grid, Typography } from "@mui/material";
@@ -10,12 +10,13 @@ import { ScrollableFull, HeaderControl } from "./Report.styles";
 import SelectableTable from "components/selectabletable";
 import ButtonPopover from "components/buttonpopover";
 import ChildFilterDialog from "components/dialogs/childfilter";
+import ReportDetail from "./ReportDetail";
 
 interface ReportPageProps {
   handleRouteChange: (newRoute: RouteValue) => void;
   dispatch: Dispatch<ReportAction>;
   fileData: FileList;
-  data: ReportData;
+  data: ReportErrors;
   api: APIControl;
 }
 
@@ -28,23 +29,31 @@ const Report = (props: ReportPageProps) => {
     setSelectedChild(row[0] as string);
   };
 
-  console.log(data);
-
   const renderTable = () => {
-    const errorList = data.errorList
+    if (!data.errorList) {
+      return null;
+    }
+
+    const errorList = Object.values(data.errorList)
       .filter((errorItem) => {
         return errorItem.display !== false;
       })
       .map((errorItem) => {
-        return [errorItem.code, errorItem.errors];
+        return [errorItem.code, errorItem.count];
       });
 
-    return <SelectableTable rows={errorList} onRowSelect={handleRowSelect} />;
+    return (
+      <SelectableTable
+        headers={["Code", "Count"]}
+        rows={errorList}
+        onRowSelect={handleRowSelect}
+      />
+    );
   };
 
   const renderDetailView = () => {
-    if (selectedChild) {
-      return selectedChild;
+    if (selectedChild && data.errorList) {
+      return <ReportDetail data={data.errorList[selectedChild]} />;
     }
 
     return <Typography variant="h6">Select child</Typography>;
@@ -58,7 +67,10 @@ const Report = (props: ReportPageProps) => {
             <HeaderControl>
               <Typography variant="h6">Child ID</Typography>
               <ButtonPopover label="Filter">
-                <ChildFilterDialog dispatch={dispatch} />
+                <ChildFilterDialog
+                  filterString={data.errorFilter}
+                  dispatch={dispatch}
+                />
               </ButtonPopover>
             </HeaderControl>
             {renderTable()}

@@ -8,7 +8,7 @@ import Loader from "./components/loader";
 import { Container } from "./components/layout";
 import Router from "./Router";
 
-import { reportReducer, ReportActionType } from "reducers/ReportReducer";
+import { reportReducer } from "reducers/ReportReducer";
 import { fileReducer } from "reducers/FileReducer";
 
 import { theme as SFTheme } from "./theme/theme";
