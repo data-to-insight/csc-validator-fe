@@ -1,25 +1,20 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { Dispatch } from "react";
+import React from "react";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { Description } from "@mui/icons-material";
 
-import { ReportAction } from "reducers/ReportReducer";
-import { RouteValue } from "Router";
 import Expando from "components/expando";
 import Block from "components/block";
 
 interface StartPageProps {
-  handleRouteChange: (newRoute: RouteValue) => void;
-  dispatch: Dispatch<ReportAction>;
-  data?: unknown;
+  onClick: () => void;
 }
 
 const Start = (props: StartPageProps) => {
-  const { handleRouteChange } = props;
-
   const handleButtonClick = () => {
-    handleRouteChange(RouteValue.LOAD_DATA);
+    console.log("button clicked");
+    props.onClick();
   };
 
   return (

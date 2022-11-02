@@ -7,6 +7,7 @@ import { APIControl, APITransport, APIConfig } from "./api";
 import Loader from "./components/loader";
 import { Container } from "./components/layout";
 import Router from "./Router";
+import { GatedProps } from "@sfdl/sf-cookie-gate";
 
 import { reportReducer } from "reducers/ReportReducer";
 import { fileReducer } from "reducers/FileReducer";
@@ -15,9 +16,7 @@ import { theme as SFTheme } from "./theme/theme";
 
 const theme = createTheme(SFTheme);
 
-console.log(theme);
-
-interface AppProps {
+interface AppProps extends GatedProps {
   apiTransport: APITransport;
   apiConfig: APIConfig;
 }
