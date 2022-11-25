@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { Dispatch, useState, useContext } from "react";
+import React, { useState, useReducer } from "react";
 import {
   Box,
   Grid,
@@ -21,41 +21,31 @@ import {
   TableView,
 } from "@mui/icons-material";
 
-import { APIControl } from "api";
 import Uploader from "components/inputs/uploader";
-import { FileList } from "components/inputs/uploader/Upload";
 import Block from "components/block";
 import { Pre, Aligner } from "../Pages.styles";
 
-import { APIConfigContext } from "App";
 import { ReportAction, ReportActionType } from "reducers/ReportReducer";
-import { RouteValue } from "Router";
-import { FileAction, FileActionType } from "reducers/FileReducer";
+import { FileActionType } from "reducers/FileReducer";
+
 import Expando from "components/expando";
 import Tabs from "components/tabs";
 import Selectablelist from "components/selectablelist";
+import { RouteProps, RouteValue } from "../../Router";
 
 import validationRules from "data/validation-rules-list.json";
 import Loader from "components/loader";
 import PrimaryControls from "components/controls/primaryControls";
 
-interface LoadDataPageProps {
-  api: APIControl;
-  handleRouteChange: (newRoute: RouteValue) => void;
-  dispatch: Dispatch<ReportAction>;
-  data?: unknown;
-  fileDispatch: Dispatch<FileAction>;
-  fileData: {
-    thisYear?: FileList;
-  };
+interface LoadDataPageProps extends RouteProps {
+  handleRouteChange: (route: RouteValue) => void;
 }
 
 const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
 const las = ["Barking", "Barnet", "Bromley"];
 
 const LoadData = (props: LoadDataPageProps) => {
-  const { handleRouteChange, fileData, fileDispatch, dispatch, api } = props;
-  const apiConfig = useContext(APIConfigContext);
+  const { dispatch, api, fileState, fileDispatch } = props;
 
   const [collectionYear, setCollectionYear] = useState(years[0]);
   const [localAuthority, setLocalAuthority] = useState(las[0]);
@@ -66,33 +56,33 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const handleResetClick = () => {
     dispatch({ type: ReportActionType.RESET, payload: {} });
-    fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
+    fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {}, year: "" });
   };
 
-  const handleValidationClick = () => {
-    if (apiConfig && props.fileData.thisYear) {
-      setLoading(true);
-      fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
+  const getTotalFilesLength = (): number => {
+    return Object.values(fileState).reduce((prevVal, currVal) => {
+      return (prevVal as number) + Object.values(currVal as Object).length;
+    }, 0) as number;
+  };
 
-      api.callAPI(
-        {
-          method: "UPLOAD",
-          value: props.fileData.thisYear,
-        },
-        (response) => {
-          dispatch({
-            type: ReportActionType.SET_REPORT_ERRORS,
-            payload: JSON.parse(response.data),
-          });
-
-          setLoading(false);
-          handleRouteChange(RouteValue.REPORT);
-        },
-        apiConfig
-      );
+  const handleNextClick = async () => {
+    if (api && fileState) {
+      const files: { year: string; file: unknown }[] = [];
+      Object.keys(fileState).forEach((year) => {
+        Object.values(fileState[year]).forEach((file: any) => {
+          files.push({ year, file: file.file });
+        });
+      });
+      try {
+        await api.callAPI({ method: "reset", value: {} });
+        await api.callAPI({ method: "add_files", value: { files } });
+        props.handleRouteChange(RouteValue.REPORT);
+      } catch (ex) {
+        console.error("API add_files request failed", ex);
+        alert("Something went wrong!");
+      }
     }
   };
-
   const renderInstructions = () => {
     const instructions = [
       {
@@ -219,13 +209,14 @@ const LoadData = (props: LoadDataPageProps) => {
           <Grid item xs={6}>
             <Typography variant="h6">This year</Typography>
             <Uploader
-              onUploadReady={(fileList: FileList) => {
+              onUploadReady={(files) => {
                 fileDispatch({
-                  type: FileActionType.SET_THIS_YEAR,
-                  payload: fileList,
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: "2022",
                 });
               }}
-              fileList={fileData.thisYear || {}}
+              fileList={fileState["2022"]}
             />
           </Grid>
 
@@ -258,7 +249,16 @@ const LoadData = (props: LoadDataPageProps) => {
 
           <Grid item xs={6}>
             <Typography variant="h6">Previous year</Typography>
-            <Uploader onUploadReady={() => {}} fileList={{}} />
+            <Uploader
+              onUploadReady={(files) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: "2022",
+                });
+              }}
+              fileList={fileState["2022"]}
+            />
           </Grid>
         </Grid>
       </Box>
@@ -402,9 +402,9 @@ const LoadData = (props: LoadDataPageProps) => {
         <Block spacing="blockLarge">
           <Aligner>
             <PrimaryControls
-              disableButtons={Object.keys(fileData).length < 1}
+              disableButtons={getTotalFilesLength() < 1}
               onClearClick={handleResetClick}
-              onValidateClick={handleValidationClick}
+              onValidateClick={handleNextClick}
             />
           </Aligner>
         </Block>

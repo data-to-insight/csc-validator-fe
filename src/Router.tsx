@@ -5,17 +5,17 @@ import { FileList } from "components/inputs/uploader/Upload";
 
 import { LoadData, Report } from "pages";
 import { Body } from "components/layout";
-import { APIControl } from "api";
+import { APIControl } from "@sfdl/prpc";
 
 export enum RouteValue {
   LOAD_DATA = "LOAD_DATA",
   REPORT = "REPORT",
 }
 
-interface RouteProps {
+export interface RouteProps {
   data: ReportErrors;
   dispatch: Dispatch<ReportAction>;
-  fileData: FileList;
+  fileState: any;
   fileDispatch: Dispatch<FileAction>;
   api: APIControl;
 }

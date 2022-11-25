@@ -1,14 +1,7 @@
-import { APIControl } from "api";
-import { FileList } from "components/inputs/uploader/Upload";
-import React, { Dispatch, useEffect, useContext, useState } from "react";
-import {
-  ReportAction,
-  ReportErrors,
-  ReportActionType,
-} from "reducers/ReportReducer";
+import React, { useState } from "react";
+import { ReportActionType } from "reducers/ReportReducer";
 import { FileActionType, FileAction } from "reducers/FileReducer";
-import { RouteValue } from "Router";
-import { APIConfigContext } from "App";
+import { RouteValue, RouteProps } from "Router";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
 
@@ -20,18 +13,12 @@ import { Aligner } from "../Pages.styles";
 import Block from "components/block";
 import PrimaryControls from "components/controls/primaryControls";
 
-interface ReportPageProps {
+interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;
-  dispatch: Dispatch<ReportAction>;
-  fileData: FileList;
-  fileDispatch: Dispatch<FileAction>;
-  data: ReportErrors;
-  api: APIControl;
 }
 
 const Report = (props: ReportPageProps) => {
-  const apiConfig = useContext(APIConfigContext);
-  const { handleRouteChange, api, data, dispatch, fileDispatch } = props;
+  const { handleRouteChange, api, data, dispatch } = props;
   const [selectedChild, setSelectedChild] = useState<string | null>(null);
 
   const handleRowSelect = (row: unknown[]) => {
@@ -40,8 +27,6 @@ const Report = (props: ReportPageProps) => {
 
   const handleResetClick = () => {
     dispatch({ type: ReportActionType.RESET, payload: {} });
-    fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {} });
-
     handleRouteChange(RouteValue.LOAD_DATA);
   };
 
