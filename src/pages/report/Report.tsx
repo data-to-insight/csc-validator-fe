@@ -5,13 +5,16 @@ import { RouteValue, RouteProps } from "Router";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
 
-import SelectableTable from "components/selectabletable";
-import ButtonPopover from "components/buttonpopover";
+import {
+  SelectableTable,
+  ButtonPopover,
+  Block,
+  PrimaryControls,
+} from "@sfdl/sf-mui-components";
+
 import ChildFilterDialog from "components/dialogs/childfilter";
 import ReportDetail from "./ReportDetail";
 import { Aligner } from "../Pages.styles";
-import Block from "components/block";
-import PrimaryControls from "components/controls/primaryControls";
 
 interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;

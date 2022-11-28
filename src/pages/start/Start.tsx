@@ -4,8 +4,7 @@ import React from "react";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { Description } from "@mui/icons-material";
 
-import Expando from "components/expando";
-import Block from "components/block";
+import { Expando, Block } from "@sfdl/sf-mui-components";
 
 interface StartPageProps {
   onClick: () => void;

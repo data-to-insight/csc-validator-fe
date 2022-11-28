@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 
-import Loader from "components/loader";
+import { Loader } from "@sfdl/sf-mui-components";
 import { withCookieGate } from "@sfdl/sf-cookie-gate";
 
 const App = lazy(() => {

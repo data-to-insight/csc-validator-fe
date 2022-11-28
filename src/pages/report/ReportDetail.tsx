@@ -1,7 +1,8 @@
 import React from "react";
 import { ReportErrorEntry, ReportErrorItem } from "reducers/ReportReducer";
-import Tabs from "components/tabs";
+
 import Table from "components/table";
+import { Tabs } from "@sfdl/sf-mui-components";
 
 interface ReportDetailProps {
   data: ReportErrorEntry;
