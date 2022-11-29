@@ -20,6 +20,7 @@ let api: null | APIControl = null;
 
 function App(props: AppProps) {
   const [ready, setReady] = useState(false);
+
   const [reportState, reportDispatch] = useReducer(reportReducer, {});
   const [fileState, fileDispatch] = useReducer(fileReducer, { ...initialData });
 
@@ -32,20 +33,20 @@ function App(props: AppProps) {
       const parsed = queryString.parse(window.location.search);
       const apiConfig: any = {
         options: {
-          appName: "cs_cin_validator.rpc:app",
+          appName: "sfdl-sample-pyodide.rpc:app",
         },
       };
       if (parsed.url) {
         apiConfig.transport = APITransport.WEB;
         apiConfig.options.url = parsed.url;
       } else {
-        apiConfig.transport = APITransport.PYODIDE;
+        apiConfig.transport = APITransport.STATIC;
         apiConfig.options.nativePackages = ["numpy", "pandas"];
         apiConfig.options.packages = parsed.packages
           ? parsed.packages
           : [
-              process.env.PUBLIC_URL +
-                "/dist/cs_cin_validator-0.2.0-py3-none-any.whl",
+              process.env.PUBLIC_URL + "/bin/dist/main-0.0.0-py3-none-any.whl",
+              "rpc-wrap",
               "plotly",
             ];
       }

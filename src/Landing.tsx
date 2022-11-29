@@ -4,6 +4,7 @@ import Start from "pages/start";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { GatedProps } from "@sfdl/sf-cookie-gate";
 import { loadAnalytics } from "utils/analytics/Analytics";
+import { Body } from "@sfdl/sf-mui-components";
 
 const theme = createTheme(SFTheme);
 
@@ -21,7 +22,9 @@ const Landing = (props: LandingProps) => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Start onClick={handleClick} />
+        <Body>
+          <Start onClick={handleClick} />
+        </Body>
       </Container>
     </ThemeProvider>
   );
