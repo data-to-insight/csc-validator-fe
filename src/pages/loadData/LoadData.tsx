@@ -21,21 +21,24 @@ import {
   TableView,
 } from "@mui/icons-material";
 
-import Uploader from "components/inputs/uploader";
-import Block from "components/block";
 import { Pre, Aligner } from "../Pages.styles";
 
 import { ReportAction, ReportActionType } from "reducers/ReportReducer";
 import { FileActionType } from "reducers/FileReducer";
 
-import Expando from "components/expando";
-import Tabs from "components/tabs";
-import Selectablelist from "components/selectablelist";
+import {
+  Expando,
+  Tabs,
+  SelectableList as Selectablelist,
+  Loader,
+  PrimaryControls,
+  Upload as Uploader,
+  Block,
+} from "@sfdl/sf-mui-components";
+
 import { RouteProps, RouteValue } from "../../Router";
 
 import validationRules from "data/validation-rules-list.json";
-import Loader from "components/loader";
-import PrimaryControls from "components/controls/primaryControls";
 
 interface LoadDataPageProps extends RouteProps {
   handleRouteChange: (route: RouteValue) => void;

@@ -4,15 +4,13 @@ import queryString from "query-string";
 
 import { APIControl, APITransport, LoadStatus } from "@sfdl/prpc";
 
-import Loader from "./components/loader";
-import { Container } from "./components/layout";
+import { Loader, Container, theme as SFTheme } from "@sfdl/sf-mui-components";
+
 import Router from "./Router";
 import { GatedProps } from "@sfdl/sf-cookie-gate";
 
 import { reportReducer } from "reducers/ReportReducer";
 import { fileReducer, initialData } from "reducers/FileReducer";
-
-import { theme as SFTheme } from "./theme/theme";
 
 const theme = createTheme(SFTheme);
 

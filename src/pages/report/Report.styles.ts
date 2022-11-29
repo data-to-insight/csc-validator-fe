@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { spacing } from "theme/spacing";
+import { spacing } from "@sfdl/sf-mui-components";
 
 const ScrollableFull = styled.div`
   width: 100%;

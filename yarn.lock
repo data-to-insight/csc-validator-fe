@@ -1957,6 +1957,11 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
+"@sfdl/sf-mui-components@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.0.2.tgz#0033e6b246531d6d8317736e47fd1a007357bb84"
+  integrity sha512-CxxQ+tyekuPj+fCCXLvbhyXF7eup7jMrPJOlmTLn59NKtY7mTNGrw51F1p0lQF56UWFwZcJr/lN4itShd3M6JA==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.41"
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.41.tgz"

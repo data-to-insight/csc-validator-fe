@@ -1,10 +1,9 @@
 import React, { Dispatch, useState } from "react";
 import { ReportAction, ReportErrors } from "reducers/ReportReducer";
 import { FileAction } from "reducers/FileReducer";
-import { FileList } from "components/inputs/uploader/Upload";
 
 import { LoadData, Report } from "pages";
-import { Body } from "components/layout";
+import { Body } from "@sfdl/sf-mui-components";
 import { APIControl } from "@sfdl/prpc";
 
 export enum RouteValue {
