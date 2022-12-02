@@ -1,8 +1,8 @@
 import React, { Dispatch, useState } from "react";
-import { ReportAction, ReportErrors } from "reducers/ReportReducer";
+import { ReportAction, Report } from "reducers/ReportReducer";
 import { FileAction } from "reducers/FileReducer";
 
-import { LoadData, Report } from "pages";
+import { LoadData, Report as ReportPage } from "pages";
 import { Body } from "@sfdl/sf-mui-components";
 import { APIControl } from "@sfdl/prpc";
 
@@ -12,7 +12,7 @@ export enum RouteValue {
 }
 
 export interface RouteProps {
-  data: ReportErrors;
+  data: Report;
   dispatch: Dispatch<ReportAction>;
   fileState: any;
   fileDispatch: Dispatch<FileAction>;
@@ -37,7 +37,7 @@ const Router = (props: RouteProps) => {
     }
 
     if (route === RouteValue.REPORT) {
-      return <Report {...pageProps} />;
+      return <ReportPage {...pageProps} />;
     }
   };
 

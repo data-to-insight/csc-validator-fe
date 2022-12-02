@@ -1,6 +1,12 @@
-README.md
-main.py
 pyproject.toml
+setup.py
+cin/__init__.py
+datastore/__init__.py
+datastore/_api.py
+datastore/_fs.py
+datastore/_opener.py
+datastore/_sample.py
+datastore/_zip.py
 main.egg-info/PKG-INFO
 main.egg-info/SOURCES.txt
 main.egg-info/dependency_links.txt

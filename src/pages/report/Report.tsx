@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ReportActionType } from "reducers/ReportReducer";
-import { FileActionType, FileAction } from "reducers/FileReducer";
 import { RouteValue, RouteProps } from "Router";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
@@ -24,6 +23,28 @@ const Report = (props: ReportPageProps) => {
   const { handleRouteChange, api, data, dispatch } = props;
   const [selectedChild, setSelectedChild] = useState<string | null>(null);
 
+  useEffect(() => {
+    const init = async () => {
+      const reports = await api.callAPI({ method: "get_reports", value: {} });
+      const errors = await api.callAPI({ method: "get_errors", value: {} });
+
+      dispatch({
+        type: ReportActionType.SET_REPORTS,
+        payload: JSON.parse(reports.val),
+      });
+      dispatch({
+        type: ReportActionType.SET_ERRORS,
+        payload: JSON.parse(errors),
+      });
+    };
+
+    if (Object.values(data).length < 1) {
+      init();
+    }
+  }, []);
+
+  console.log(data);
+
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);
   };
@@ -34,30 +55,30 @@ const Report = (props: ReportPageProps) => {
   };
 
   const renderTable = () => {
-    if (!data.errorList) {
+    if (!data.reportList) {
       return null;
     }
 
-    const errorList = Object.values(data.errorList)
-      .filter((errorItem) => {
-        return errorItem.display !== false;
+    const reportList = Object.values(data.reportList)
+      .filter((reportItem) => {
+        return reportItem.display !== false;
       })
-      .map((errorItem) => {
-        return [errorItem.code, errorItem.count];
+      .map((reportItem) => {
+        return [reportItem.code, reportItem.count];
       });
 
     return (
       <SelectableTable
         headers={["Code", "Count"]}
-        rows={errorList}
+        rows={reportList}
         onRowSelect={handleRowSelect}
       />
     );
   };
 
   const renderDetailView = () => {
-    if (selectedChild && data.errorList) {
-      return <ReportDetail data={data.errorList[selectedChild]} />;
+    if (selectedChild && data.reportList) {
+      return <ReportDetail data={data.reportList[selectedChild]} />;
     }
 
     return <Typography variant="h6">Select child</Typography>;
@@ -72,7 +93,7 @@ const Report = (props: ReportPageProps) => {
               <Typography variant="h6">Child ID</Typography>
               <ButtonPopover label="Filter">
                 <ChildFilterDialog
-                  filterString={data.errorFilter}
+                  filterString={data.reportFilter}
                   dispatch={dispatch}
                 />
               </ButtonPopover>

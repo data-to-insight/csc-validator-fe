@@ -5,12 +5,13 @@ export type ReportAction = {
 
 export enum ReportActionType {
   UPDATE = "UPDATE",
-  SET_REPORT_ERRORS = "SET_REPORT_ERRORS",
+  SET_REPORTS = "SET_REPORTS",
+  SET_ERRORS = "SET_ERRORS",
   HIDE_ROWS = "HIDE_ROWS",
   RESET = "RESET",
 }
 
-export type ReportErrorItem = {
+export type ReportItem = {
   code: string;
   errors: string;
   Index: 1289;
@@ -28,7 +29,7 @@ export type ReportErrorItem = {
   [key: string]: string | number | null;
 };
 
-export type ReportErrorEntry = {
+export type ReportEntry = {
   code: string;
   entries: IReportDataEntries;
   display: boolean;
@@ -36,23 +37,42 @@ export type ReportErrorEntry = {
 };
 
 interface IReportDataBody {
-  [key: string]: ReportErrorItem[];
+  [key: string]: ReportItem[];
 }
 
 interface IReportDataEntries {
-  [key: string]: ReportErrorItem;
+  [key: string]: ReportItem;
 }
 
-interface IReportErrorCombined {
-  [key: string]: ReportErrorEntry;
+interface IReportCombined {
+  [key: string]: ReportEntry;
 }
 
-export type ReportErrors = {
-  errorList?: IReportErrorCombined;
-  errorFilter?: string;
+/**
+ * 
+ *  "tables_affected":"Header",
+      "columns_affected":"ReferenceDate",
+      "ROW_ID":"0",
+      "rule_code":100,
+      "rule_type":0,
+      "ERROR_ID":"nan"
+ */
+
+type Error = {
+  tables_affected: string;
+  ROW_ID: string;
+  rule_code: number;
+  rule_type: number;
+  ERROR_ID: string;
 };
 
-const calculateErrors = (item: ReportErrorItem): number => {
+export type Report = {
+  reportList?: IReportCombined;
+  reportFilter?: string;
+  errorList?: Error[];
+};
+
+const calculateErrors = (item: ReportItem): number => {
   let total = 0;
   const meta = ["code", "errors", "Index", "SDQ_SCORE", "DOB"];
 
@@ -67,7 +87,9 @@ const calculateErrors = (item: ReportErrorItem): number => {
 
 const mergeReports = (reports: IReportDataBody) => {
   const keys = Object.keys(reports);
-  const output: IReportErrorCombined = {};
+  const output: IReportCombined = {};
+
+  console.log(reports);
 
   keys.forEach((key) => {
     const report = reports[key];
@@ -95,9 +117,9 @@ const mergeReports = (reports: IReportDataBody) => {
 };
 
 export const reportReducer = (
-  reportState: ReportErrors,
+  reportState: Report,
   reportAction: ReportAction
-): ReportErrors => {
+): Report => {
   let newReportState = { ...reportState };
 
   switch (reportAction.type) {
@@ -108,19 +130,23 @@ export const reportReducer = (
       newReportState = { ...reportAction.payload };
       return newReportState;
 
-    case ReportActionType.SET_REPORT_ERRORS:
-      const tempErrorList = mergeReports(reportAction.payload);
+    case ReportActionType.SET_REPORTS:
+      const tempReportList = mergeReports(reportAction.payload);
 
-      newReportState.errorList = tempErrorList;
+      newReportState.reportList = tempReportList;
+      return newReportState;
+
+    case ReportActionType.SET_ERRORS:
+      newReportState.errorList = reportAction.payload;
       return newReportState;
 
     case ReportActionType.HIDE_ROWS:
-      if (!newReportState.errorList) {
+      if (!newReportState.reportList) {
         return {};
       }
-      newReportState.errorFilter = reportAction.payload;
-      Object.values(newReportState.errorList).forEach(
-        (errorItem: ReportErrorEntry) => {
+      newReportState.reportFilter = reportAction.payload;
+      Object.values(newReportState.reportList).forEach(
+        (errorItem: ReportEntry) => {
           if (errorItem.code.indexOf(reportAction.payload) > -1) {
             errorItem.display = true;
           } else {
@@ -131,4 +157,6 @@ export const reportReducer = (
 
       return newReportState;
   }
+
+  return newReportState;
 };

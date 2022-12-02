@@ -77,11 +77,12 @@ const LoadData = (props: LoadDataPageProps) => {
         });
       });
       try {
+        console.log(files, "files...");
         await api.callAPI({ method: "reset", value: {} });
         await api.callAPI({ method: "add_files", value: { files } });
         props.handleRouteChange(RouteValue.REPORT);
       } catch (ex) {
-        console.error("API add_files request failed", ex);
+        console.log("API add_files request failed", ex);
         alert("Something went wrong!");
       }
     }
