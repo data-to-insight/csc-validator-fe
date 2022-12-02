@@ -33,24 +33,27 @@ function App(props: AppProps) {
       const parsed = queryString.parse(window.location.search);
       const apiConfig: any = {
         options: {
-          appName: "sfdl-sample-pyodide.rpc:app",
+          appName: "cin:app",
         },
       };
       if (parsed.url) {
         apiConfig.transport = APITransport.WEB;
         apiConfig.options.url = parsed.url;
       } else {
-        apiConfig.transport = APITransport.STATIC;
+        apiConfig.transport = APITransport.PYODIDE;
         apiConfig.options.nativePackages = ["numpy", "pandas"];
         apiConfig.options.packages = parsed.packages
           ? parsed.packages
           : [
-              process.env.PUBLIC_URL + "/bin/dist/main-0.0.0-py3-none-any.whl",
+              process.env.PUBLIC_URL + "/bin/dist/main-0.0.1-py3-none-any.whl",
               "rpc-wrap",
+              "fs",
+              "pandas",
               "plotly",
             ];
       }
       api = new APIControl();
+      console.log(api);
       console.log("API Config", apiConfig);
       await api.loadTransport(apiConfig, handleAPIResponse);
     };
@@ -69,6 +72,7 @@ function App(props: AppProps) {
       console.error("Failed to initialise API", data.error);
       alert("Failed to load pyodide");
     } else if (data === LoadStatus.READY) {
+      console.log(api);
       setReady(true);
     } else {
       console.log("Unknown API response", data);

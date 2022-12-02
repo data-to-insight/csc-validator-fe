@@ -1,3 +1,4 @@
 #!/bin/zsh
-python -m build &&
+rm -rf ./build && 
+python setup.py sdist bdist_wheel &&
 cp -r dist ../public/bin

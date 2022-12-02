@@ -1,11 +1,11 @@
 import React from "react";
-import { ReportErrorEntry, ReportErrorItem } from "reducers/ReportReducer";
+import { ReportEntry, ReportItem } from "reducers/ReportReducer";
 
 import Table from "components/table";
 import { Tabs } from "@sfdl/sf-mui-components";
 
 interface ReportDetailProps {
-  data: ReportErrorEntry;
+  data: ReportEntry;
 }
 
 const ReportDetail = (props: ReportDetailProps) => {
@@ -16,7 +16,7 @@ const ReportDetail = (props: ReportDetailProps) => {
   });
 
   const renderTabBodies = () => {
-    const output = Object.values(data.entries).map((item: ReportErrorItem) => {
+    const output = Object.values(data.entries).map((item: ReportItem) => {
       const headers = Object.keys(item).reverse();
       const rows = [
         {

@@ -1,3 +1,15 @@
 Metadata-Version: 2.1
 Name: main
-Version: 0.0.0
+Version: 0.0.1
+Summary: SFDL Sample Pyodide
+Author: Dave Tickle
+Author-email: dave.tickle@socialfinance.org.uk
+Keywords: python,first package
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Education
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+
+SFDL Sample Pyodide

@@ -8,3 +8,5 @@ authors = ["dotloadmovie"]
 python = "^3.10"
 rpc-wrap = "^0.3.0"
 build = "^0.9.0"
+fs = "^2.4.16"
+pandas = "^1.5.2"
