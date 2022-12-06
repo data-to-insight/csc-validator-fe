@@ -1,10 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Box, FormControl,InputLabel, Select, MenuItem, SelectChangeEvent, Typography, Button, Grid } from "@mui/material";
 import { Description } from "@mui/icons-material";
 
 import { Expando, Block } from "@sfdl/sf-mui-components";
+import { laData } from "utils/authorityData";
+
+declare global {
+  interface Window {
+      _gaq:any;
+  }
+}
 
 interface StartPageProps {
   onClick: () => void;
@@ -13,8 +20,41 @@ interface StartPageProps {
 const Start = (props: StartPageProps) => {
   const handleButtonClick = () => {
     console.log("button clicked");
+    
+    try {
+      window._gaq && 
+      window._gaq.push(['_trackEvent', 'cin-la-select', localAuthority]);
+
+    } catch(err) {
+
+    }
+
     props.onClick();
   };
+
+  /*const [localAuthority, SetLocalAuthority] = useState<string | null>(null);*/
+  const [localAuthority, setLocalAuthority] = useState<string>("")
+  const renderDropdown = () => {
+    return (
+      <FormControl fullWidth>
+        <InputLabel id="la-select-label">Choose local authority</InputLabel>
+      <Select
+        value={localAuthority}
+        labelId = "la-select-label"
+        label="Choose local authority"
+        onChange={(event: SelectChangeEvent) => {
+          setLocalAuthority(event.target.value as string);
+        }}
+      >
+        {laData.map((laItem) => {
+          return <MenuItem value={laItem.la_id} key={laItem.la_id}>{laItem.la_name}</MenuItem>;
+        })}
+      </Select>
+      </FormControl>
+      
+    );
+  };
+
 
   return (
     <Box flexGrow={1}>
@@ -38,10 +78,19 @@ const Start = (props: StartPageProps) => {
       </Block>
 
       <Block spacing={"blockLarge"}>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+        {renderDropdown()}
+        </Grid>
+        </Grid>
+      </Block>
+
+      <Block spacing={"blockLarge"}>
         <Button
           onClick={handleButtonClick}
           variant="contained"
           sx={{ boxShadow: 0 }}
+          disabled={localAuthority===""}
         >
           Start
         </Button>
