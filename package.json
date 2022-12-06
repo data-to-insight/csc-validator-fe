@@ -32,6 +32,7 @@
     "moment": "^2.29.4",
     "prettier": "^2.7.1",
     "pyodide": "^0.21.2",
+    "quality-lac-data-ref-authorities": "github:SocialFinanceDigitalLabs/quality-lac-data-ref-authorities",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
