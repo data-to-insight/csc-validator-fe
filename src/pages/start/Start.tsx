@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Select, MenuItem, SelectChangeEvent, Typography, Button, Grid } from "@mui/material";
 import { Description } from "@mui/icons-material";
 
 import { Expando, Block } from "@sfdl/sf-mui-components";
+import { laData } from "utils/authorityData";
 
 interface StartPageProps {
   onClick: () => void;
@@ -15,6 +16,25 @@ const Start = (props: StartPageProps) => {
     console.log("button clicked");
     props.onClick();
   };
+
+  /*const [localAuthority, SetLocalAuthority] = useState<string | null>(null);*/
+  const [localAuthority, SetLocalAuthority] = useState<string>("Choose local authority")
+  const renderDropdown = () => {
+    return (
+      <Select
+        value={localAuthority}
+        onChange={(event: SelectChangeEvent) => {
+          SetLocalAuthority(event.target.value as string);
+        }}
+      >
+        {laData.map((laItem) => {
+          return <MenuItem value={laItem.la_id}>{laItem.la_name}</MenuItem>;
+        })}
+      </Select>
+    );
+  };
+
+  let la_set = (localAuthority !== "Choose local authority") ? true : false
 
   return (
     <Box flexGrow={1}>
@@ -38,13 +58,21 @@ const Start = (props: StartPageProps) => {
       </Block>
 
       <Block spacing={"blockLarge"}>
-        <Button
-          onClick={handleButtonClick}
-          variant="contained"
-          sx={{ boxShadow: 0 }}
-        >
-          Start
-        </Button>
+        {renderDropdown()}
+      </Block>
+
+      <Block spacing={"blockLarge"}>
+        {la_set ? (
+          <Button
+            onClick={handleButtonClick}
+            variant="contained"
+            sx={{ boxShadow: 0 }}
+          >
+            Start
+          </Button>
+        ) : (
+          <Button disabled>Start</Button>
+        )}
       </Block>
       <Grid container spacing={2}>
         <Grid item xs={6}>
