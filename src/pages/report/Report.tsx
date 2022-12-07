@@ -25,12 +25,12 @@ const Report = (props: ReportPageProps) => {
 
   useEffect(() => {
     const init = async () => {
-      const reports = await api.callAPI({ method: "get_reports", value: {} });
+      const children = await api.callAPI({ method: "get_children", value: {} });
       const errors = await api.callAPI({ method: "get_errors", value: {} });
 
       dispatch({
-        type: ReportActionType.SET_REPORTS,
-        payload: JSON.parse(reports.val),
+        type: ReportActionType.SET_CHILDREN,
+        payload: JSON.parse(children.val),
       });
       dispatch({
         type: ReportActionType.SET_ERRORS,
@@ -61,7 +61,7 @@ const Report = (props: ReportPageProps) => {
 
     const reportList = Object.values(data.reportList)
       .filter((reportItem) => {
-        return reportItem.display !== false;
+        return !reportItem.hide;
       })
       .map((reportItem) => {
         return [reportItem.code, reportItem.count];
@@ -78,7 +78,13 @@ const Report = (props: ReportPageProps) => {
 
   const renderDetailView = () => {
     if (selectedChild && data.reportList) {
-      return <ReportDetail data={data.reportList[selectedChild]} />;
+      const childItem = data.reportList.filter((childItem) => {
+        return childItem.code === selectedChild;
+      })[0];
+
+      return (
+        <ReportDetail api={api} childItem={childItem} dispatch={dispatch} />
+      );
     }
 
     return <Typography variant="h6">Select child</Typography>;

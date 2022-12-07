@@ -1,20 +1,18 @@
 import React from "react";
-import { Tabs } from "@sfdl/sf-mui-components";
+import Table from "components/table";
 
 interface ReportTableProps {
-  row: unknown;
+  data: any;
+  id: string;
 }
 
 const ReportTable = (props: ReportTableProps) => {
-  const { row } = props;
+  const { data, id } = props;
 
-  return (
-    <Tabs
-      headers={[{ label: "Tab 1" }]}
-      bodies={[<span>Tab 1</span>]}
-      id="Report tabs"
-    />
-  );
+  const headers = Object.keys(data);
+  const cells = Object.values(data);
+
+  return <Table headers={headers} rows={[{ cells }]} id={id} />;
 };
 
 export default ReportTable;
