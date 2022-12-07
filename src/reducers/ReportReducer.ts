@@ -5,7 +5,8 @@ export type ReportAction = {
 
 export enum ReportActionType {
   UPDATE = "UPDATE",
-  SET_REPORTS = "SET_REPORTS",
+  SET_CHILDREN = "SET_CHILDREN",
+  SET_CHILD = "SET_CHILD",
   SET_ERRORS = "SET_ERRORS",
   HIDE_ROWS = "HIDE_ROWS",
   RESET = "RESET",
@@ -15,6 +16,8 @@ export type ReportItem = {
   code: string;
   errors: string;
   Index: 1289;
+  childData: any;
+  hide?: boolean;
   DOB: string;
   SDQ_SCORE: string | null;
   SDQ_REASON: string;
@@ -26,37 +29,8 @@ export type ReportItem = {
   SUBSTANCE_MISUSE: string;
   INTERVENTION_RECEIVED: string;
   INTERVENTION_OFFERED: string;
-  [key: string]: string | number | null;
+  [key: string]: string | number | null | boolean | undefined;
 };
-
-export type ReportEntry = {
-  code: string;
-  entries: IReportDataEntries;
-  display: boolean;
-  count: number;
-};
-
-interface IReportDataBody {
-  [key: string]: ReportItem[];
-}
-
-interface IReportDataEntries {
-  [key: string]: ReportItem;
-}
-
-interface IReportCombined {
-  [key: string]: ReportEntry;
-}
-
-/**
- * 
- *  "tables_affected":"Header",
-      "columns_affected":"ReferenceDate",
-      "ROW_ID":"0",
-      "rule_code":100,
-      "rule_type":0,
-      "ERROR_ID":"nan"
- */
 
 type Error = {
   tables_affected: string;
@@ -67,7 +41,7 @@ type Error = {
 };
 
 export type Report = {
-  reportList?: IReportCombined;
+  reportList?: ReportItem[];
   reportFilter?: string;
   errorList?: Error[];
 };
@@ -85,35 +59,20 @@ const calculateErrors = (item: ReportItem): number => {
   return total;
 };
 
-const mergeReports = (reports: IReportDataBody) => {
-  const keys = Object.keys(reports);
-  const output: IReportCombined = {};
+const addChildToChildren = (
+  childId: string,
+  childData: any,
+  reportList: ReportItem[]
+): ReportItem[] => {
+  return reportList.map((reportItem: ReportItem) => {
+    const output = { ...reportItem };
 
-  console.log(reports);
+    if (reportItem.code === childId && !reportItem.childData) {
+      reportItem.childData = childData;
+    }
 
-  keys.forEach((key) => {
-    const report = reports[key];
-
-    report.forEach((reportEntry) => {
-      if (output[reportEntry.code]) {
-        output[reportEntry.code].entries[key] = { ...reportEntry };
-        output[reportEntry.code].count =
-          output[reportEntry.code].count + calculateErrors({ ...reportEntry });
-      } else {
-        const entries: IReportDataEntries = {};
-        entries[key] = { ...reportEntry };
-
-        output[reportEntry.code] = {
-          code: reportEntry.code,
-          entries,
-          display: true,
-          count: calculateErrors({ ...reportEntry }),
-        };
-      }
-    });
+    return output;
   });
-
-  return output;
 };
 
 export const reportReducer = (
@@ -130,10 +89,20 @@ export const reportReducer = (
       newReportState = { ...reportAction.payload };
       return newReportState;
 
-    case ReportActionType.SET_REPORTS:
-      const tempReportList = mergeReports(reportAction.payload);
+    case ReportActionType.SET_CHILDREN:
+      newReportState.reportList = reportAction.payload;
+      return newReportState;
 
-      newReportState.reportList = tempReportList;
+    case ReportActionType.SET_CHILD:
+      console.log("child dispatch...");
+      if (newReportState.reportList) {
+        newReportState.reportList = addChildToChildren(
+          reportAction.payload.childId,
+          reportAction.payload.childData,
+          newReportState.reportList
+        );
+      }
+
       return newReportState;
 
     case ReportActionType.SET_ERRORS:
@@ -144,16 +113,11 @@ export const reportReducer = (
       if (!newReportState.reportList) {
         return {};
       }
+
       newReportState.reportFilter = reportAction.payload;
-      Object.values(newReportState.reportList).forEach(
-        (errorItem: ReportEntry) => {
-          if (errorItem.code.indexOf(reportAction.payload) > -1) {
-            errorItem.display = true;
-          } else {
-            errorItem.display = false;
-          }
-        }
-      );
+      newReportState.reportList.forEach((childItem: ReportItem) => {
+        childItem.hide = childItem.code.indexOf(reportAction.payload) < 0;
+      });
 
       return newReportState;
   }

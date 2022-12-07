@@ -29,6 +29,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "prettier": "^2.7.1",
     "pyodide": "^0.21.2",
@@ -75,6 +76,7 @@
     }
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "commitizen": "^4.2.5",
     "cz-conventional-commit": "^1.0.6",
     "husky": "^8.0.1"
