@@ -1,4 +1,6 @@
-import React from "react";
+/** @jsxImportSource @emotion/react */
+
+import React, { useState } from "react";
 import {
   Table as MuiTable,
   TableBody,
@@ -9,20 +11,53 @@ import {
 
 type TableRowType = {
   cells: unknown[];
+  raw?: any[];
 };
+
+interface HighlightCell {
+  row: number;
+  cell: number;
+}
 
 interface TableProps {
   headers: string[];
   rows: TableRowType[];
   id: string;
+  selectable?: boolean;
+  selectedHandler?: (row: any) => void;
+  highlight?: HighlightCell | null;
 }
 
 const Table = (props: TableProps) => {
-  const { headers, rows, id } = props;
+  const { headers, rows, id, selectable, selectedHandler, highlight } = props;
 
-  const renderCells = (cells: unknown[]) => {
+  const [selectedRow, setSelectedRow] = useState<number>(-1);
+
+  const renderCells = (cells: unknown[], rowIdx: number, raw: any) => {
     return cells.map((cell, idx) => {
-      return <TableCell key={`table-cell-${cell}`}>{cell as string}</TableCell>;
+      return (
+        <TableCell
+          sx={{
+            backgroundColor: rowIdx === selectedRow ? "red" : "transparent",
+            outline:
+              highlight && highlight.row === rowIdx && highlight.cell === idx
+                ? "1px solid red"
+                : "1px solid transparent",
+          }}
+          onClick={() => {
+            if (selectable) {
+              setSelectedRow(rowIdx === selectedRow ? -1 : rowIdx);
+
+              if (selectedHandler) {
+                selectedHandler(rowIdx === selectedRow ? null : raw);
+              }
+            }
+          }}
+          key={`table-cell-${cell}`}
+        >
+          {cell as string}
+        </TableCell>
+      );
     });
   };
 
@@ -30,7 +65,7 @@ const Table = (props: TableProps) => {
     return rows.map((row, idx) => {
       return (
         <TableRow key={`table-row-${id}-${idx}`}>
-          {renderCells(row.cells)}
+          {renderCells(row.cells, idx, row.raw)}
         </TableRow>
       );
     });

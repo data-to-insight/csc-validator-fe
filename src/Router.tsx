@@ -41,7 +41,11 @@ const Router = (props: RouteProps) => {
     }
   };
 
-  return <Body>{renderRoute()}</Body>;
+  return (
+    <Body title="CIN Validator" chip="Using: Pyodide (sample) API">
+      {renderRoute()}
+    </Body>
+  );
 };
 
 export default Router;
