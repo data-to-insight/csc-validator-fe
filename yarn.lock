@@ -1938,7 +1938,7 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@sfdl/prpc@^0.0.3":
+"@sfdl/prpc@0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@sfdl/prpc/-/prpc-0.0.3.tgz#49031922d75a9b65a922b318f2510333171d9769"
   integrity sha512-BwQnXgI1Ii9wi3joK4nJZLt7m/jnV1FsMYel+2mRDBti6mOUb4+dZjsNA3oF3MkkkmftAp/Rq194bFTM4gEADQ==
@@ -1957,10 +1957,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@sfdl/sf-mui-components@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.0.2.tgz#0033e6b246531d6d8317736e47fd1a007357bb84"
-  integrity sha512-CxxQ+tyekuPj+fCCXLvbhyXF7eup7jMrPJOlmTLn59NKtY7mTNGrw51F1p0lQF56UWFwZcJr/lN4itShd3M6JA==
+"@sfdl/sf-mui-components@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.1.2.tgz#dd9ff49f0fa31edd21a27922f470dad0a36617d2"
+  integrity sha512-vOwUf1x+VjexIvmxPv0RBGfrRYv+340aN6Rxe4Fg1VVDeG8QcG9gvLe7L/VL1iugCQZagfNq4Kq1NVZF4KYeFA==
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.41"

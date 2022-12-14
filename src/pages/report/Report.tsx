@@ -30,11 +30,10 @@ const Report = (props: ReportPageProps) => {
 
       dispatch({
         type: ReportActionType.SET_CHILDREN,
-        payload: JSON.parse(children.val),
-      });
-      dispatch({
-        type: ReportActionType.SET_ERRORS,
-        payload: JSON.parse(errors),
+        payload: {
+          children: JSON.parse(children.val),
+          errors: JSON.parse(errors),
+        },
       });
     };
 
@@ -42,8 +41,6 @@ const Report = (props: ReportPageProps) => {
       init();
     }
   }, []);
-
-  console.log(data);
 
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);

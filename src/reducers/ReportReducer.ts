@@ -7,7 +7,6 @@ export enum ReportActionType {
   UPDATE = "UPDATE",
   SET_CHILDREN = "SET_CHILDREN",
   SET_CHILD = "SET_CHILD",
-  SET_ERRORS = "SET_ERRORS",
   HIDE_ROWS = "HIDE_ROWS",
   RESET = "RESET",
 }
@@ -15,6 +14,8 @@ export enum ReportActionType {
 export type ReportItem = {
   code: string;
   errors: string;
+  errorList: Error[];
+  count: number;
   Index: 1289;
   childData: any;
   hide?: boolean;
@@ -29,11 +30,12 @@ export type ReportItem = {
   SUBSTANCE_MISUSE: string;
   INTERVENTION_RECEIVED: string;
   INTERVENTION_OFFERED: string;
-  [key: string]: string | number | null | boolean | undefined;
+  [key: string]: string | number | null | boolean | undefined | Error[];
 };
 
-type Error = {
+export type Error = {
   tables_affected: string;
+  columns_affected: string;
   ROW_ID: string;
   rule_code: number;
   rule_type: number;
@@ -43,20 +45,6 @@ type Error = {
 export type Report = {
   reportList?: ReportItem[];
   reportFilter?: string;
-  errorList?: Error[];
-};
-
-const calculateErrors = (item: ReportItem): number => {
-  let total = 0;
-  const meta = ["code", "errors", "Index", "SDQ_SCORE", "DOB"];
-
-  Object.keys(item).forEach((key) => {
-    if (meta.indexOf(key) < 0) {
-      total += parseInt(item[key] as string) || 0;
-    }
-  });
-
-  return total;
 };
 
 const addChildToChildren = (
@@ -75,6 +63,16 @@ const addChildToChildren = (
   });
 };
 
+//temporary - this is for sample data only; need a better solution at BE for live data
+const combineChildrenErrors = (children: ReportItem[], errors: Error[]) => {
+  const combined = children.map((child) => {
+    const newChild = { ...child, errorList: errors, count: errors.length };
+    return newChild;
+  });
+
+  return combined;
+};
+
 export const reportReducer = (
   reportState: Report,
   reportAction: ReportAction
@@ -90,7 +88,10 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_CHILDREN:
-      newReportState.reportList = reportAction.payload;
+      newReportState.reportList = combineChildrenErrors(
+        reportAction.payload.children,
+        reportAction.payload.errors
+      );
       return newReportState;
 
     case ReportActionType.SET_CHILD:
@@ -103,10 +104,6 @@ export const reportReducer = (
         );
       }
 
-      return newReportState;
-
-    case ReportActionType.SET_ERRORS:
-      newReportState.errorList = reportAction.payload;
       return newReportState;
 
     case ReportActionType.HIDE_ROWS:

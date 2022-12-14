@@ -22,7 +22,7 @@ const Landing = (props: LandingProps) => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Body>
+        <Body title="CIN Validator" chip="Using: Pyodide (sample) API">
           <Start onClick={handleClick} />
         </Body>
       </Container>
