@@ -6,7 +6,7 @@ import {
   ReportAction,
   Error,
 } from "reducers/ReportReducer";
-import { ScrollableFull, FlexContainer } from "./Report.styles";
+import { FlexContainer, DoublePanel } from "./Report.styles";
 
 import { pascalToReadable } from "utils/strings/fomatters";
 
@@ -88,23 +88,21 @@ const ReportDetail = (props: ReportDetailProps) => {
 
   return (
     <>
-    <FlexContainer>
-      <ScrollableFull>
+      <FlexContainer>
+        <DoublePanel grow={3}>
           <Block spacing="blockLarge">
             <Typography variant="h5">ID: {childItem.code}</Typography>
           </Block>
           {childItem.childData ? renderTables() : "loading..."}
-        </ScrollableFull>
-        <ScrollableFull>
+        </DoublePanel>
+        <DoublePanel color="purple" grow={3}>
           <Typography variant="h5">Errors</Typography>
-        <ErrorList
-          errorSelectedHandler={handleSelectError}
-          errorList={childItem.errorList}
-        />
-        </ScrollableFull>       
-        
-    </FlexContainer>
-
+          <ErrorList
+            errorSelectedHandler={handleSelectError}
+            errorList={childItem.errorList}
+          />
+        </DoublePanel>
+      </FlexContainer>
     </>
   );
 };

@@ -12,7 +12,13 @@ import { GatedProps } from "@sfdl/sf-cookie-gate";
 import { reportReducer } from "reducers/ReportReducer";
 import { fileReducer, initialData } from "reducers/FileReducer";
 
-const theme = createTheme(SFTheme);
+const CINTheme = { ...SFTheme };
+
+CINTheme.components.MuiContainer.styleOverrides.maxWidthLg[
+  "&.MuiContainer-maxWidthLg"
+].maxWidth = 1600;
+
+const theme = createTheme(CINTheme);
 
 interface AppProps extends GatedProps {}
 

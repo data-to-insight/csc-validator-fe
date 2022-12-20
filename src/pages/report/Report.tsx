@@ -88,7 +88,7 @@ const Report = (props: ReportPageProps) => {
   };
 
   return (
-    <Box flexGrow={1}>
+    <Box flexGrow={1} style={{ height: "calc(100vh -  184)" }}>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <ScrollableFull>

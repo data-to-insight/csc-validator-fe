@@ -1,19 +1,36 @@
 import styled from "@emotion/styled";
 import { spacing } from "@sfdl/sf-mui-components";
 
+interface DoublePanelProps {
+  color?: string;
+  grow?: number;
+}
+
+const headerHeight = "184px";
+
 const FlexContainer = styled.div`
-  height: 100vh;
+  height: calc(100vh - ${headerHeight});
   width: 100%;
-  background-color: red;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
 `;
 
 const ScrollableFull = styled.div`
-  flex-grow: 1;
-  display: flex;
   overflow-x: hidden;
   overflow-y: auto;
+  height: calc(100vh - ${headerHeight});
+`;
+
+const DoublePanel = styled.div<DoublePanelProps>`
+  /*flex-grow: ${(props) => {
+    return props.grow ? props.grow : 1;
+  }};*/
+  overflow-x: hidden;
+  overflow-y: auto;
+  //  align-self: stretch;
+  // display: flex;
+  //flex-direction: column;
+  height: 50%;
 `;
 
 const HeaderControl = styled.div`
@@ -24,4 +41,4 @@ const HeaderControl = styled.div`
   padding: 0 ${spacing.s} ${spacing.m} ${spacing.s};
 `;
 
-export { ScrollableFull, HeaderControl, FlexContainer };
+export { ScrollableFull, HeaderControl, FlexContainer, DoublePanel };
