@@ -6,10 +6,10 @@ interface DoublePanelProps {
   grow?: number;
 }
 
-const headerHeight = "184px";
+//const headerHeight = "184px";
 
 const FlexContainer = styled.div`
-  height: calc(100vh - ${headerHeight});
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ const FlexContainer = styled.div`
 const ScrollableFull = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(100vh - ${headerHeight});
+  height: 100%;
 `;
 
 const DoublePanel = styled.div<DoublePanelProps>`

@@ -6,7 +6,8 @@ import {
   ReportAction,
   Error,
 } from "reducers/ReportReducer";
-import { FlexContainer, DoublePanel } from "./Report.styles";
+
+import DraggablePanes from "components/draggable-panes";
 
 import { pascalToReadable } from "utils/strings/fomatters";
 
@@ -15,6 +16,7 @@ import { Block } from "@sfdl/sf-mui-components";
 import ReportTable from "./ReportTable";
 import ErrorList from "./ErrorList";
 import { Typography } from "@mui/material";
+import { render } from "@testing-library/react";
 
 //import Table from "components/table";
 
@@ -53,8 +55,6 @@ const ReportDetail = (props: ReportDetailProps) => {
   };
 
   const renderTables = () => {
-    console.log(selectedError);
-
     if (childItem.childData) {
       return Object.keys(childItem.childData).map((key) => {
         if (key === "header") {
@@ -88,21 +88,23 @@ const ReportDetail = (props: ReportDetailProps) => {
 
   return (
     <>
-      <FlexContainer>
-        <DoublePanel grow={3}>
+      <DraggablePanes
+        topContent={
           <Block spacing="blockLarge">
             <Typography variant="h5">ID: {childItem.code}</Typography>
+            {renderTables()}
           </Block>
-          {childItem.childData ? renderTables() : "loading..."}
-        </DoublePanel>
-        <DoublePanel color="purple" grow={3}>
-          <Typography variant="h5">Errors</Typography>
-          <ErrorList
-            errorSelectedHandler={handleSelectError}
-            errorList={childItem.errorList}
-          />
-        </DoublePanel>
-      </FlexContainer>
+        }
+        bottomContent={
+          <>
+            <Typography variant="h5">Errors</Typography>
+            <ErrorList
+              errorSelectedHandler={handleSelectError}
+              errorList={childItem.errorList}
+            />
+          </>
+        }
+      />
     </>
   );
 };
