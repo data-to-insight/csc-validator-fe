@@ -1,1123 +1,430 @@
 [
   {
-    "value": "INT01",
-    "label": "INT01 - Data Integrity Check: Child in AD1 does not exist in Header."
+      "value": "100",
+      "label": "100 - Reference Date is incorrect"
   },
   {
-    "value": "INT02",
-    "label": "INT02 - Internal Check: Child in PlacedAdoption does not exist in Header."
+      "value": "1103",
+      "label": "1103 - The assessment start date cannot be before the referral date"
   },
   {
-    "value": "INT03",
-    "label": "INT03 - Internal Check: Child in Episodes does not exist in Header."
+      "value": "1104",
+      "label": "1104 - The date of the initial child protection conference cannot be before the referral date"
   },
   {
-    "value": "INT04",
-    "label": "INT04 - Internal Check: Child in Missing does not exist in Header."
+      "value": "1105",
+      "label": "1105 - The child protection plan start date cannot be before the referral date"
   },
   {
-    "value": "INT05",
-    "label": "INT05 - Internal Check: Child in OC2 does not exist in Header."
+      "value": "1510",
+      "label": "1510 - UPN invalid (wrong check letter at character 1)"
   },
   {
-    "value": "INT06",
-    "label": "INT06 - Internal Check: Child in OC3 does not exist in Header."
+      "value": "1520",
+      "label": "1520 - More than one record with the same UPN"
   },
   {
-    "value": "INT07",
-    "label": "INT07 - Internal Check: Child in PrevPerm does not exist in Header."
+      "value": "1530",
+      "label": "1530 - UPN invalid (characters 2-4 not a recognised LA code)"
   },
   {
-    "value": "INT08",
-    "label": "INT08 - Internal Check: Child in Reviews does not exist in Header."
+      "value": "1540",
+      "label": "1540 - UPN invalid (characters 5-12 not all numeric)"
   },
   {
-    "value": "INT09",
-    "label": "INT09 - Internal Check: Child in UASC does not exist in Header."
+      "value": "1550",
+      "label": "1550 - UPN invalid (character 13 not a recognised value)"
   },
   {
-    "value": "INT11",
-    "label": "INT11 - Internal Check: DOB in AD1 is different to DOB in Header."
+      "value": "1560Q",
+      "label": "1560Q - Please check: Former UPN wrongly formatted"
   },
   {
-    "value": "INT12",
-    "label": "INT12 - Internal Check: DOB in PlacedAdoption is different to DOB in Header."
+      "value": "2883",
+      "label": "2883 - There are more child protection plans starting than initial conferences taking place"
   },
   {
-    "value": "INT13",
-    "label": "INT13 - Internal Check: DOB in Missing is different to DOB in Header."
+      "value": "2884",
+      "label": "2884 - An initial child protection conference is recorded at both the S47 and CIN Details level and it should only be recorded in one"
   },
   {
-    "value": "INT14",
-    "label": "INT14 - Internal Check: DOB in OC2 is different to DOB in Header."
+      "value": "2885",
+      "label": "2885 - Child protection plan shown as starting a different day to the initial child protection conference"
   },
   {
-    "value": "INT15",
-    "label": "INT15 - Internal Check: DOB in OC3 is different to DOB in Header."
+      "value": "2886Q",
+      "label": "2886Q - Please check: Percentage of children with no gender recorded is more than 2% (excluding unborns)"
   },
   {
-    "value": "INT16",
-    "label": "INT16 - Internal Check: DOB in PrevPerm is different to DOB in Header."
+      "value": "2887Q",
+      "label": "2887Q - Please check: Less than 8 disability codes have been used in your return"
   },
   {
-    "value": "INT17",
-    "label": "INT17 - Internal Check: DOB in Reviews is different to DOB in Header."
+      "value": "2888Q",
+      "label": "2888Q - Please check: Only one disability code is recorded per child and multiple disabilities should be recorded where possible."
   },
   {
-    "value": "INT18",
-    "label": "INT18 - Internal Check: DOB in UASC is different to DOB in Header."
+      "value": "2889",
+      "label": "2889 - The S47 start date cannot be before the referral date."
   },
   {
-    "value": "INT21",
-    "label": "INT21 - Internal Check: SEX in UASC is different to SEX in Header."
+      "value": "2990",
+      "label": "2990 - Activity is recorded against a case marked as \u2018Case closed after assessment, no further action\u2019."
   },
   {
-    "value": "INT31",
-    "label": "INT31 - Internal Check: Child should only exist once in AD1."
+      "value": "2991Q",
+      "label": "2991Q - Please check: A Section 47 module is recorded and there is no assessment on the episode"
   },
   {
-    "value": "INT32",
-    "label": "INT32 - Internal Check: Child should only exist once in Header."
+      "value": "4000",
+      "label": "4000 - CIN Plan details provided for a referral with no further action"
   },
   {
-    "value": "INT33",
-    "label": "INT33 - Internal Check: Child should only exist once in OC2."
+      "value": "4001",
+      "label": "4001 - A CIN Plan cannot run concurrently with a Child Protection Plan"
   },
   {
-    "value": "INT34",
-    "label": "INT34 - Internal Check: Child should only exist once in OC3."
+      "value": "4003",
+      "label": "4003 - A CPP review date is shown as being held at the same time as an open CIN Plan."
   },
   {
-    "value": "INT35",
-    "label": "INT35 - Internal Check: Child should only exist once in PrevPerm."
+      "value": "8925",
+      "label": "8925 - Child Protection Plan End Date earlier than Start Date"
   },
   {
-    "value": "INT36",
-    "label": "INT36 - Internal Check: Child should only exist once in UASC."
+      "value": "4004",
+      "label": "4004 - This child is showing more than one open CIN Plan, i.e. with no End Date"
   },
-  { "value": "101", "label": "101 - Gender code is not valid." },
-  { "value": "102", "label": "102 - Date of birth is not a valid date." },
   {
-    "value": "103",
-    "label": "103 - The ethnicity code is either not valid or has not been entered."
+      "value": "4008",
+      "label": "4008 - CIN Plan shown as starting after the child\u2019s Date of Death."
   },
   {
-    "value": "104",
-    "label": "104 - Date for Unaccompanied Asylum-Seeking Children (UASC) status ceased is not a valid date."
+      "value": "4009",
+      "label": "4009 - CIN Plan cannot end after the child\u2019s Date of Death"
   },
   {
-    "value": "105",
-    "label": "105 - Data entry for Unaccompanied Asylum-Seeking Children (UASC) status of child is invalid or has not been completed."
+      "value": "4010",
+      "label": "4010 - CIN Plan start date is missing or out of data collection period"
   },
   {
-    "value": "112",
-    "label": "112 - Date should be placed for adoption is not a valid date."
+      "value": "4011",
+      "label": "4011 - CIN Plan End Date earlier than Start Date"
   },
   {
-    "value": "113",
-    "label": "113 - Date matching child and adopter(s) is not a valid date."
+      "value": "4012Q",
+      "label": "4012Q - CIN Plan shown as starting and ending on the same day - please check"
   },
   {
-    "value": "114",
-    "label": "114 - Data entry to record the status of former carer(s) of an adopted child is invalid."
+      "value": "4013",
+      "label": "4013 - CIN Plan end date must fall within the census year"
   },
   {
-    "value": "115",
-    "label": "115 - Date of Local Authority's (LA) decision that a child should be placed for adoption is not a valid date."
+      "value": "4014",
+      "label": "4014 - CIN Plan data contains overlapping dates"
   },
   {
-    "value": "116",
-    "label": "116 - Date of Local Authority's (LA) decision that a child should no longer be placed for adoption is not a valid date."
+      "value": "4015",
+      "label": "4015 - The CIN Plan start date cannot be before the referral date"
   },
   {
-    "value": "117",
-    "label": "117 - Date of decision that a child should/should no longer be placed for adoption is beyond the current collection year or after the child ceased to be looked after."
+      "value": "4016",
+      "label": "4016 - A CIN Plan has been reported as open at the same time as a Child Protection Plan."
   },
   {
-    "value": "118",
-    "label": "118 - Date of decision that a child should no longer be placed for adoption is before the current collection year or before the date the child started to be looked after."
+      "value": "4017",
+      "label": "4017 - A CIN Plan has been reported as open at the same time as a Child Protection Plan."
   },
   {
-    "value": "119",
-    "label": "119 - If the decision is made that a child should no longer be placed for adoption, then the date of this decision and the reason why this decision was made must be completed."
+      "value": "4180",
+      "label": "4180 - Gender is missing"
   },
   {
-    "value": "120",
-    "label": "120 - The reason for the reversal of the decision that the child should be placed for adoption code is not valid."
+      "value": "4220",
+      "label": "4220 - Ethnicity is missing or invalid (see Ethnicity table)"
   },
   {
-    "value": "131",
-    "label": "131 - Data entry for being in touch after leaving care is invalid."
+      "value": "8500",
+      "label": "8500 - LA Child ID missing"
   },
   {
-    "value": "132",
-    "label": "132 - Data entry for activity after leaving care is invalid."
+      "value": "8510",
+      "label": "8510 - More than one child record with the same LA Child ID"
   },
   {
-    "value": "133",
-    "label": "133 - Data entry for accommodation after leaving care is invalid. If reporting on a childs accommodation after leaving care the data entry must be valid"
+      "value": "8520",
+      "label": "8520 - Date of Birth is after data collection period (must be on or before the end of the census period)"
   },
   {
-    "value": "134",
-    "label": "134 - Data on adoption should not be entered for the OC3 cohort."
+      "value": "8535Q",
+      "label": "8535Q - Child\u2019s date of death should not be prior to the date of birth"
   },
-  { "value": "141", "label": "141 - Date episode began is not a valid date." },
   {
-    "value": "142",
-    "label": "142 - A new episode has started, but the previous episode has not ended."
+      "value": "8525",
+      "label": "8525 - Either Date of Birth or Expected Date of Birth must be provided (but not both)"
   },
   {
-    "value": "143",
-    "label": "143 - The reason for new episode code is not a valid code."
+      "value": "8530Q",
+      "label": "8530Q - Please check: Expected Date of Birth is outside the expected range for this census (March to December of the Census Year end)"
   },
   {
-    "value": "144",
-    "label": "144 - The legal status code is not a valid code."
+      "value": "8540",
+      "label": "8540 - Child\u2019s disability is missing or invalid (see Disability table)"
   },
   {
-    "value": "145",
-    "label": "145 - Category of need code is not a valid code."
+      "value": "8545Q",
+      "label": "8545Q - Please check: Child's date of death should be within the census year"
   },
-  { "value": "146", "label": "146 - Placement type code is not a valid code." },
-  { "value": "147", "label": "147 - Date episode ceased is not a valid date." },
   {
-    "value": "148",
-    "label": "148 - Date episode ceased and reason episode ceased must both be coded, or both left blank."
+      "value": "8555",
+      "label": "8555 - Child cannot be referred after its recorded date of death"
   },
   {
-    "value": "149",
-    "label": "149 - Reason episode ceased code is not valid. "
+      "value": "8565",
+      "label": "8565 - Activity shown after a case has been closed"
   },
   {
-    "value": "151",
-    "label": "151 - All data items relating to a childs adoption must be coded or left blank."
+      "value": "8568",
+      "label": "8568 - RNFA flag is missing or invalid"
   },
   {
-    "value": "153",
-    "label": "153 - All data items relating to a child's activity or accommodation after leaving care must be coded or left blank."
+      "value": "8569",
+      "label": "8569 - A case with referral date before one working day prior to the collection start date must not be flagged as a no further action case"
   },
   {
-    "value": "157",
-    "label": "157 - Child is aged 4 years or over at the beginning of the year or 16 years or under at the end of the year and Strengths and Difficulties Questionnaire (SDQ) 1 has been recorded as the reason for no Strengths and Difficulties Questionnaire (SDQ) score."
+      "value": "8585Q",
+      "label": "8585Q - Please check: CIN episode shows Died as the Closure Reason, however child has no recorded Date of Death"
   },
   {
-    "value": "158",
-    "label": "158 - If a child has been recorded as receiving an intervention for their substance misuse problem, then the additional item on whether an intervention was offered should be left blank."
+      "value": "8590",
+      "label": "8590 - Child does not have a recorded CIN episode."
   },
   {
-    "value": "159",
-    "label": "159 - If a child has been recorded as not receiving an intervention for their substance misuse problem, then the additional item on whether an intervention was offered should be completed as well."
+      "value": "8600",
+      "label": "8600 - Child referral date missing or after data collection period"
   },
   {
-    "value": "164",
-    "label": "164 - Distance is not valid. Please check a valid postcode has been entered. [NOTE: This check will result in false positives for children formerly UASC not identified as such in loaded data]"
+      "value": "8606",
+      "label": "8606 - Child referral date is more than 40 weeks before DOB or expected DOB"
   },
-  { "value": "165", "label": "165 - Data entry for mother status is invalid." },
-  { "value": "166", "label": "166 - Date of review is invalid or blank." },
   {
-    "value": "167",
-    "label": "167 - Data entry for participation is invalid or blank."
+      "value": "8608",
+      "label": "8608 - Assessment Start Date cannot be later than its End Date"
   },
   {
-    "value": "168",
-    "label": "168 - Unique Pupil Number (UPN) is not valid. If unknown, default codes should be UN1, UN2, UN3, UN4 or UN5."
+      "value": "8610",
+      "label": "8610 - Primary Need code is missing for a referral which led to further"
   },
   {
-    "value": "169",
-    "label": "169 - Local Authority (LA) of placement is not valid or is missing. Please check a valid postcode has been entered."
+      "value": "8614",
+      "label": "8614 - Parental or child factors at assessment should only be present for a completed assessment."
   },
   {
-    "value": "171",
-    "label": "171 - Date of birth of mother's child is not a valid date."
+      "value": "8615",
+      "label": "8615 - Section 47 Enquiry Start Date must be present and cannot be later than the date of the initial Child Protection Conference"
   },
   {
-    "value": "174",
-    "label": "174 - Mother's child date of birth is recorded but gender shows that the child is a male."
+      "value": "8617",
+      "label": "8617 - Code 8A has been returned. This code is not a valid code."
   },
   {
-    "value": "175",
-    "label": "175 - The number of adopter(s) code is not a valid code."
+      "value": "8620",
+      "label": "8620 - CIN Closure Date present and does not fall within the Census year"
   },
   {
-    "value": "176",
-    "label": "176 - The gender of adopter(s) at the date of adoption code is not a valid code."
+      "value": "8630",
+      "label": "8630 - CIN Closure Date is before CIN Referral Date for the same CIN episode"
   },
   {
-    "value": "177",
-    "label": "177 - The legal status of adopter(s) code is not a valid code."
+      "value": "8640",
+      "label": "8640 - CIN Reason for closure code invalid (see Reason for Closure table in CIN Census code set)"
   },
   {
-    "value": "178",
-    "label": "178 - Placement provider code is not a valid code."
+      "value": "8650",
+      "label": "8650 - Primary Need Code invalid (see Primary Need table in CIN census code set)"
   },
   {
-    "value": "179",
-    "label": "179 - Placement location code is not a valid code."
+      "value": "8670Q",
+      "label": "8670Q - Please check: Assessment started more than 45 working days before the end of the census year. However, there is no Assessment end date. "
   },
   {
-    "value": "180",
-    "label": "180 - Data entry for the strengths and difficulties questionnaire (SDQ) score is invalid."
+      "value": "8675Q",
+      "label": "8675Q - Please check: S47 Enquiry started more than 15 working days before the end of the census year. However, there is no date of Initial Child Protection Conference."
   },
   {
-    "value": "181",
-    "label": "181 - Data items relating to children looked after continuously for 12 months should be completed with a 0 or 1."
+      "value": "8696",
+      "label": "8696 - Assessment end date must fall within the census year"
   },
   {
-    "value": "182",
-    "label": "182 - Data entries on immunisations, teeth checks, health assessments and substance misuse problem identified should be completed or all OC2 fields should be left blank."
+      "value": "8715",
+      "label": "8715 - Date of Initial Child Protection Conference must fall within the census year"
   },
   {
-    "value": "184",
-    "label": "184 - Date of decision that a child should be placed for adoption is before the child was born."
+      "value": "8720",
+      "label": "8720 - Child Protection Plan Start Date missing or out of data collection period"
   },
   {
-    "value": "185",
-    "label": "185 - Child has not been looked after continuously for at least 12 months at 31 March but a Strengths and Difficulties (SDQ) score has been completed."
+      "value": "8730",
+      "label": "8730 - Total Number of previous Child Protection Plans missing"
   },
   {
-    "value": "186",
-    "label": "186 - Children aged 4 or over at the start of the year and children aged under 17 at the end of the year and who have been looked after for at least 12 months continuously should have a Strengths and Difficulties (SDQ) score completed."
+      "value": "8736",
+      "label": "8736 - For an Assessment that has not been completed, the start date must fall within the census year"
   },
   {
-    "value": "187",
-    "label": "187 - Child cannot be looked after continuously for 12 months at 31 March (OC2) and have any of adoption or care leavers returns completed."
+      "value": "8740",
+      "label": "8740 - For a Section 47 Enquiry that has not held the Initial Child Protection Conference by the end of the census year, the start date must fall within the census year"
   },
   {
-    "value": "188",
-    "label": "188 - Child is aged under 4 years at the end of the year, but a Strengths and Difficulties (SDQ) score or a reason for no SDQ score has been completed. "
+      "value": "8750",
+      "label": "8750 - Gender must equal 0 for an unborn child"
   },
   {
-    "value": "189",
-    "label": "189 - Child is aged 17 years or over at the beginning of the year, but an Strengths and Difficulties (SDQ) score or a reason for no Strengths and Difficulties (SDQ) score has been completed."
+      "value": "8770Q",
+      "label": "8770Q - Please check and either amend data or provide a reason: UPN or reason UPN missing expected for a child who is more than 5 years old"
   },
   {
-    "value": "190",
-    "label": "190 - Child has not been looked after continuously for at least 12 months at 31 March but one or more data items relating to children looked after for 12 months have been completed."
+      "value": "8772",
+      "label": "8772 - UPN unknown reason is UN7 (Referral with no further action) but at least one CIN details is a referral going on to further action"
   },
   {
-    "value": "191",
-    "label": "191 - Child has been looked after continuously for at least 12 months at 31 March but one or more data items relating to children looked after for 12 months have been left blank."
+      "value": "8775Q",
+      "label": "8775Q - Please check: Child is over 25 years old"
   },
   {
-    "value": "192",
-    "label": "192 - Child has been identified as having a substance misuse problem but the additional item on whether an intervention was received has been left blank."
+      "value": "8790",
+      "label": "8790 - Disability information includes both None and other values"
   },
   {
-    "value": "193",
-    "label": "193 - Child not identified as having a substance misuse problem but at least one of the two additional items on whether an intervention were offered and received have been completed."
+      "value": "8794",
+      "label": "8794 - Child has two or more disabilities with the same code"
   },
   {
-    "value": "196",
-    "label": "196 - Strengths and Difficulties (SDQ) reason is not a valid code."
+      "value": "8805",
+      "label": "8805 - A CIN case cannot have a CIN closure date without a Reason for Closure"
   },
   {
-    "value": "197B",
-    "label": "197B - SDQ score or reason for no SDQ should be reported for 4- or 17-year-olds."
+      "value": "8810",
+      "label": "8810 - A CIN case cannot have a Reason for Closure without a CIN Closure Date"
   },
   {
-    "value": "197a",
-    "label": "197a - Reason for no Strengths and Difficulties (SDQ) score is not required if Strengths and Difficulties Questionnaire score is filled in."
+      "value": "8815",
+      "label": "8815 - More than one open CIN Details episode (a module with no CIN Closure Date) has been provided for this child and case is not a referral with no further action."
   },
   {
-    "value": "198",
-    "label": "198 - Child has not been looked after continuously for at least 12 months at 31 March but a reason for no Strengths and Difficulties (SDQ) score has been completed. "
+      "value": "8816",
+      "label": "8816 - An open CIN episode is shown and case is not a referral with no further action, but it is not the latest episode."
   },
   {
-    "value": "199",
-    "label": "199 - Episode information shows child has been previously adopted from care. [NOTE: This only tests the current and previous year data loaded into the tool]"
+      "value": "8820",
+      "label": "8820 - The dates on the CIN episodes for this child overlap"
   },
   {
-    "value": "202",
-    "label": "202 - The gender code conflicts with the gender already recorded for this child."
+      "value": "8825Q",
+      "label": "8825Q - Reason for Closure code RC8 (case closed after assessment) has been returned but there is no assessment present for the episode."
   },
   {
-    "value": "203",
-    "label": "203 - Date of birth disagrees with the date of birth already recorded for this child."
+      "value": "8831",
+      "label": "8831 - Activity is recorded against a case marked as a referral with no further action"
   },
   {
-    "value": "204",
-    "label": "204 - Ethnic origin code disagrees with the ethnic origin already recorded for this child."
+      "value": "8832",
+      "label": "8832 - Child Protection details provided for a referral with no further action."
   },
   {
-    "value": "205A",
-    "label": "205A - Child identified as UASC last year is no longer UASC this year, but date UASC ceased in both years does not support this."
+      "value": "8839",
+      "label": "8839 - Within one CINDetails group there are 2 or more open S47 Assessments"
   },
   {
-    "value": "205B",
-    "label": "205B - Child previously identified as UASC is also UASC this year, but date UASC ceased in both years does not support this."
+      "value": "8840",
+      "label": "8840 - Child Protection Plan cannot start and end on the same day"
   },
   {
-    "value": "205C",
-    "label": "205C - Child not identified as UASC either this year or last year but date UASC ceased has been provided."
+      "value": "8841",
+      "label": "8841 - The review date cannot be on the same day or before the Child protection Plan start date."
   },
   {
-    "value": "205D",
-    "label": "205D - Child identified as UASC this year but not identified as UASC status provided for the child last year."
+      "value": "8842Q",
+      "label": "8842Q - Please check: Review Record has a missing date"
   },
   {
-    "value": "207",
-    "label": "207 - Mother status for the current year disagrees with the mother status already recorded for this child."
+      "value": "8863",
+      "label": "8863 - An Assessment is shown as starting when there is another Assessment ongoing"
   },
   {
-    "value": "208",
-    "label": "208 - Unique Pupil Number (UPN) for the current year disagrees with the Unique Pupil Number (UPN) already recorded for this child."
+      "value": "8866",
+      "label": "8866 - Source of Referral is missing or an invalid code"
   },
   {
-    "value": "209",
-    "label": "209 - Child looked after is of school age and should not have an unknown Unique Pupil Number (UPN) code of UN1."
+      "value": "8867",
+      "label": "8867 - CIN episode is shown as closed, however Assessment is not shown as completed"
   },
   {
-    "value": "210",
-    "label": "210 - Children looked after for more than a week at 31 March should not have an unknown Unique Pupil Number (UPN) code of UN4."
+      "value": "8868",
+      "label": "8868 - CIN episode is shown as closed, however Section 47 enquiry is not shown as completed by ICPC date or ICPC not required flag"
   },
   {
-    "value": "213",
-    "label": "213 - Placement provider information not required."
+      "value": "8869",
+      "label": "8869 - The assessment factors code \u201c21\u201d cannot be used in conjunction with any other assessment factors."
   },
   {
-    "value": "214",
-    "label": "214 - Placement location information not required."
+      "value": "8870Q",
+      "label": "8870Q - Please check: The Target Date for Initial Child Protection Conference should not be a weekend"
   },
   {
-    "value": "215",
-    "label": "215 - Child has care leaver information but one or more data items relating to children looked after for 12 months have been completed."
+      "value": "8873",
+      "label": "8873 - When there is only one assessment on the episode and the factors code \u201c21 No factors identified\u201d has been used for the completed assessment, the reason for closure \u2018RC8\u2019 must be used."
   },
   {
-    "value": "217",
-    "label": "217 - Children who are placed for adoption with current foster carers (placement types A3 or A5) must have a reason for new episode of S, T or U."
+      "value": "8875",
+      "label": "8875 - The Date of Initial Child Protection Conference cannot be a weekend"
   },
   {
-    "value": "218",
-    "label": "218 - Ofsted Unique reference number (URN) is required."
+      "value": "8890",
+      "label": "8890 - A Section 47 enquiry is shown as starting when there is another Section 47 Enquiry ongoing"
   },
   {
-    "value": "219",
-    "label": "219 - The Ofsted Unique reference number (URN) provided for the child's placement does not match the placement type recorded."
+      "value": "8896",
+      "label": "8896 - Within one CINDetails group there are 2 or more open Assessments groups"
   },
   {
-    "value": "221",
-    "label": "221 - The Ofsted Unique reference number (URN) provided for the child's placement does not match the placement postcode provided."
+      "value": "8897",
+      "label": "8897 - Parental or child factors at assessment information is missing from a completed assessment"
   },
   {
-    "value": "222",
-    "label": "222 - Ofsted Unique reference number (URN) should not be recorded for this placement type."
+      "value": "8898",
+      "label": "8898 -  The assessment has more than one parental or child factors with the same code"
   },
   {
-    "value": "224",
-    "label": "224 - The Ofsted Unique reference number (URN) provided for the child's placement does not match the placement provider recorded."
+      "value": "8899Q",
+      "label": "8899Q - Please check: A child identified as having a disability does not have a disability factor recorded at the end of assessment."
   },
   {
-    "value": "225",
-    "label": "225 - Reason for placement change must be recorded."
+      "value": "8905",
+      "label": "8905 - Initial Category of Abuse code missing or invalid (see Category of Abuse table in CIN Census code set)"
   },
   {
-    "value": "226",
-    "label": "226 - Reason for placement change is not required."
+      "value": "8910",
+      "label": "8910 - Latest Category of Abuse code missing or invalid (see Category of Abuse table in CIN Census code set)"
   },
   {
-    "value": "227",
-    "label": "227 - Ofsted Unique reference number (URN) is not valid for the episode start date."
+      "value": "8915",
+      "label": "8915 - Child Protection Plan shown as starting after the child\u2019s Date of Death"
   },
   {
-    "value": "228",
-    "label": "228 - Ofsted Unique reference number (URN) is not valid for the episode end date [NOTE: may give false positives on open episodes at providers who close during the year]"
+      "value": "8920",
+      "label": "8920 - Child Protection Plan cannot end after the child\u2019s Date of Death"
   },
   {
-    "value": "229",
-    "label": "229 - Placement provider does not match between the placing authority and the local authority code of the provider. [NOTE: The provider's LA code is inferred from the its postcode, and may be inaccurate in some cases.]"
+      "value": "8930",
+      "label": "8930 - Child Protection Plan End Date must fall within the census year"
   },
   {
-    "value": "301",
-    "label": "301 - Date of birth falls after the year ended."
+      "value": "8935",
+      "label": "8935 - This child is showing more than one open Child Protection plan, i.e. with no End Date"
   },
   {
-    "value": "302",
-    "label": "302 - First episode starts before child was born."
-  },
-  {
-    "value": "303",
-    "label": "303 - If date Unaccompanied Asylum-Seeking Child (UASC) status ceased is not null, UASC status must be coded 1."
-  },
-  {
-    "value": "304",
-    "label": "304 - Date unaccompanied asylum-seeking child (UASC) status ceased must be on or before the 18th birthday of a child."
-  },
-  {
-    "value": "331",
-    "label": "331 - Date of matching child and adopter(s) should be the same as, or prior to, the date of placement of adoption."
-  },
-  {
-    "value": "333",
-    "label": "333 - Date should be placed for adoption must be on or prior to the date of matching child with adopter(s)."
-  },
-  {
-    "value": "334",
-    "label": "334 - Date child started to be looked after in latest period of care must be on or prior to the date should be placed for adoption. "
-  },
-  {
-    "value": "335",
-    "label": "335 - The current foster value (0) suggests that child is not adopted by current foster carer, but last placement is A2, A3, or A5. Or the current foster value (1) suggests that child is adopted by current foster carer, but last placement is A1, A4 or A6."
-  },
-  {
-    "value": "336",
-    "label": "336 - Child does not have a foster placement immediately prior to being placed for adoption."
-  },
-  {
-    "value": "344",
-    "label": "344 - The record shows the young person has died or returned home to live with parent(s) or someone with parental responsibility for a continuous period of 6 months or more, but activity and/or accommodation on leaving care have been completed."
-  },
-  {
-    "value": "345",
-    "label": "345 - The data collection record shows the local authority is in touch with this young person, but activity and/or accommodation data items are zero."
-  },
-  {
-    "value": "351",
-    "label": "351 - Child was over 21 at the start of the current collection year."
-  },
-  {
-    "value": "352",
-    "label": "352 - Child who started to be looked after was aged 18 or over."
-  },
-  {
-    "value": "353",
-    "label": "353 - No episode submitted can start before 14 October 1991."
-  },
-  {
-    "value": "354",
-    "label": "354 - Date episode ceased must be on or before the end of the current collection year."
-  },
-  {
-    "value": "355",
-    "label": "355 - Episode appears to have lasted for less than 24 hours"
-  },
-  {
-    "value": "356",
-    "label": "356 - The date the episode ceased is before the date the same episode started."
-  },
-  {
-    "value": "357",
-    "label": "357 - If this is the first episode ever for this child, reason for new episode must be S.  Check whether there is an episode immediately preceding this one, which has been left out.  If not the reason for new episode code must be amended to S."
-  },
-  {
-    "value": "358",
-    "label": "358 - Child with this legal status should not be under 10."
-  },
-  {
-    "value": "359",
-    "label": "359 - Child being looked after following 18th birthday must be accommodated under section 20(5) of the Children Act 1989 in a community home."
-  },
-  {
-    "value": "361",
-    "label": "361 - Police protection legal status lasted longer than maximum 72 hours allowed in the Children Act 1989."
-  },
-  {
-    "value": "362",
-    "label": "362 - Emergency protection order (EPO) lasted longer than 21 days"
-  },
-  {
-    "value": "363",
-    "label": "363 - Child assessment order (CAO) lasted longer than 7 days allowed in the Children Act 1989."
-  },
-  {
-    "value": "364",
-    "label": "364 - Sections 41-46 of Police and Criminal Evidence (PACE; 1984) severely limits the time a child can be detained in custody in Local Authority (LA) accommodation."
-  },
-  {
-    "value": "365",
-    "label": "365 - Any individual short- term respite placement must not exceed 17 days."
-  },
-  {
-    "value": "366",
-    "label": "366 - A child cannot change placement during the course of an individual short-term respite break."
-  },
-  {
-    "value": "367",
-    "label": "367 - The maximum amount of respite care allowable is 75 days in any 12-month period."
-  },
-  {
-    "value": "370",
-    "label": "370 - Child in independent living should be at least 15."
-  },
-  {
-    "value": "371",
-    "label": "371 - Child in semi-independent living accommodation not subject to children’s homes regulations should be at least 14."
-  },
-  {
-    "value": "372",
-    "label": "372 - Child in youth custody or prison should be at least 10."
-  },
-  {
-    "value": "373",
-    "label": "373 - Child placed in a school should be at least 4 years old."
-  },
-  {
-    "value": "374",
-    "label": "374 - Child in residential employment should be at least 14 years old."
-  },
-  {
-    "value": "375",
-    "label": "375 - Hospitalisation coded as a temporary placement exceeds six weeks."
-  },
-  {
-    "value": "376",
-    "label": "376 - Temporary placements coded as being due to holiday of usual foster carer(s) cannot exceed three weeks."
-  },
-  {
-    "value": "377",
-    "label": "377 - Only two temporary placements coded as being due to holiday of usual foster carer(s) are allowed in any 12- month period."
-  },
-  {
-    "value": "378",
-    "label": "378 - A child who is placed with parent(s) cannot be looked after under a single period of accommodation under Section 20 of the Children Act 1989."
-  },
-  {
-    "value": "379",
-    "label": "379 - Temporary placements for unspecified reason (placement code T4) cannot exceed seven days."
-  },
-  {
-    "value": "380",
-    "label": "380 - A period of care cannot start with a temporary placement."
-  },
-  {
-    "value": "381",
-    "label": "381 - A period of care cannot end with a temporary placement."
-  },
-  {
-    "value": "382",
-    "label": "382 - A child receiving respite care cannot be in a temporary placement."
-  },
-  {
-    "value": "383",
-    "label": "383 - A child in a temporary placement must subsequently return to his/her normal placement."
-  },
-  {
-    "value": "384",
-    "label": "384 - A child receiving respite care cannot be in a long-term foster placement "
-  },
-  {
-    "value": "385",
-    "label": "385 - Date episode ceased must be on or before the end of the current collection year."
-  },
-  {
-    "value": "386",
-    "label": "386 - Reason episode ceased is adopted but child has reached age 18."
-  },
-  {
-    "value": "387",
-    "label": "387 - Reason episode ceased is child moved into independent living arrangement, but the child is aged under 14."
-  },
-  {
-    "value": "388",
-    "label": "388 - Reason episode ceased is coded new episode begins, but there is no continuation episode."
-  },
-  {
-    "value": "389",
-    "label": "389 - Reason episode ceased is that child transferred to care of adult social care services, but child is aged under 16."
-  },
-  {
-    "value": "390",
-    "label": "390 - Reason episode ceased is adopted but child has not been previously placed for adoption."
-  },
-  {
-    "value": "391",
-    "label": "391 - Young person was not 17, 18, 19, 20 or 21 during the current collection year. "
-  },
-  {
-    "value": "392A",
-    "label": "392A - Child is looked after but no distance is recorded. [NOTE: This check may result in false positives for children formerly UASC]"
-  },
-  {
-    "value": "392B",
-    "label": "392B - Child is looked after but no postcodes are recorded. [NOTE: This check may result in false positives for children formerly UASC, particularly if current &amp; prior year UASC data not loaded]"
-  },
-  { "value": "392c", "label": "392c - Postcode(s) provided are invalid." },
-  {
-    "value": "393",
-    "label": "393 - Child is looked after but mother field is not completed."
-  },
-  {
-    "value": "398",
-    "label": "398 - Distance field completed but child looked after under legal status V3 or V4."
-  },
-  {
-    "value": "399",
-    "label": "399 - Mother field, review field or participation field are completed but child is looked after under legal status V3 or V4."
-  },
-  {
-    "value": "406",
-    "label": "406 - Child is Unaccompanied Asylum-Seeking Child (UASC) or was formerly UASC. Distance should be blank. [NOTE: This check will result in false negatives for children formerly UASC not identified as such in loaded data]"
-  },
-  {
-    "value": "407",
-    "label": "407 - Reason episode ceased is Special Guardianship Order, but child has reached age 18."
-  },
-  {
-    "value": "408",
-    "label": "408 - Child is placed for adoption with a placement order, but no placement order has been recorded."
-  },
-  {
-    "value": "411",
-    "label": "411 - Placement location code disagrees with LA of placement."
-  },
-  {
-    "value": "420",
-    "label": "420 - LA of placement completed but child is looked after under legal status V3 or V4."
-  },
-  {
-    "value": "426",
-    "label": "426 - A child receiving respite care cannot be recorded under a legal status of V3 and V4 in the same year."
-  },
-  {
-    "value": "431",
-    "label": "431 - The reason for new episode is started to be looked after, but the previous episode ended on the same day."
-  },
-  {
-    "value": "432",
-    "label": "432 - The child ceased to be looked after at the end of the previous episode but the reason for the new episode is not started to be looked after."
-  },
-  {
-    "value": "433",
-    "label": "433 - The reason for new episode suggests that this is a continuation episode, but the episode does not start on the same day as the last episode finished."
-  },
-  {
-    "value": "434",
-    "label": "434 - Reason for new episode is that child's legal status has changed but not the placement, but this is not reflected in the episode data."
-  },
-  {
-    "value": "435",
-    "label": "435 - Reason for new episode is that child’s placement has changed but not the legal status, but this is not reflected in the episode data recorded."
-  },
-  {
-    "value": "436",
-    "label": "436 - Reason for new episode is that both child’s placement and legal status have changed, but this is not reflected in the episode data."
-  },
-  {
-    "value": "437",
-    "label": "437 - Reason episode ceased is child has died or is aged 18 or over but there are further episodes."
-  },
-  {
-    "value": "440",
-    "label": "440 - Participation method indicates child was under 4 years old at the time of the review, but date of birth and review date indicates the child was 4 years old or over."
-  },
-  {
-    "value": "441",
-    "label": "441 - Participation method indicates child was 4 years old or over at the time of the review, but the date of birth and review date indicates the child was under 4 years old."
-  },
-  {
-    "value": "442",
-    "label": "442 - Unique Pupil Number (UPN) field is not completed."
-  },
-  {
-    "value": "445",
-    "label": "445 - D1 is not a valid code for episodes starting after December 2005."
-  },
-  {
-    "value": "446",
-    "label": "446 - E1 is not a valid code for episodes starting before December 2005."
-  },
-  {
-    "value": "451",
-    "label": "451 - Child is still freed for adoption, but freeing orders could not be applied for since 30 December 2005."
-  },
-  {
-    "value": "452",
-    "label": "452 - Contradiction between local authority of placement code in the last episode of the previous year and in the first episode of the current year."
-  },
-  {
-    "value": "453",
-    "label": "453 - Contradiction between placement distance in the last episode of the previous year and in the first episode of the current year."
-  },
-  {
-    "value": "460",
-    "label": "460 - Reason episode ceased is that child stayed with current carers at age 18 (or above), but child is aged under 18."
-  },
-  {
-    "value": "501",
-    "label": "501 - A new episode has started before the end date of the previous episode."
-  },
-  {
-    "value": "502",
-    "label": "502 - Last year's record ended with an open episode. The date on which that episode started does not match the start date of the first episode on this year’s record."
-  },
-  {
-    "value": "503A",
-    "label": "503A - The reason for new episode in the first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503B",
-    "label": "503B - The legal status in the first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503C",
-    "label": "503C - The category of need in the first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503D",
-    "label": "503D - The placement type in the first episode does not match open episode at end of last year"
-  },
-  {
-    "value": "503E",
-    "label": "503E - The placement provider in the first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503F",
-    "label": "503F - The Ofsted URN in the  first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503G",
-    "label": "503G - The distance in first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503H",
-    "label": "503H - The placement LA in first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "503J",
-    "label": "503J - The placement location in first episode does not match open episode at end of last year."
-  },
-  {
-    "value": "504",
-    "label": "504 - The category of need code differs from that reported at start of current period of being looked after"
-  },
-  {
-    "value": "511",
-    "label": "511 - If reporting that the number of person(s) adopting the looked after child is two adopters then the code should only be MM, FF or MF. MM = the adopting couple are both males; FF = the adopting couple are both females; MF = The adopting couple are male and female."
-  },
-  {
-    "value": "514",
-    "label": "514 - Data entry on the legal status of adopters shows a single adopter but data entry for the numbers of adopters shows it as a couple."
-  },
-  {
-    "value": "516",
-    "label": "516 - The episode data submitted for this child does not show that he/she was with their former foster carer(s) during the year.If the code in the reason episode ceased is E45 or E46 the child must have a placement code of U1 to U6."
-  },
-  {
-    "value": "517",
-    "label": "517 - If reporting legal status of adopters is L3 then the genders of adopters should be coded as MF. MF = the adopting couple are male and female."
-  },
-  {
-    "value": "518",
-    "label": "518 - If reporting legal status of adopters is L4 then the genders of adopters should be coded as MM or FF. MM = the adopting couple are both males. FF = the adopting couple are both females."
-  },
-  {
-    "value": "519",
-    "label": "519 - Data entered on the legal status of adopters shows civil partnership couple, but data entered on genders of adopters does not show it as a couple."
-  },
-  {
-    "value": "520",
-    "label": "520 - Data entry on the legal status of adopters shows different gender married couple but data entry on genders of adopters shows it as a same gender couple."
-  },
-  {
-    "value": "521",
-    "label": "521 - Date of local authority's decision (LA) that adoption is in the best interests of the child (date should be placed) must be on or prior to the date the child is placed for adoption."
-  },
-  {
-    "value": "522",
-    "label": "522 - Date of decision that the child should be placed for adoption must be on or before the date that a child should no longer be placed for adoption."
-  },
-  {
-    "value": "523",
-    "label": "523 - Date of decision that the child should be placed for adoption should be the same date as the decision that adoption is in the best interest (date should be placed)."
-  },
-  {
-    "value": "524",
-    "label": "524 - If reporting legal status of adopters is L12 then the genders of adopters should be coded as MM or FF. MM = the adopting couple are both males. FF = the adopting couple are both females"
-  },
-  {
-    "value": "525",
-    "label": "525 - A child for whom the decision to be placed for adoption has been reversed cannot be adopted during the year."
-  },
-  {
-    "value": "526",
-    "label": "526 - Child is missing a placement provider code for at least one episode."
-  },
-  {
-    "value": "527",
-    "label": "527 - A placement provider code of PR1 cannot be associated with placements P1, R2 or R5."
-  },
-  {
-    "value": "528",
-    "label": "528 - A placement provider code of PR2 cannot be associated with placements P1, R2 or R5."
-  },
-  {
-    "value": "529",
-    "label": "529 - Placement provider code of PR3 cannot be associated with placements P1, A3 to A6, K1, K2 and U1 to U6 as these placements cannot be provided by other public organisations."
-  },
-  {
-    "value": "530",
-    "label": "530 - A placement provider code of PR4 cannot be associated with placement P1."
-  },
-  {
-    "value": "531",
-    "label": "531 - A placement provider code of PR5 cannot be associated with placements P1."
-  },
-  {
-    "value": "542",
-    "label": "542 - A child aged under 10 at 31 March should not have conviction information completed."
-  },
-  {
-    "value": "543",
-    "label": "543 - Child is aged 10 or over at 31 March and has been looked after continuously for 12 months yet conviction information has not been completed."
-  },
-  {
-    "value": "544",
-    "label": "544 - Any child who has conviction information completed must also have immunisation, teeth check, health assessment and substance misuse problem identified fields completed."
-  },
-  {
-    "value": "545",
-    "label": "545 - Child is aged under 5 at 31 March and has been looked after continuously for 12 months yet health promotion information has not been completed."
-  },
-  {
-    "value": "546",
-    "label": "546 - Children aged 5 or over at 31 March should not have health promotion information completed."
-  },
-  {
-    "value": "547",
-    "label": "547 - Any child who has health promotion information completed must also have immunisation, teeth check, health assessment and substance misuse problem identified fields completed."
-  },
-  {
-    "value": "550",
-    "label": "550 - A placement provider code of PR0 can only be associated with placement P1."
-  },
-  {
-    "value": "551",
-    "label": "551 - Child has been placed for adoption but there is no date of the decision that the child should be placed for adoption."
-  },
-  {
-    "value": "552",
-    "label": "552 - Date of Decision to place a child for adoption should be on or prior to the date that the child was placed for adoption."
-  },
-  {
-    "value": "553",
-    "label": "553 - Placement order has been granted but there is no date of decision that the child should be placed for adoption."
-  },
-  {
-    "value": "554",
-    "label": "554 - Date of decision that the child should be placed for adoption should be on or prior to the date that the placement order was granted. [NOTE: This rule may result in false positives or false negatives if relevant episodes are in previous years; please check carefully!]"
-  },
-  {
-    "value": "555",
-    "label": "555 - Freeing order has been granted but there is no date of decision that the child should be placed for adoption."
-  },
-  {
-    "value": "556",
-    "label": "556 - Date of decision that the child should be placed for adoption should be on or prior to the date that the freeing order was granted."
-  },
-  {
-    "value": "557",
-    "label": "557 - Child for whom the decision was made that they should be placed for adoption has left care but was not adopted and information on the decision that they should no longer be placed for adoption items has not been completed."
-  },
-  {
-    "value": "558",
-    "label": "558 - If a child has been adopted, then the decision to place them for adoption has not been disrupted and the date of the decision that a child should no longer be placed for adoption should be left blank. if the REC code is either E11 or E12 then the DATE PLACED CEASED date should not be provided"
-  },
-  {
-    "value": "559",
-    "label": "559 - Date of decision that a child should be placed for adoption was not in the current year but the date of the decision that the child should be placed for adoption was not completed in a previous return."
-  },
-  {
-    "value": "560",
-    "label": "560 - Date of decision that the child should be placed for adoption this year is different from that recorded last year but the decision to place the child for adoption did not change."
-  },
-  {
-    "value": "561",
-    "label": "561 - Date of the decision that the child should be placed for adoption this year is the same as that recorded last year but records show that the decision changed, and the child should no longer be placed for adoption last year."
-  },
-  {
-    "value": "562",
-    "label": "562 - Episode commenced before the start of the current collection year but there is a missing continuous episode in the previous year."
-  },
-  {
-    "value": "563",
-    "label": "563 - The child should no longer be placed for adoption but the date of the decision that the child should be placed for adoption is blank"
-  },
-  {
-    "value": "564",
-    "label": "564 - Child was missing or away from placement without authorisation and the date started is blank."
-  },
-  {
-    "value": "565",
-    "label": "565 - The date that the child started to be missing or away from placement without authorisation has been completed but whether the child was missing or away from placement without authorisation has not been completed."
-  },
-  {
-    "value": "566",
-    "label": "566 - The date that the child's episode of being missing or away from placement without authorisation ended has been completed but whether the child was missing or away without authorisation has not been completed."
-  },
-  {
-    "value": "567",
-    "label": "567 - The date that the missing episode or episode that the child was away from placement without authorisation ended is before the date that it started."
-  },
-  {
-    "value": "570",
-    "label": "570 - The date that the child started to be missing or away from placement without authorisation is after the end of the collection year."
-  },
-  {
-    "value": "571",
-    "label": "571 - The date that the child ceased to be missing or away from placement without authorisation is before the start or after the end of the collection year."
-  },
-  {
-    "value": "574",
-    "label": "574 - A new missing/away from placement without authorisation period cannot start when the previous missing/away from placement without authorisation period is still open. Missing/away from placement without authorisation periods should also not overlap."
-  },
-  {
-    "value": "575",
-    "label": "575 - If the placement from which the child goes missing/away from placement without authorisation ends, the missing/away from placement without authorisation period in the missing module must also have an end date."
-  },
-  {
-    "value": "576",
-    "label": "576 - There is an open missing/away from placement without authorisation period in last year’s return and there is no corresponding period recorded at the start of this year."
-  },
-  {
-    "value": "577",
-    "label": "577 - Child ceased to be looked after but there is a missing/away from placement without authorisation period without an end date."
-  },
-  {
-    "value": "578",
-    "label": "578 - The date that the child started to be missing is after the child ceased to be looked after."
-  },
-  {
-    "value": "579",
-    "label": "579 - A new decision that the child should be placed for adoption this year cannot start when the previous decision is still open. Decisions to place the child for adoption should also not overlap. The date of any new decision to place the child for adoption must not be before the date placed ceased of previous decisions."
-  },
-  {
-    "value": "580",
-    "label": "580 - Child is missing when cease being looked after but reason episode ceased not ‘E8’."
-  },
-  {
-    "value": "586",
-    "label": "586 - Dates of missing periods are before child’s date of birth."
-  },
-  {
-    "value": "601",
-    "label": "601 - The additional fields relating to adoption have not been completed although the episode data shows that the child was adopted during the year."
-  },
-  {
-    "value": "602",
-    "label": "602 - The episode data submitted for this child does not show that he/she was adopted during the year."
-  },
-  {
-    "value": "607",
-    "label": "607 - Child ceased to be looked after in the year, but mother field has not been completed."
-  },
-  {
-    "value": "611",
-    "label": "611 - Date of birth field is blank, but child is a mother."
-  },
-  {
-    "value": "612",
-    "label": "612 - Date of birth field has been completed but mother field indicates child is not a mother."
-  },
-  {
-    "value": "620",
-    "label": "620 - Child has been recorded as a mother, but date of birth shows that the mother is under 11 years of age."
-  },
-  {
-    "value": "621",
-    "label": "621 - Mother’s field has been completed but date of birth shows that the mother is younger than her child."
-  },
-  {
-    "value": "624",
-    "label": "624 - Date of birth of the first child contradicts the date of birth of the first child previously recorded."
-  },
-  {
-    "value": "625",
-    "label": "625 - Date of birth of the first child is beyond the end of this reporting year or the date the child ceased to be looked after."
-  },
-  {
-    "value": "626",
-    "label": "626 - Child was reported as a mother but the date of birth of the first child is before the current year which contradicts with the mother status recorded last year."
-  },
-  {
-    "value": "628",
-    "label": "628 - Motherhood details are not required for care leavers who have not been looked after during the year."
-  },
-  {
-    "value": "630",
-    "label": "630 - Information on previous permanence option should be returned."
-  },
-  {
-    "value": "631",
-    "label": "631 - Previous permanence option not a valid value."
-  },
-  {
-    "value": "632",
-    "label": "632 - Date of previous permanence order not a valid value. NOTE: This rule may result in false negatives where the period of care started before the current collection year"
-  },
-  {
-    "value": "633",
-    "label": "633 - Local authority code where previous permanence option was arranged is not a valid value."
-  },
-  {
-    "value": "634",
-    "label": "634 - There are entries for previous permanence options, but child has not started to be looked after from 1 April 2016 onwards."
-  },
-  {
-    "value": "635",
-    "label": "635 - There are entries for date of order and local authority code where previous permanence option was arranged but previous permanence code is Z1"
-  },
-  {
-    "value": "1000",
-    "label": "1000 - This child is recorded as having died in care and therefore should not have the care leaver information completed. [NOTE: This only tests the current and previous year data loaded into the tool]"
-  },
-  {
-    "value": "1001",
-    "label": "1001 - The episodes recorded for this young person suggest they are not a relevant or a former relevant child and therefore should not have care leaver information completed. [NOTE: This tool can only test the current and previous year data loaded into the tool - this check may generate false positives if a child had episodes prior to last year's collection.]"
-  },
-  {
-    "value": "1002",
-    "label": "1002 - This child has no previous episodes of care, therefore should not have care leaver information recorded. [NOTE: This tool can only test the current and previous year data loaded into the tool - this check may generate false positives if a child had episodes prior to last year's collection.]"
-  },
-  {
-    "value": "1003",
-    "label": "1003 - Date of LA's decision that a child should be placed for adoption is before the child started to be looked after."
-  },
-  {
-    "value": "1004",
-    "label": "1004 - The start date of the missing episode or episode that the child was away from placement without authorisation is not a valid date."
-  },
-  {
-    "value": "1005",
-    "label": "1005 - The end date of the missing episode or episode that the child was away from placement without authorisation is not a valid date."
-  },
-  { "value": "1006", "label": "1006 - Missing type invalid." },
-  {
-    "value": "1007",
-    "label": "1007 - Care leaver information is not required for 17- or 18-year olds who are still looked after."
-  },
-  {
-    "value": "1008",
-    "label": "1008 - Ofsted Unique Reference Number (URN) is not valid."
-  },
-  {
-    "value": "1009",
-    "label": "1009 - Reason for placement change is not a valid code."
-  },
-  {
-    "value": "1010",
-    "label": "1010 - This child has no episodes loaded for current year even though there was an open episode of care at the end of the previous year, and care leaver data has been entered."
-  },
-  {
-    "value": "1011",
-    "label": "1011 - This child is recorded as having his/her care transferred to another local authority for the final episode and therefore should not have the care leaver information completed."
-  },
-  {
-    "value": "1012",
-    "label": "1012 - No other data should be returned for OC3 children who had no episodes in the current year"
-  },
-  {
-    "value": "1014",
-    "label": "1014 - UASC information is not required for care leavers"
-  },
-  {
-    "value": "1015",
-    "label": "1015 - Placement provider is own provision but child not placed in own LA."
-  },
-  {
-    "value": "3001",
-    "label": "3001 - Where care leavers information is being returned for a young person around their 17th birthday, the accommodation cannot be with their former foster carer(s)."
-  },
-  {
-    "value": "NoE",
-    "label": "NoE - This child has no episodes loaded for previous year even though child started to be looked after before this current year."
+      "value": "8940",
+      "label": "8940 - Child Protection Plan data contains overlapping dates"
   }
 ]
