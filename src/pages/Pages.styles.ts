@@ -10,3 +10,7 @@ export const Aligner = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
 `;
+
+export const Spacer = styled.div`
+  margin-top: 24px;
+`;

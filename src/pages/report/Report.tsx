@@ -13,7 +13,7 @@ import {
 
 import ChildFilterDialog from "components/dialogs/childfilter";
 import ReportDetail from "./ReportDetail";
-import { Aligner } from "../Pages.styles";
+import { Aligner, Spacer } from "../Pages.styles";
 
 interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -88,9 +88,13 @@ const Report = (props: ReportPageProps) => {
   };
 
   return (
-    <Box flexGrow={1}>
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
+    <Box flexGrow={1} style={{ height: "750px", overflowY: "hidden" }}>
+      <Grid
+        container
+        spacing={2}
+        style={{ height: "700px", overflowY: "hidden" }}
+      >
+        <Grid item xs={3} style={{ height: "100%" }}>
           <ScrollableFull>
             <HeaderControl>
               <Typography variant="h6">Child ID</Typography>
@@ -104,18 +108,20 @@ const Report = (props: ReportPageProps) => {
             {renderTable()}
           </ScrollableFull>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} style={{ height: "100%" }}>
           {renderDetailView()}
         </Grid>
       </Grid>
       <Block spacing="blockLarge">
-        <Aligner>
-          <PrimaryControls
-            disableButtons={false}
-            onClearClick={handleResetClick}
-            onValidateClick={() => {}}
-          />
-        </Aligner>
+        <Spacer>
+          <Aligner>
+            <PrimaryControls
+              disableButtons={false}
+              onClearClick={handleResetClick}
+              onValidateClick={() => {}}
+            />
+          </Aligner>
+        </Spacer>
       </Block>
     </Box>
   );
