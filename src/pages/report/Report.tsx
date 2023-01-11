@@ -23,8 +23,8 @@ const Report = (props: ReportPageProps) => {
 
   useEffect(() => {
     const init = async () => {
-      const children = await api.callAPI({ method: "get_children", value: {} });
-      const errors = await api.callAPI({ method: "get_errors", value: {} });
+      const children = await api.call("get_children", {});
+      const errors = await api.call("get_errors", {});
 
       dispatch({
         type: ReportActionType.SET_CHILDREN,

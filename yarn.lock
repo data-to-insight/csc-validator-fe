@@ -1938,10 +1938,10 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@sfdl/prpc@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@sfdl/prpc/-/prpc-0.0.3.tgz#49031922d75a9b65a922b318f2510333171d9769"
-  integrity sha512-BwQnXgI1Ii9wi3joK4nJZLt7m/jnV1FsMYel+2mRDBti6mOUb4+dZjsNA3oF3MkkkmftAp/Rq194bFTM4gEADQ==
+"@sfdl/prpc@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@sfdl/prpc/-/prpc-0.3.0.tgz#2bf5d0c0bd9b3f81b1168fda30b9b643d2b197a9"
+  integrity sha512-r6syBEiUJy09xJyMbk5iJojURVVoOFMbclMcIncK33J4Awvsz/NvnK9vdo8+DmdfLljj1JWpuz9BqCTgD5Aqbw==
   dependencies:
     pyodide "^0.21.2"
     uuid "^9.0.0"

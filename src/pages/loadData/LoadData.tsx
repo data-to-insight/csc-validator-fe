@@ -69,22 +69,29 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const handleNextClick = async () => {
     if (api && fileState) {
-      const files: { year: string; file: unknown }[] = [];
+      /*const files: { year: string; file: unknown }[] = [];
       Object.keys(fileState).forEach((year) => {
         Object.values(fileState[year]).forEach((file: any) => {
           files.push({ year, file: file.file });
         });
-      });
+      });*/
+
+      const file = fileState["2023"];
+
       try {
-        await api.callAPI({ method: "reset", value: {} });
-        await api.callAPI({ method: "add_files", value: { files } });
-        props.handleRouteChange(RouteValue.REPORT);
+        console.log(Object.values(file)[0], "files...");
+        // await api.call("reset", {});
+        const fileObject: any = Object.values(file)[0] as any;
+        const response = await api.call("generate_tables", fileObject.file);
+        console.log(response);
+        //props.handleRouteChange(RouteValue.REPORT);
       } catch (ex) {
         console.log("API add_files request failed", ex);
         alert("Something went wrong!");
       }
     }
   };
+
   const renderInstructions = () => {
     const instructions = [
       {

@@ -1,5 +1,5 @@
 import React, { useEffect, Dispatch, useState } from "react";
-import { APIControl } from "@sfdl/prpc";
+import { IAPI } from "@sfdl/prpc";
 import {
   ReportItem,
   ReportActionType,
@@ -18,7 +18,7 @@ import ErrorList from "./ErrorList";
 import { Typography } from "@mui/material";
 
 interface ReportDetailProps {
-  api: APIControl;
+  api: IAPI;
   childItem: ReportItem;
   dispatch: Dispatch<ReportAction>;
 }
@@ -29,7 +29,7 @@ const ReportDetail = (props: ReportDetailProps) => {
   useEffect(() => {
     const init = async () => {
       if (!childItem.childData) {
-        const childData = await api.callAPI({ method: "get_child", value: {} }); //value must be an ID string in the final version
+        const childData = await api.call("get_child", {}); //value must be an ID string in the final version
 
         dispatch({
           type: ReportActionType.SET_CHILD,
