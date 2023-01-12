@@ -21,6 +21,7 @@ const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
   const [y, setY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
   const handleDrag: DraggableEventHandler = (
     evt: DraggableEvent,
@@ -55,11 +56,16 @@ const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
   };
 
   const heights = getHeights();
+  const val = document.querySelector('td[scope="cell-active"]');
+
+  if (val) {
+    val.closest("table")?.scrollIntoView();
+  }
 
   return (
     <DraggableContainer ref={containerRef}>
-      <DraggableTop style={{ height: `${heights.top}%` }}>
-        {topContent}{" "}
+      <DraggableTop style={{ height: `${heights.top}%` }} ref={topRef}>
+        {topContent}
       </DraggableTop>
       <DraggableBottom style={{ height: `${heights.bottom}%` }}>
         {bottomContent}

@@ -31,10 +31,11 @@ import {
   Tabs,
   SelectableList as Selectablelist,
   Loader,
-  PrimaryControls,
   Upload as Uploader,
   Block,
 } from "@sfdl/sf-mui-components";
+
+import PrimaryControls from "components/primarycontrols";
 
 import { RouteProps, RouteValue } from "../../Router";
 
@@ -45,13 +46,11 @@ interface LoadDataPageProps extends RouteProps {
 }
 
 const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
-const las = ["Barking", "Barnet", "Bromley"];
 
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch } = props;
 
   const [collectionYear, setCollectionYear] = useState(years[0]);
-  const [localAuthority, setLocalAuthority] = useState(las[0]);
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
   >([]);
@@ -77,7 +76,6 @@ const LoadData = (props: LoadDataPageProps) => {
         });
       });
       try {
-        console.log(files, "files...");
         await api.callAPI({ method: "reset", value: {} });
         await api.callAPI({ method: "add_files", value: { files } });
         props.handleRouteChange(RouteValue.REPORT);
@@ -226,7 +224,16 @@ const LoadData = (props: LoadDataPageProps) => {
 
           <Grid item xs={6}>
             <Typography variant="h6">Previous year</Typography>
-            <Uploader onUploadReady={() => {}} fileList={{}} />
+            <Uploader
+              onUploadReady={(files) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: "2023",
+                });
+              }}
+              fileList={{}}
+            />
           </Grid>
         </Grid>
       </Box>
@@ -236,19 +243,19 @@ const LoadData = (props: LoadDataPageProps) => {
   const renderXMLTab = () => {
     return (
       <Box>
-        <Block>
-          <p>
-            There are known issues with XML loading at present; this may or may
-            not work depending on the structure of your file.
-          </p>
-          <p>
-            Please report any issues using the link at the top of this page.
-          </p>
-        </Block>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography variant="h6">This year</Typography>
-            <Uploader onUploadReady={() => {}} fileList={{}} />
+            <Uploader
+              onUploadReady={(files) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: "2023",
+                });
+              }}
+              fileList={fileState["2023"]}
+            />
           </Grid>
 
           <Grid item xs={6}>
@@ -271,11 +278,11 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const renderFileTabs = () => {
     const headers = [
-      { label: "CSV Files" },
-      { label: "XML Files (Experimental!)" },
+      /* { label: "CSV Files" },*/
+      { label: "XML Files" },
     ];
 
-    const bodies = [renderCSVTab(), renderXMLTab()];
+    const bodies = [/*renderCSVTab(),*/ renderXMLTab()];
 
     return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
   };
@@ -314,7 +321,7 @@ const LoadData = (props: LoadDataPageProps) => {
             {renderInstructions()}
           </Expando>
         </Block>
-        <Block>
+        {/*<Block>
           <Block>
             <Typography variant="h5">
               Offsted provider information lookup tables
@@ -331,7 +338,7 @@ const LoadData = (props: LoadDataPageProps) => {
               <Uploader onUploadReady={() => {}} fileList={{}} />
             </Grid>
           </Grid>
-        </Block>
+        </Block>*/}
         <Block spacing="blockLarge">
           <Box>{renderFileTabs()}</Box>
         </Block>
@@ -363,7 +370,7 @@ const LoadData = (props: LoadDataPageProps) => {
             </Grid>
 
             <Grid item xs={6}>
-              <FormControl sx={{ width: "100%" }}>
+              {/* <FormControl sx={{ width: "100%" }}>
                 <InputLabel id="select-local-authority-label">
                   Local Authority
                 </InputLabel>
@@ -384,7 +391,7 @@ const LoadData = (props: LoadDataPageProps) => {
                     );
                   })}
                 </Select>
-              </FormControl>
+                </FormControl> */}
             </Grid>
           </Grid>
         </Block>
@@ -409,6 +416,7 @@ const LoadData = (props: LoadDataPageProps) => {
               disableButtons={getTotalFilesLength() < 1}
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
+              onGenerateClick={() => {}}
             />
           </Aligner>
         </Block>

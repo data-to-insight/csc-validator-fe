@@ -16,9 +16,6 @@ import { Block } from "@sfdl/sf-mui-components";
 import ReportTable from "./ReportTable";
 import ErrorList from "./ErrorList";
 import { Typography } from "@mui/material";
-import { render } from "@testing-library/react";
-
-//import Table from "components/table";
 
 interface ReportDetailProps {
   api: APIControl;

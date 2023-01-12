@@ -35,14 +35,16 @@ const Table = (props: TableProps) => {
 
   const renderCells = (cells: unknown[], rowIdx: number, raw: any) => {
     return cells.map((cell, idx) => {
+      const outline =
+        highlight && highlight.row === rowIdx && highlight.cell === idx;
+
       return (
         <TableCell
+          scope={outline ? "cell-active" : ""}
           sx={{
-            backgroundColor: rowIdx === selectedRow ? "red" : "transparent",
-            outline:
-              highlight && highlight.row === rowIdx && highlight.cell === idx
-                ? "1px solid red"
-                : "1px solid transparent",
+            backgroundColor:
+              rowIdx === selectedRow || outline ? "#1d70b8" : "transparent",
+            color: rowIdx === selectedRow || outline ? "#fff" : "#000",
           }}
           onClick={() => {
             if (selectable) {

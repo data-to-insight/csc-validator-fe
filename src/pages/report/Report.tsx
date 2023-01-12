@@ -4,16 +4,14 @@ import { RouteValue, RouteProps } from "Router";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
 
-import {
-  SelectableTable,
-  ButtonPopover,
-  Block,
-  PrimaryControls,
-} from "@sfdl/sf-mui-components";
+import { SelectableTable, ButtonPopover, Block } from "@sfdl/sf-mui-components";
+
+import PrimaryControls from "components/primarycontrols";
 
 import ChildFilterDialog from "components/dialogs/childfilter";
 import ReportDetail from "./ReportDetail";
 import { Aligner, Spacer } from "../Pages.styles";
+import { generateCSV } from "utils/file/generateCSV";
 
 interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -41,6 +39,15 @@ const Report = (props: ReportPageProps) => {
       init();
     }
   }, []);
+
+  const generateCSVFile = () => {
+    if (data && data.reportList) {
+      const output = generateCSV(data.reportList);
+
+      const encodedURI = encodeURI(output);
+      window.open(encodedURI);
+    }
+  };
 
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);
@@ -119,6 +126,9 @@ const Report = (props: ReportPageProps) => {
               disableButtons={false}
               onClearClick={handleResetClick}
               onValidateClick={() => {}}
+              onGenerateClick={() => {
+                generateCSVFile();
+              }}
             />
           </Aligner>
         </Spacer>
