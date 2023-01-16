@@ -23,7 +23,7 @@ import {
 
 import { Pre, Aligner } from "../Pages.styles";
 
-import { ReportAction, ReportActionType } from "reducers/ReportReducer";
+import { ReportActionType } from "reducers/ReportReducer";
 import { FileActionType } from "reducers/FileReducer";
 
 import {
@@ -69,23 +69,24 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const handleNextClick = async () => {
     if (api && fileState) {
-      /*const files: { year: string; file: unknown }[] = [];
-      Object.keys(fileState).forEach((year) => {
-        Object.values(fileState[year]).forEach((file: any) => {
-          files.push({ year, file: file.file });
-        });
-      });*/
-
       const file = fileState["2023"];
 
       try {
-        console.log(Object.values(file)[0], "files...");
-        // await api.call("reset", {});
+        setLoading(true);
+
         const fileObject: any = Object.values(file)[0] as any;
-        const response = await api.call("generate_tables", fileObject.file);
-        console.log(response);
-        //props.handleRouteChange(RouteValue.REPORT);
+        const tables = await api.call("generate_tables", fileObject.file);
+        const errors = await api.call("cin_validate", fileObject.file);
+
+        setLoading(false);
+        dispatch({
+          type: ReportActionType.SET_CHILDREN,
+          payload: { tables, errors },
+        });
+
+        props.handleRouteChange(RouteValue.REPORT);
       } catch (ex) {
+        setLoading(false);
         console.log("API add_files request failed", ex);
         alert("Something went wrong!");
       }

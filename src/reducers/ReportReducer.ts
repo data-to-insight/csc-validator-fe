@@ -7,70 +7,86 @@ export enum ReportActionType {
   UPDATE = "UPDATE",
   SET_CHILDREN = "SET_CHILDREN",
   SET_CHILD = "SET_CHILD",
+  SET_RULES = "SET_RULES",
   HIDE_ROWS = "HIDE_ROWS",
   RESET = "RESET",
 }
 
-export type ReportItem = {
-  code: string;
-  errors: string;
-  errorList: Error[];
-  count: number;
-  Index: 1289;
-  childData: any;
-  hide?: boolean;
-  DOB: string;
-  SDQ_SCORE: string | null;
-  SDQ_REASON: string;
-  CONVICTED: string;
-  HEALTH_CHECK: string;
-  IMMUNISATIONS: string;
-  TEETH_CHECK: string;
-  HEALTH_ASSESSMENT: string;
-  SUBSTANCE_MISUSE: string;
-  INTERVENTION_RECEIVED: string;
-  INTERVENTION_OFFERED: string;
-  [key: string]: string | number | null | boolean | undefined | Error[];
+export type Child = {
+  LAChildId: string;
+  Assessments: any;
+  CINdetails: any;
+  CINplanDates: any;
+  ChildCharacteristics: any;
+  ChildIdentifiers: any;
+  ChildProtectionPlans: any;
+  Disabilities: any;
+  Header: any;
+  Reviews: any;
+  Section47: any;
+  Errors: Errors;
+  hide: boolean;
 };
+
+export type Errors = Error[];
 
 export type Error = {
-  tables_affected: string;
-  columns_affected: string;
+  ERROR_ID: string | null;
   ROW_ID: string;
+  columns_affected: string;
+  la_level: string | null;
   rule_code: number;
+  rule_description: string | null;
   rule_type: number;
-  ERROR_ID: string;
+  tables_affected: string;
 };
+
+export type Rule = {
+  "Rule Message": string;
+  "Rule Code": number;
+};
+
+export type Rules = Rule[];
 
 export type Report = {
-  reportList?: ReportItem[];
-  reportFilter?: string;
+  children?: Children;
+  rules?: Rules;
+  filter?: string;
 };
 
-const addChildToChildren = (
-  childId: string,
-  childData: any,
-  reportList: ReportItem[]
-): ReportItem[] => {
-  return reportList.map((reportItem: ReportItem) => {
-    const output = { ...reportItem };
+export interface Children {
+  [key: string]: any;
+}
 
-    if (reportItem.code === childId && !reportItem.childData) {
-      reportItem.childData = childData;
+const parseChildren = (children: any, errors: any[]) => {
+  const output: Children = {};
+
+  Object.keys(children).forEach((childKey) => {
+    const values = JSON.parse(children[childKey]);
+
+    values.forEach((value: any) => {
+      if (!output[value.LAchildID]) {
+        output[value.LAchildID] = { hide: false };
+      }
+
+      output[value.LAchildID][childKey] = value;
+    });
+  });
+
+  JSON.parse(errors[0]).forEach((error: any) => {
+    if (!error.LAchildID) {
+      //TODO - these are LA wide errors
+      return false;
+    }
+    //this is where Tambe's change to the error structure needs to be mapped. LAchildID is a guess...
+    if (!output[error.LAchildID].errors) {
+      output[error.LAchildID].errors = [];
     }
 
-    return output;
-  });
-};
-
-//temporary - this is for sample data only; need a better solution at BE for live data
-const combineChildrenErrors = (children: ReportItem[], errors: Error[]) => {
-  const combined = children.map((child) => {
-    const newChild = { ...child, errorList: errors, count: errors.length };
-    return newChild;
+    output[error.LAchildID].errors.push(error);
   });
 
-  return combined;
+  return output;
 };
 
 export const reportReducer = (
@@ -87,33 +103,31 @@ export const reportReducer = (
       newReportState = { ...reportAction.payload };
       return newReportState;
 
+    case ReportActionType.SET_RULES:
+      newReportState.rules = reportAction.payload;
+      return newReportState;
+
     case ReportActionType.SET_CHILDREN:
-      newReportState.reportList = combineChildrenErrors(
-        reportAction.payload.children,
+      newReportState.children = parseChildren(
+        reportAction.payload.tables,
         reportAction.payload.errors
       );
+
       return newReportState;
 
     case ReportActionType.SET_CHILD:
-      console.log("child dispatch...");
-      if (newReportState.reportList) {
-        newReportState.reportList = addChildToChildren(
-          reportAction.payload.childId,
-          reportAction.payload.childData,
-          newReportState.reportList
-        );
-      }
-
       return newReportState;
 
     case ReportActionType.HIDE_ROWS:
-      if (!newReportState.reportList) {
-        return {};
+      if (!newReportState.children) {
+        return newReportState;
       }
 
-      newReportState.reportFilter = reportAction.payload;
-      newReportState.reportList.forEach((childItem: ReportItem) => {
-        childItem.hide = childItem.code.indexOf(reportAction.payload) < 0;
+      newReportState.filter = reportAction.payload;
+
+      Object.values(newReportState.children).forEach((childItem: Child) => {
+        childItem.hide =
+          childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
       });
 
       return newReportState;
