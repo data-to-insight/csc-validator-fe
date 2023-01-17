@@ -34,7 +34,7 @@ const ReportDetail = (props: ReportDetailProps) => {
         }
 
         return (
-          <Block spacing="blockLarge">
+          <Block spacing="blockExtraLarge">
             <Typography variant="body1">
               <strong>{pascalToReadable(key)}</strong>
             </Typography>
@@ -63,7 +63,9 @@ const ReportDetail = (props: ReportDetailProps) => {
       <DraggablePanes
         topContent={
           <Block spacing="blockLarge">
-            <Typography variant="h5">ID: {childId}</Typography>
+            <Block spacing="blockLarge">
+              <Typography variant="h5">ID: {childId}</Typography>
+            </Block>
             {renderTables()}
           </Block>
         }
