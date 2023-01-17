@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, useReducer } from "react";
+import React, { useState, } from "react";
 import {
   Box,
   Grid,
@@ -9,19 +9,13 @@ import {
   StepLabel,
   StepContent,
   Typography,
-  Select,
-  SelectChangeEvent,
-  FormControl,
-  InputLabel,
-  MenuItem,
 } from "@mui/material";
 import {
   FormatListBulleted,
   FormatListNumbered,
-  TableView,
 } from "@mui/icons-material";
 
-import { Pre, Aligner } from "../Pages.styles";
+import { Aligner } from "../Pages.styles";
 
 import { ReportActionType } from "reducers/ReportReducer";
 import { FileActionType } from "reducers/FileReducer";
@@ -45,12 +39,10 @@ interface LoadDataPageProps extends RouteProps {
   handleRouteChange: (route: RouteValue) => void;
 }
 
-const years = ["2022/23", "2021/22", "2020/21", "2019/20", "2018/19"];
 
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch } = props;
 
-  const [collectionYear, setCollectionYear] = useState(years[0]);
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
   >([]);
@@ -156,103 +148,11 @@ const LoadData = (props: LoadDataPageProps) => {
     );
   };
 
-  const renderCSVTab = () => {
-    return (
-      <Box>
-        <Block spacing="blockLarge">
-          <Expando
-            title="Show column headers for each CSV file - these must match exactly"
-            id="csv-header-expando"
-            Icon={TableView}
-          >
-            <p>
-              <strong>Header:</strong>
-              <Pre>CHILD,SEX,DOB,ETHNIC,UPN,MOTHER,MC_DOB</Pre>
-            </p>
-            <p>
-              <strong>Episodes:</strong>
-              <Pre>
-                CHILD,DECOM,RNE,LS,CIN,PLACE,PLACE_PROVIDER,DEC,REC,REASON_PLACE_CHANGE,HOME_POST,PL_POST,URN
-              </Pre>
-            </p>
-            <p>
-              <strong>UASC:</strong>
-              <Pre>CHILD,SEX,DOB,DUC</Pre>
-            </p>
-            <p>
-              <strong>Outcomes (OC2):</strong>
-              <Pre>
-                CHILD,DOB,SDQ_SCORE,SDQ_REASON,CONVICTED,HEALTH_CHECK,IMMUNISATIONS,TEETH_CHECK,HEALTH_ASSESSMENT,SUBSTANCE_MISUSE,INTERVENTION_RECEIVED,INTERVENTION_OFFERED
-              </Pre>
-            </p>
-            <p>
-              <strong>Adoption (AD1):</strong>
-              <Pre>
-                CHILD,DOB,DATE_INT,DATE_MATCH,FOSTER_CARE,NB_ADOPTR,SEX_ADOPTR,LS_ADOPTR
-              </Pre>
-            </p>
-            <p>
-              <strong>Should be Placed for Adoption:</strong>
-              <Pre>
-                CHILD,DOB,DATE_PLACED,DATE_PLACED_CEASED,REASON_PLACED_CEASED
-              </Pre>
-            </p>
-            <p>
-              <strong>Care Leavers (OC3):</strong>
-              <Pre>CHILD,DOB,IN_TOUCH,ACTIV,ACCOM</Pre>
-            </p>
-            <p>
-              <strong>Reviews:</strong>
-              <Pre>CHILD,DOB,REVIEW,REVIEW_CODE</Pre>
-            </p>
-            <p>
-              <strong>Previous Permanence:</strong>
-              <Pre>CHILD,DOB,PREV_PERM,LA_PERM,DATE_PERM</Pre>
-            </p>
-            <p>
-              <strong>Missing:</strong>
-              <Pre>CHILD,DOB,MISSING,MIS_START,MIS_END</Pre>
-            </p>
-          </Expando>
-        </Block>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography variant="h6">This year</Typography>
-            <Uploader
-              onUploadReady={(files) => {
-                fileDispatch({
-                  type: FileActionType.ADD_FILES,
-                  payload: files || {},
-                  year: "2022",
-                });
-              }}
-              fileList={fileState["2022"]}
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Typography variant="h6">Previous year</Typography>
-            <Uploader
-              onUploadReady={(files) => {
-                fileDispatch({
-                  type: FileActionType.ADD_FILES,
-                  payload: files || {},
-                  year: "2023",
-                });
-              }}
-              fileList={{}}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-    );
-  };
-
   const renderXMLTab = () => {
     return (
       <Box>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography variant="h6">This year</Typography>
             <Uploader
               onUploadReady={(files) => {
@@ -264,21 +164,7 @@ const LoadData = (props: LoadDataPageProps) => {
               }}
               fileList={fileState["2023"]}
             />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Typography variant="h6">Previous year</Typography>
-            <Uploader
-              onUploadReady={(files) => {
-                fileDispatch({
-                  type: FileActionType.ADD_FILES,
-                  payload: files || {},
-                  year: "2022",
-                });
-              }}
-              fileList={fileState["2022"]}
-            />
-          </Grid>
+          </Grid>        
         </Grid>
       </Box>
     );
@@ -286,11 +172,10 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const renderFileTabs = () => {
     const headers = [
-      /* { label: "CSV Files" },*/
       { label: "XML Files" },
     ];
 
-    const bodies = [/*renderCSVTab(),*/ renderXMLTab()];
+    const bodies = [renderXMLTab()];
 
     return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
   };
@@ -329,80 +214,9 @@ const LoadData = (props: LoadDataPageProps) => {
             {renderInstructions()}
           </Expando>
         </Block>
-        {/*<Block>
-          <Block>
-            <Typography variant="h5">
-              Offsted provider information lookup tables
-            </Typography>
-          </Block>
-
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Typography variant="h6">Children's Homes List</Typography>
-              <Uploader onUploadReady={() => {}} fileList={{}} />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="h6">Social Care Providers List</Typography>
-              <Uploader onUploadReady={() => {}} fileList={{}} />
-            </Grid>
-          </Grid>
-        </Block>*/}
         <Block spacing="blockLarge">
           <Box>{renderFileTabs()}</Box>
-        </Block>
-        <Block>
-          <Grid container columnSpacing={2}>
-            <Grid item xs={6}>
-              <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="select-collection-year-label">
-                  Collection Year
-                </InputLabel>
-                <Select
-                  labelId="select-collection-year-label"
-                  id="select-collection-year"
-                  value={collectionYear}
-                  label="Collection Year"
-                  onChange={(evt: SelectChangeEvent) => {
-                    setCollectionYear(evt.target.value);
-                  }}
-                >
-                  {years.map((year, idx) => {
-                    return (
-                      <MenuItem value={year} key={`collection-year-${year}`}>
-                        {year}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={6}>
-              {/* <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="select-local-authority-label">
-                  Local Authority
-                </InputLabel>
-                <Select
-                  labelId="select-local-authority-label"
-                  id="select-local-authority"
-                  value={localAuthority}
-                  label="Local Authority"
-                  onChange={(evt: SelectChangeEvent) => {
-                    setLocalAuthority(evt.target.value);
-                  }}
-                >
-                  {las.map((year, idx) => {
-                    return (
-                      <MenuItem value={year} key={`collection-year-${year}`}>
-                        {year}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-                </FormControl> */}
-            </Grid>
-          </Grid>
-        </Block>
+        </Block>        
         <Block spacing="blockLarge">
           <Expando
             defaultExpanded={false}
