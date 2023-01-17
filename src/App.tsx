@@ -2,7 +2,13 @@ import React, { useState, useEffect, useReducer } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import queryString from "query-string";
 
-import { APIControl, APITransport, LoadStatus } from "@sfdl/prpc";
+import {
+  IAPI,
+  APITransport,
+  APICallback,
+  LoadStatus,
+  createApi,
+} from "@sfdl/prpc";
 
 import { Loader, Container, theme as SFTheme } from "@sfdl/sf-mui-components";
 
@@ -22,7 +28,7 @@ const theme = createTheme(CINTheme);
 
 interface AppProps extends GatedProps {}
 
-let api: null | APIControl = null;
+let api: IAPI | undefined = undefined;
 
 function App(props: AppProps) {
   const [ready, setReady] = useState(false);
@@ -39,7 +45,7 @@ function App(props: AppProps) {
       const parsed = queryString.parse(window.location.search);
       const apiConfig: any = {
         options: {
-          appName: "cin:app",
+          appName: "rpc_main:app",
         },
       };
       if (parsed.url) {
@@ -51,17 +57,21 @@ function App(props: AppProps) {
         apiConfig.options.packages = parsed.packages
           ? parsed.packages
           : [
-              process.env.PUBLIC_URL + "/bin/dist/main-0.0.1-py3-none-any.whl",
+              process.env.PUBLIC_URL +
+                "/bin/dist/cin_validator-0.1.0-py3-none-any.whl",
               "rpc-wrap",
               "fs",
-              "pandas",
               "plotly",
+              "prpc_python",
             ];
       }
-      api = new APIControl();
+
+      api = await createApi(apiConfig, handleAPIResponse);
+
+      /*api = new APIControl();
       console.log(api);
       console.log("API Config", apiConfig);
-      await api.loadTransport(apiConfig, handleAPIResponse);
+      await api.loadTransport(apiConfig, handleAPIResponse);*/
     };
 
     if (!api) {

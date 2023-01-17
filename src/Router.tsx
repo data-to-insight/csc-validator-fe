@@ -4,7 +4,7 @@ import { FileAction } from "reducers/FileReducer";
 
 import { LoadData, Report as ReportPage } from "pages";
 import { Body } from "@sfdl/sf-mui-components";
-import { APIControl } from "@sfdl/prpc";
+import { IAPI } from "@sfdl/prpc";
 
 export enum RouteValue {
   LOAD_DATA = "LOAD_DATA",
@@ -16,7 +16,7 @@ export interface RouteProps {
   dispatch: Dispatch<ReportAction>;
   fileState: any;
   fileDispatch: Dispatch<FileAction>;
-  api: APIControl;
+  api: IAPI;
 }
 
 const Router = (props: RouteProps) => {

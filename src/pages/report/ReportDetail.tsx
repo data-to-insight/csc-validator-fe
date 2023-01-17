@@ -1,11 +1,5 @@
-import React, { useEffect, Dispatch, useState } from "react";
-import { APIControl } from "@sfdl/prpc";
-import {
-  ReportItem,
-  ReportActionType,
-  ReportAction,
-  Error,
-} from "reducers/ReportReducer";
+import React, { Dispatch, useState } from "react";
+import { Error } from "reducers/ReportReducer";
 
 import DraggablePanes from "components/draggable-panes";
 
@@ -18,43 +12,24 @@ import ErrorList from "./ErrorList";
 import { Typography } from "@mui/material";
 
 interface ReportDetailProps {
-  api: APIControl;
-  childItem: ReportItem;
-  dispatch: Dispatch<ReportAction>;
+  childItem: any;
+  childId: string;
 }
 
 const ReportDetail = (props: ReportDetailProps) => {
-  const { childItem, dispatch, api } = props;
-
-  useEffect(() => {
-    const init = async () => {
-      if (!childItem.childData) {
-        const childData = await api.callAPI({ method: "get_child", value: {} }); //value must be an ID string in the final version
-
-        dispatch({
-          type: ReportActionType.SET_CHILD,
-          payload: {
-            childId: childItem.code,
-            childData: { ...JSON.parse(childData.val) },
-          },
-        });
-      }
-    };
-
-    init();
-  }, []);
+  const { childItem, childId } = props;
+  const skipRendering = ["Header", "errors", "hide"];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
 
   const handleSelectError = (error: Error | null) => {
-    console.log(error);
     setSelectedError(error);
   };
 
   const renderTables = () => {
-    if (childItem.childData) {
-      return Object.keys(childItem.childData).map((key) => {
-        if (key === "header") {
+    if (childItem) {
+      return Object.keys(childItem).map((key) => {
+        if (skipRendering.indexOf(key) > -1) {
           return null;
         }
 
@@ -71,7 +46,7 @@ const ReportDetail = (props: ReportDetailProps) => {
                   ? selectedError
                   : null
               }
-              data={childItem.childData[key]}
+              data={childItem[key]}
               id={key}
               key={key}
             />
@@ -88,7 +63,7 @@ const ReportDetail = (props: ReportDetailProps) => {
       <DraggablePanes
         topContent={
           <Block spacing="blockLarge">
-            <Typography variant="h5">ID: {childItem.code}</Typography>
+            <Typography variant="h5">ID: {childId}</Typography>
             {renderTables()}
           </Block>
         }
@@ -97,7 +72,7 @@ const ReportDetail = (props: ReportDetailProps) => {
             <Typography variant="h5">Errors</Typography>
             <ErrorList
               errorSelectedHandler={handleSelectError}
-              errorList={childItem.errorList}
+              errorList={childItem.errors}
             />
           </>
         }

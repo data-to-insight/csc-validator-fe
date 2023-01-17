@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "components/table";
 import { Error } from "reducers/ReportReducer";
+import validationRules from "data/validation-rules-list.json";
 
 interface ReportTableProps {
   data: any;
@@ -22,6 +23,11 @@ const ReportTable = (props: ReportTableProps) => {
     return {
       row: 0,
       cell: headers.indexOf(error.columns_affected),
+      description:
+        validationRules.filter((rule) => {
+          console.log(rule);
+          return rule.value === error.rule_code.toString();
+        })[0].label || "",
     };
   };
 

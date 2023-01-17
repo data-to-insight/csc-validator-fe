@@ -23,8 +23,8 @@ const Report = (props: ReportPageProps) => {
 
   useEffect(() => {
     const init = async () => {
-      const children = await api.callAPI({ method: "get_children", value: {} });
-      const errors = await api.callAPI({ method: "get_errors", value: {} });
+      const children = await api.call("get_children", {});
+      const errors = await api.call("get_errors", {});
 
       dispatch({
         type: ReportActionType.SET_CHILDREN,
@@ -41,8 +41,8 @@ const Report = (props: ReportPageProps) => {
   }, []);
 
   const generateCSVFile = () => {
-    if (data && data.reportList) {
-      const output = generateCSV(data.reportList);
+    if (data && data.children) {
+      const output = generateCSV(Object.values(data.children));
 
       const encodedURI = encodeURI(output);
       window.open(encodedURI);
@@ -59,16 +59,23 @@ const Report = (props: ReportPageProps) => {
   };
 
   const renderTable = () => {
-    if (!data.reportList) {
+    if (!data.children) {
       return null;
     }
 
-    const reportList = Object.values(data.reportList)
-      .filter((reportItem) => {
-        return !reportItem.hide;
+    const reportList = Object.values(data.children)
+      .filter((child) => {
+        if (!child.ChildIdentifiers) {
+          return false;
+        }
+
+        return !child.hide;
       })
-      .map((reportItem) => {
-        return [reportItem.code, reportItem.count];
+      .map((child) => {
+        return [
+          child.ChildIdentifiers.LAchildID,
+          child.errors ? child.errors.length : 0,
+        ];
       });
 
     return (
@@ -81,13 +88,12 @@ const Report = (props: ReportPageProps) => {
   };
 
   const renderDetailView = () => {
-    if (selectedChild && data.reportList) {
-      const childItem = data.reportList.filter((childItem) => {
-        return childItem.code === selectedChild;
-      })[0];
-
+    if (selectedChild && data.children && data.children[selectedChild]) {
       return (
-        <ReportDetail api={api} childItem={childItem} dispatch={dispatch} />
+        <ReportDetail
+          childId={selectedChild}
+          childItem={data.children[selectedChild]}
+        />
       );
     }
 
@@ -106,10 +112,7 @@ const Report = (props: ReportPageProps) => {
             <HeaderControl>
               <Typography variant="h6">Child ID</Typography>
               <ButtonPopover label="Filter">
-                <ChildFilterDialog
-                  filterString={data.reportFilter}
-                  dispatch={dispatch}
-                />
+                <ChildFilterDialog filterString={""} dispatch={dispatch} />
               </ButtonPopover>
             </HeaderControl>
             {renderTable()}
