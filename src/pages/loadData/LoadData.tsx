@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -10,10 +10,7 @@ import {
   StepContent,
   Typography,
 } from "@mui/material";
-import {
-  FormatListBulleted,
-  FormatListNumbered,
-} from "@mui/icons-material";
+import { FormatListBulleted, FormatListNumbered } from "@mui/icons-material";
 
 import { Aligner } from "../Pages.styles";
 
@@ -38,7 +35,6 @@ import validationRules from "data/validation-rules-list.json";
 interface LoadDataPageProps extends RouteProps {
   handleRouteChange: (route: RouteValue) => void;
 }
-
 
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch } = props;
@@ -155,25 +151,24 @@ const LoadData = (props: LoadDataPageProps) => {
           <Grid item xs={12}>
             <Typography variant="h6">This year</Typography>
             <Uploader
-              onUploadReady={(files) => {
+              onUploadReady={(files: any) => {
                 fileDispatch({
                   type: FileActionType.ADD_FILES,
                   payload: files || {},
                   year: "2023",
                 });
               }}
+              maxFiles={1}
               fileList={fileState["2023"]}
             />
-          </Grid>        
+          </Grid>
         </Grid>
       </Box>
     );
   };
 
   const renderFileTabs = () => {
-    const headers = [
-      { label: "XML Files" },
-    ];
+    const headers = [{ label: "XML Files" }];
 
     const bodies = [renderXMLTab()];
 
@@ -216,11 +211,10 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Box>{renderFileTabs()}</Box>
-        </Block>        
+        </Block>
         <Block spacing="blockLarge">
           <Expando
             defaultExpanded={false}
-            Icon={FormatListBulleted}
             id="validation-rules-expander"
             title={`Validation Rules (${getValidationRulesSummary()})`}
           >
