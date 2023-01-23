@@ -17,16 +17,14 @@ const ErrorList = ({ errorList, errorSelectedHandler }: ErrorListProps) => {
       selectable={true}
       selectedHandler={handleErrorSelected}
       headers={[
-        "Rules Code",
-        "Rule Type",
-        "Tables Affected",
-        "Columns Affected",
+        "Rule Code",
+        "Table Affected",
+        "Column Affected",
       ]}
       rows={errorList.map((errorItem) => {
         return {
           cells: [
             errorItem.rule_code,
-            errorItem.rule_type,
             errorItem.tables_affected,
             errorItem.columns_affected,
           ],
