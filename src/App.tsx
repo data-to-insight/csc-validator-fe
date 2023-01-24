@@ -23,6 +23,7 @@ const theme = createTheme(CINTheme);
 interface AppProps extends GatedProps {}
 
 let api: IAPI | undefined = undefined;
+let initial: boolean = true;
 
 function App(props: AppProps) {
   const [ready, setReady] = useState(false);
@@ -61,14 +62,11 @@ function App(props: AppProps) {
       }
 
       api = await createApi(apiConfig, handleAPIResponse);
-
-      /*api = new APIControl();
-      console.log(api);
-      console.log("API Config", apiConfig);
-      await api.loadTransport(apiConfig, handleAPIResponse);*/
     };
 
-    if (!api) {
+    if (initial) {
+      console.log("init...");
+      initial = false;
       init();
     }
   }, []);
@@ -82,7 +80,6 @@ function App(props: AppProps) {
       console.error("Failed to initialise API", data.error);
       alert("Failed to load pyodide");
     } else if (data === LoadStatus.READY) {
-      console.log(api);
       setReady(true);
     } else {
       console.log("Unknown API response", data);

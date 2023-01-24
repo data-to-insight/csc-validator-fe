@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ReportActionType } from "reducers/ReportReducer";
 import { RouteValue, RouteProps } from "Router";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
 
 import { SelectableTable, ButtonPopover, Block } from "@sfdl/sf-mui-components";
@@ -38,7 +38,7 @@ const Report = (props: ReportPageProps) => {
     if (Object.values(data).length < 1) {
       init();
     }
-  }, []);
+  });
 
   const generateCSVFile = () => {
     if (data && data.children) {
