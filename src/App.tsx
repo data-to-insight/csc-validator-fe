@@ -2,13 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import queryString from "query-string";
 
-import {
-  IAPI,
-  APITransport,
-  APICallback,
-  LoadStatus,
-  createApi,
-} from "@sfdl/prpc";
+import { IAPI, APITransport, LoadStatus, createApi } from "@sfdl/prpc";
 
 import { Loader, Container, theme as SFTheme } from "@sfdl/sf-mui-components";
 

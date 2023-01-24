@@ -64,17 +64,19 @@ const ReportDetail = (props: ReportDetailProps) => {
         topContent={
           <Block spacing="blockLarge">
             <Block spacing="blockLarge">
-              <Typography variant="h5">ID: {childId}</Typography>
+              <Typography variant="h5">Child ID: {childId}</Typography>
             </Block>
             {renderTables()}
           </Block>
         }
         bottomContent={
           <>
+            <br />
+            <br />
             <Typography variant="h5">Errors</Typography>
             <ErrorList
               errorSelectedHandler={handleSelectError}
-              errorList={childItem.errors}
+              errorList={Object.values(childItem.errors)}
             />
           </>
         }

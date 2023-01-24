@@ -42,7 +42,7 @@ const Router = (props: RouteProps) => {
   };
 
   return (
-    <Body title="CIN Validator" chip="Using: Pyodide (sample) API">
+    <Body title="CIN Validator" chip="Using: Pyodide">
       {renderRoute()}
     </Body>
   );
