@@ -84,13 +84,8 @@ const LoadData = (props: LoadDataPageProps) => {
   const renderInstructions = () => {
     const instructions = [
       {
-        label: `Add your files to the loading boxes below. If using CSV's, you can
-        validate with any or all of the tables, but validation checks which are
-        missing the necessary data will not run.`,
-        content: null,
-      },
-      {
-        label: `Select your Local Authority and the relevant Collection Year.`,
+        label: `Upload an XML file for the CIN census by clicking on the arrow below. 
+        CSV uploads are not yet supported by this tool.`,
         content: null,
       },
       {
@@ -112,8 +107,8 @@ const LoadData = (props: LoadDataPageProps) => {
             <ul>
               <li>Use the 'Child ID' sidebar to select individual children.</li>
               <li>
-                Use the tabs to see the selected Child ID's data in a particular
-                module. Cells with errors are highlighted in red.
+                Scroll down to see the failing locations for the child across all recorded tables. 
+                Cells with errors are highlighted in blue when you click on the error description.
               </li>
               <li>
                 If you click the 'Filter' button, you can type to search for a
@@ -149,13 +144,13 @@ const LoadData = (props: LoadDataPageProps) => {
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="h6">This year</Typography>
+            <Typography variant="h6">Upload CIN XML file</Typography>
             <Uploader
               onUploadReady={(files: any) => {
                 fileDispatch({
                   type: FileActionType.ADD_FILES,
                   payload: files || {},
-                  year: "2023",
+                  year: "2023", //redundant
                 });
               }}
               maxFiles={1}
@@ -168,7 +163,7 @@ const LoadData = (props: LoadDataPageProps) => {
   };
 
   const renderFileTabs = () => {
-    const headers = [{ label: "XML Files" }];
+    const headers = [{ label: "XML File" }];
 
     const bodies = [renderXMLTab()];
 
@@ -189,16 +184,19 @@ const LoadData = (props: LoadDataPageProps) => {
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
-          validate your SSDA903 data files locally. None of your SSDA903 data
+          validate your CIN data files locally. None of your CIN data
           will leave your network via this tool. You can safely use it without
           installing additional software, and without any data sharing
           agreement. Once the Python code has loaded, the tool will work
           entirely offline.
         </Block>
         <Block spacing="blockLarge">
-          To begin, use the boxes below to locate your local SSDA903 file
-          outputs for the relevant year. Choose which validation rules you want
-          to run, and use the “Validate” button to get started.
+          To begin, use the boxes below to locate and upload your local CIN file. Select the validation rules you want
+          to run, and use the “validate” button to get started. By default, all rules will be run if no specific rules are selected.
+        <br/>
+        <br/>
+          If you simply want to convert your XML file into CSVs, you can click on 
+          "download CSVs" without the need to go through the validation process first.
         </Block>
         <Block spacing="blockLarge">
           <Expando

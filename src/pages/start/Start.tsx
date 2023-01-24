@@ -79,9 +79,9 @@ const Start = (props: StartPageProps) => {
         <Typography variant="body1">
           This tool was developed by local authority data analysts, supported by
           technical expertise from our friends at Social Finance. It will let
-          you perform the same kinds of data validation as the DfE’s SSDA903
+          you perform the same kinds of data validation as the DfE’s CIN (children in need)
           statutory data submission tool. You can run this tool at any time,
-          using your year-to-date extract of SSDA903 data. We recommend a
+          using your year-to-date extract of CIN data. We recommend a
           monthly data checking cycle.
         </Typography>
       </Block>
