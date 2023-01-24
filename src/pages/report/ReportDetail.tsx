@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { useState } from "react";
 import { Error } from "reducers/ReportReducer";
 
 import DraggablePanes from "components/draggable-panes";

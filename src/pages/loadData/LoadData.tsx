@@ -10,7 +10,7 @@ import {
   StepContent,
   Typography,
 } from "@mui/material";
-import { FormatListBulleted, FormatListNumbered } from "@mui/icons-material";
+import { FormatListNumbered } from "@mui/icons-material";
 
 import { Aligner } from "../Pages.styles";
 
@@ -110,8 +110,9 @@ const LoadData = (props: LoadDataPageProps) => {
             <ul>
               <li>Use the 'Child ID' sidebar to select individual children.</li>
               <li>
-                Scroll down to see the failing locations for the child across all recorded tables. 
-                Cells with errors are highlighted in blue when you click on the error description.
+                Scroll down to see the failing locations for the child across
+                all recorded tables. Cells with errors are highlighted in blue
+                when you click on the error description.
               </li>
               <li>
                 If you click the 'Filter' button, you can type to search for a
@@ -187,19 +188,21 @@ const LoadData = (props: LoadDataPageProps) => {
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
-          validate your CIN data files locally. None of your CIN data
-          will leave your network via this tool. You can safely use it without
-          installing additional software, and without any data sharing
-          agreement. Once the Python code has loaded, the tool will work
-          entirely offline.
+          validate your CIN data files locally. None of your CIN data will leave
+          your network via this tool. You can safely use it without installing
+          additional software, and without any data sharing agreement. Once the
+          Python code has loaded, the tool will work entirely offline.
         </Block>
         <Block spacing="blockLarge">
-          To begin, use the boxes below to locate and upload your local CIN file. Select the validation rules you want
-          to run, and use the “validate” button to get started. By default, all rules will be run if no specific rules are selected.
-        <br/>
-        <br/>
-          If you simply want to convert your XML file into CSVs, you can click on 
-          "download CSVs" without the need to go through the validation process first.
+          To begin, use the boxes below to locate and upload your local CIN
+          file. Select the validation rules you want to run, and use the
+          “validate” button to get started. By default, all rules will be run if
+          no specific rules are selected.
+          <br />
+          <br />
+          If you simply want to convert your XML file into CSVs, you can click
+          on "download CSVs" without the need to go through the validation
+          process first.
         </Block>
         <Block spacing="blockLarge">
           <Expando
