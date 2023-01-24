@@ -39,6 +39,7 @@ export type Error = {
   rule_description: string | null;
   rule_type: number;
   tables_affected: string;
+  "Rule Message": string;
 };
 
 export type Rule = {
@@ -80,10 +81,16 @@ const parseChildren = (children: any, errors: any[]) => {
     }
     //this is where Tambe's change to the error structure needs to be mapped. LAchildID is a guess...
     if (!output[error.LAchildID].errors) {
-      output[error.LAchildID].errors = [];
+      output[error.LAchildID].errors = {};
     }
 
-    output[error.LAchildID].errors.push(error);
+    const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
+      return rule["Rule code"] === error.rule_code;
+    })[0];
+
+    output[error.LAchildID].errors[
+      `${error.rule_code} ${error.tables_affected}_${error.columns_affected}`
+    ] = { ...error, ...ruleMeta };
   });
 
   return output;

@@ -1957,10 +1957,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@sfdl/sf-mui-components@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.1.4.tgz#190b11807617c7b54271b78fb354e907dea6f3fd"
-  integrity sha512-zzg7saUZR0qR8oAj3Z4GanBVcdUG0FjcfR1qO2iBkw4XvuZjb26fQ9hWC86sR1PIjwdLlJQfdS+jnJOFWX6i/w==
+"@sfdl/sf-mui-components@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.1.5.tgz#942e3782899b443142f1e0c5db10372162384bdd"
+  integrity sha512-fSfkwW+jbLouR3XvyzIobRsOv3Fc2Ool+7ChpMn5hhvcdc1BEqTy246RZqZSE+VgFPT1r4zCJs1UgTBHmka9Pw==
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.41"

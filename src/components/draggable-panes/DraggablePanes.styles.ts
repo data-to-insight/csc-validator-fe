@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, greys } from "@sfdl/sf-mui-components";
+import { greys } from "@sfdl/sf-mui-components";
 
 const DraggableContainer = styled.div`
   display: flex;

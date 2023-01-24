@@ -66,6 +66,9 @@ const LoadData = (props: LoadDataPageProps) => {
         const tables = await api.call("generate_tables", fileObject.file);
         const errors = await api.call("cin_validate", fileObject.file);
 
+        console.log(JSON.parse(errors[0]));
+        console.log(JSON.parse(errors[1]));
+
         setLoading(false);
         dispatch({
           type: ReportActionType.SET_CHILDREN,

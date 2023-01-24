@@ -74,7 +74,7 @@ const Report = (props: ReportPageProps) => {
       .map((child) => {
         return [
           child.ChildIdentifiers.LAchildID,
-          child.errors ? child.errors.length : 0,
+          child.errors ? Object.keys(child.errors).length : 0,
         ];
       });
 
@@ -107,7 +107,7 @@ const Report = (props: ReportPageProps) => {
         spacing={2}
         style={{ height: "700px", overflowY: "hidden" }}
       >
-        <Grid item xs={3} style={{ height: "100%" }}>
+        <Grid item xs={2} style={{ height: "100%" }}>
           <ScrollableFull>
             <HeaderControl>
               <Typography variant="h6">Child ID</Typography>
@@ -118,7 +118,7 @@ const Report = (props: ReportPageProps) => {
             {renderTable()}
           </ScrollableFull>
         </Grid>
-        <Grid item xs={9} style={{ height: "100%" }}>
+        <Grid item xs={10} style={{ height: "100%" }}>
           {renderDetailView()}
         </Grid>
       </Grid>

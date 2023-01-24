@@ -16,18 +16,10 @@ const ErrorList = ({ errorList, errorSelectedHandler }: ErrorListProps) => {
     <Table
       selectable={true}
       selectedHandler={handleErrorSelected}
-      headers={[
-        "Rule Code",
-        "Table Affected",
-        "Column Affected",
-      ]}
+      headers={["Rule Code", "Rule Description"]}
       rows={errorList.map((errorItem) => {
         return {
-          cells: [
-            errorItem.rule_code,
-            errorItem.tables_affected,
-            errorItem.columns_affected,
-          ],
+          cells: [errorItem.rule_code, errorItem["Rule Message"]],
           raw: errorItem as any,
         };
       })}
