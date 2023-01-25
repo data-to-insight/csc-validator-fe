@@ -11,13 +11,13 @@ const DraggableContainer = styled.div`
 
 const DraggableTop = styled.div`
   height: 50%;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 `;
 
 const DraggableBottom = styled.div`
   height: 50%;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 `;
 
