@@ -41,11 +41,23 @@ const Report = (props: ReportPageProps) => {
   });
 
   const generateCSVFile = () => {
-    if (data && data.children) {
-      const output = generateCSV(Object.values(data.children));
+    if (data && data.tables) {
+      Object.keys(data.tables).forEach((table) => {
+        const output = generateCSV(
+          Object.values(JSON.parse(data.tables[table]))
+        );
 
-      const encodedURI = encodeURI(output);
-      window.open(encodedURI);
+        if (output) {
+          const encodedURI = encodeURI(output);
+          const link = document.createElement("a");
+          document.body.appendChild(link);
+
+          link.download = `${table}.csv`;
+          link.href = encodedURI;
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
     }
   };
 
@@ -126,6 +138,7 @@ const Report = (props: ReportPageProps) => {
         <Spacer>
           <Aligner>
             <PrimaryControls
+              disableDownload={false}
               disableButtons={false}
               onClearClick={handleResetClick}
               onValidateClick={() => {}}

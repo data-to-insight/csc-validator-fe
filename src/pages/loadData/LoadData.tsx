@@ -233,6 +233,7 @@ const LoadData = (props: LoadDataPageProps) => {
         <Block spacing="blockLarge">
           <Aligner>
             <PrimaryControls
+              disableDownload={true}
               disableButtons={getTotalFilesLength() < 1}
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
