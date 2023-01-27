@@ -6,6 +6,7 @@ export type ReportAction = {
 export enum ReportActionType {
   UPDATE = "UPDATE",
   SET_CHILDREN = "SET_CHILDREN",
+  SET_TABLES = "SET_TABLES",
   SET_CHILD = "SET_CHILD",
   SET_RULES = "SET_RULES",
   HIDE_ROWS = "HIDE_ROWS",
@@ -113,6 +114,10 @@ export const reportReducer = (
 
     case ReportActionType.SET_RULES:
       newReportState.rules = reportAction.payload;
+      return newReportState;
+
+    case ReportActionType.SET_TABLES:
+      newReportState.tables = reportAction.payload.tables;
       return newReportState;
 
     case ReportActionType.SET_CHILDREN:

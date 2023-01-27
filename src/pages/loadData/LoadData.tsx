@@ -27,6 +27,7 @@ import {
 } from "@sfdl/sf-mui-components";
 
 import PrimaryControls from "components/primarycontrols";
+import { generateCSV } from "utils/file/generateCSV";
 
 import { RouteProps, RouteValue } from "../../Router";
 
@@ -37,7 +38,9 @@ interface LoadDataPageProps extends RouteProps {
 }
 
 const LoadData = (props: LoadDataPageProps) => {
-  const { dispatch, api, fileState, fileDispatch } = props;
+  const { dispatch, api, fileState, fileDispatch, data } = props;
+
+  console.log(data);
 
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
@@ -47,6 +50,23 @@ const LoadData = (props: LoadDataPageProps) => {
   const handleResetClick = () => {
     dispatch({ type: ReportActionType.RESET, payload: {} });
     fileDispatch({ type: FileActionType.CLEAR_FILES, payload: {}, year: "" });
+  };
+
+  const generateCSVFile = (tables: any): void => {
+    Object.keys(tables).forEach((table) => {
+      const output = generateCSV(Object.values(JSON.parse(tables[table])));
+
+      if (output) {
+        const encodedURI = encodeURI(output);
+        const link = document.createElement("a");
+        document.body.appendChild(link);
+
+        link.download = `${table}.csv`;
+        link.href = encodedURI;
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
   };
 
   const getTotalFilesLength = (): number => {
@@ -81,6 +101,35 @@ const LoadData = (props: LoadDataPageProps) => {
         console.log("API add_files request failed", ex);
         alert("Something went wrong!");
       }
+    }
+  };
+
+  const handleGenerateCSVClick = async () => {
+    if (api && fileState && data) {
+      if (!data.tables) {
+        const file = fileState["2023"];
+
+        try {
+          setLoading(true);
+
+          const fileObject: any = Object.values(file)[0] as any;
+          const tables = await api.call("generate_tables", fileObject.file);
+          setLoading(false);
+
+          generateCSVFile(tables);
+
+          dispatch({
+            type: ReportActionType.SET_TABLES,
+            payload: { tables },
+          });
+        } catch (ex) {
+          setLoading(false);
+          console.log("API add_files request failed", ex);
+          alert("Something went wrong!");
+        }
+      }
+    } else {
+      generateCSVFile(data.tables);
     }
   };
 
@@ -233,11 +282,11 @@ const LoadData = (props: LoadDataPageProps) => {
         <Block spacing="blockLarge">
           <Aligner>
             <PrimaryControls
-              disableDownload={true}
+              disableDownload={getTotalFilesLength() < 1}
               disableButtons={getTotalFilesLength() < 1}
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
-              onGenerateClick={() => {}}
+              onGenerateClick={handleGenerateCSVClick}
             />
           </Aligner>
         </Block>
