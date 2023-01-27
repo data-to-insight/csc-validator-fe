@@ -53,6 +53,7 @@ export type Report = {
   children?: Children;
   rules?: Rules;
   filter?: string;
+  tables?: any;
 };
 
 export interface Children {
@@ -119,6 +120,8 @@ export const reportReducer = (
         reportAction.payload.tables,
         reportAction.payload.errors
       );
+
+      newReportState.tables = reportAction.payload.tables;
 
       return newReportState;
 
