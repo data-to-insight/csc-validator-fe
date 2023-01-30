@@ -40,8 +40,6 @@ interface LoadDataPageProps extends RouteProps {
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch, data } = props;
 
-  console.log(data);
-
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
   >([]);
@@ -82,12 +80,18 @@ const LoadData = (props: LoadDataPageProps) => {
       try {
         setLoading(true);
 
+        console.log(selectedValidationRules);
+
         const fileObject: any = Object.values(file)[0] as any;
         const tables = await api.call("generate_tables", fileObject.file);
-        const errors = await api.call("cin_validate", fileObject.file);
 
-        console.log(JSON.parse(errors[0]));
-        console.log(JSON.parse(errors[1]));
+        const errorArgs = [fileObject.file];
+
+        if (selectedValidationRules.length > 0) {
+          errorArgs.push(selectedValidationRules);
+        }
+
+        const errors = await api.call("cin_validate", errorArgs);
 
         setLoading(false);
         dispatch({
