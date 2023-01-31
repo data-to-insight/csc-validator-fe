@@ -44,9 +44,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "ready-notes": "node scripts/release-notes.js",
     "prepare": "husky install",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn ready-notes && react-scripts start",
+    "build": "yarn ready-notes && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.ts{,x}",
@@ -80,6 +81,7 @@
     "@types/lodash": "^4.14.191",
     "commitizen": "^4.2.5",
     "cz-conventional-commit": "^1.0.6",
-    "husky": "^8.0.1"
+    "husky": "^8.0.1",
+    "yaml": "^2.2.1"
   }
 }

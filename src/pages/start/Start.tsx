@@ -16,6 +16,7 @@ import { Description } from "@mui/icons-material";
 
 import { Expando, Block } from "@sfdl/sf-mui-components";
 import { laData } from "utils/authorityData";
+import notesRaw from "data/release-notes.json";
 
 declare global {
   interface Window {
@@ -65,6 +66,26 @@ const Start = (props: StartPageProps) => {
     );
   };
 
+  const renderNotes = () => {
+    if (notesRaw && Array.isArray(notesRaw) && notesRaw.length > 0) {
+      return notesRaw.map((note, i) => {
+        return (
+          <>
+            <Typography>
+              <strong>{note.name}</strong>
+              <br />
+              {note.description}
+            </Typography>
+            <br />
+            <br />
+          </>
+        );
+      });
+    }
+
+    return <Typography>No release notes</Typography>;
+  };
+
   return (
     <Box flexGrow={1}>
       <Block>
@@ -79,10 +100,10 @@ const Start = (props: StartPageProps) => {
         <Typography variant="body1">
           This tool was developed by local authority data analysts, supported by
           technical expertise from our friends at Social Finance. It will let
-          you perform the same kinds of data validation as the DfE’s CIN (children in need)
-          statutory data submission tool. You can run this tool at any time,
-          using your year-to-date extract of CIN data. We recommend a
-          monthly data checking cycle.
+          you perform the same kinds of data validation as the DfE’s CIN
+          (children in need) statutory data submission tool. You can run this
+          tool at any time, using your year-to-date extract of CIN data. We
+          recommend a monthly data checking cycle.
         </Typography>
       </Block>
 
@@ -112,7 +133,7 @@ const Start = (props: StartPageProps) => {
               Icon={Description}
               title="Release notes:"
             >
-              <Typography>These are the release notes</Typography>
+              {renderNotes()}
             </Expando>
           </Block>
         </Grid>
