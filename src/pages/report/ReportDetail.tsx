@@ -74,10 +74,16 @@ const ReportDetail = (props: ReportDetailProps) => {
             <br />
             <br />
             <Typography variant="h5">Errors</Typography>
-            <ErrorList
-              errorSelectedHandler={handleSelectError}
-              errorList={Object.values(childItem.errors)}
-            />
+            {childItem.errors ? (
+              <ErrorList
+                errorSelectedHandler={handleSelectError}
+                errorList={Object.values(childItem.errors)}
+              />
+            ) : (
+              <Typography variant="body1">
+                No errors found for this entry
+              </Typography>
+            )}
           </>
         }
       />

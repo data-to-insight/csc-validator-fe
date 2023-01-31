@@ -80,8 +80,6 @@ const LoadData = (props: LoadDataPageProps) => {
       try {
         setLoading(true);
 
-        console.log(selectedValidationRules);
-
         const fileObject: any = Object.values(file)[0] as any;
         const tables = await api.call("generate_tables", fileObject.file);
 
