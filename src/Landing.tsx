@@ -10,7 +10,7 @@ const theme = createTheme(SFTheme);
 
 loadAnalytics();
 
-type LandingProps = {} & GatedProps;
+type LandingProps = { APIName?: string } & GatedProps;
 
 const Landing = (props: LandingProps) => {
   const handleClick = () => {
@@ -22,7 +22,7 @@ const Landing = (props: LandingProps) => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Body title="CIN Validator" chip="Using: Pyodide (sample) API">
+        <Body title="CIN Validator" chip={props.APIName || "Sample"}>
           <Start onClick={handleClick} />
         </Body>
       </Container>

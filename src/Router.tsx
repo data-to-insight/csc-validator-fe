@@ -17,6 +17,7 @@ export interface RouteProps {
   fileState: any;
   fileDispatch: Dispatch<FileAction>;
   api: IAPI;
+  APIName?: string;
 }
 
 const Router = (props: RouteProps) => {
@@ -42,7 +43,7 @@ const Router = (props: RouteProps) => {
   };
 
   return (
-    <Body title="CIN Validator" chip="Using: Pyodide">
+    <Body title="CIN Validator" chip={props.APIName || "Sample"}>
       {renderRoute()}
     </Body>
   );

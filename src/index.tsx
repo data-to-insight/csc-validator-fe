@@ -21,7 +21,7 @@ const Core = () => {
 
   return (
     <Suspense fallback={<Loader type="cover" />}>
-      <CookieGate />
+      <CookieGate APIName={"Using: Pyodide"} />
     </Suspense>
   );
 };
