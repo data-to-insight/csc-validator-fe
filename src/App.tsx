@@ -20,7 +20,9 @@ CINTheme.components.MuiContainer.styleOverrides.maxWidthLg[
 
 const theme = createTheme(CINTheme);
 
-interface AppProps extends GatedProps {}
+interface AppProps extends GatedProps {
+  APIName?: string;
+}
 
 let api: IAPI | undefined = undefined;
 let initial: boolean = true;
@@ -100,6 +102,7 @@ function App(props: AppProps) {
             dispatch={reportDispatch}
             fileDispatch={fileDispatch}
             api={api}
+            APIName={props.APIName}
           />
         ) : (
           <Loader type="cover" />
