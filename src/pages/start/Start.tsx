@@ -12,11 +12,9 @@ import {
   Button,
   Grid,
 } from "@mui/material";
-import { Description } from "@mui/icons-material";
 
-import { Expando, Block } from "@sfdl/sf-mui-components";
+import { Block } from "@sfdl/sf-mui-components";
 import { laData } from "utils/authorityData";
-import notesRaw from "data/release-notes.json";
 
 declare global {
   interface Window {
@@ -66,26 +64,6 @@ const Start = (props: StartPageProps) => {
     );
   };
 
-  const renderNotes = () => {
-    if (notesRaw && Array.isArray(notesRaw) && notesRaw.length > 0) {
-      return notesRaw.map((note, i) => {
-        return (
-          <>
-            <Typography>
-              <strong>{note.name}</strong>
-              <br />
-              {note.description}
-            </Typography>
-            <br />
-            <br />
-          </>
-        );
-      });
-    }
-
-    return <Typography>No release notes</Typography>;
-  };
-
   return (
     <Box flexGrow={1}>
       <Block>
@@ -125,19 +103,6 @@ const Start = (props: StartPageProps) => {
           Start
         </Button>
       </Block>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Block>
-            <Expando
-              id="release-notes-expander"
-              Icon={Description}
-              title="Release notes:"
-            >
-              {renderNotes()}
-            </Expando>
-          </Block>
-        </Grid>
-      </Grid>
     </Box>
   );
 };
