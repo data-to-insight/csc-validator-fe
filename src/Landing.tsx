@@ -3,12 +3,12 @@ import { Container, theme as SFTheme } from "@sfdl/sf-mui-components";
 import Start from "pages/start";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { GatedProps } from "@sfdl/sf-cookie-gate";
-import { loadAnalytics } from "utils/analytics/Analytics";
 import { Body } from "@sfdl/sf-mui-components";
+import { loadAnalytics } from "utils/analytics/loadAnalytics";
+
+loadAnalytics("G-HQPVH1TXPV");
 
 const theme = createTheme(SFTheme);
-
-loadAnalytics();
 
 type LandingProps = { APIName?: string } & GatedProps;
 
