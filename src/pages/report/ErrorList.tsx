@@ -5,9 +5,14 @@ import Table from "components/table";
 interface ErrorListProps {
   errorList: Error[];
   errorSelectedHandler: (error: Error | null) => void;
+  childId: string;
 }
 
-const ErrorList = ({ errorList, errorSelectedHandler }: ErrorListProps) => {
+const ErrorList = ({
+  errorList,
+  errorSelectedHandler,
+  childId,
+}: ErrorListProps) => {
   const handleErrorSelected = (error: Error) => {
     errorSelectedHandler(error);
   };
@@ -23,7 +28,7 @@ const ErrorList = ({ errorList, errorSelectedHandler }: ErrorListProps) => {
           raw: errorItem as any,
         };
       })}
-      id="error-table"
+      id={`error-table-${childId}`}
     />
   );
 };

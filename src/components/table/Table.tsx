@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useEffect } from "react";
 import {
   Table as MuiTable,
   TableBody,
@@ -99,6 +99,10 @@ const Table = (props: TableProps) => {
   const { headers, rows, id, selectable, selectedHandler, highlight } = props;
 
   const [selectedRow, setSelectedRow] = useState<number>(-1);
+
+  useEffect(() => {
+    setSelectedRow(-1);
+  }, [id]);
 
   const renderCells = (cells: unknown[], rowIdx: number, raw: any) => {
     return cells.map((cell, idx) => {
