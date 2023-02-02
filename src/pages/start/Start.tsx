@@ -28,18 +28,25 @@ interface StartPageProps {
 
 const Start = (props: StartPageProps) => {
   const handleButtonClick = () => {
-    console.log("button clicked");
-
     try {
-      window._gaq &&
-        window._gaq.push(["_trackEvent", "cin-la-select", localAuthority]);
-    } catch (err) {}
-
-    props.onClick();
+      //@ts-ignore
+      gtag("event", "cin-la-select", {
+        localAuthority,
+        localAuthorityName: laData.filter((la) => {
+          return la.la_id === localAuthority;
+        })[0].la_name,
+        event_callback: () => {
+          props.onClick();
+        },
+        debug_mode: true,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  /*const [localAuthority, SetLocalAuthority] = useState<string | null>(null);*/
   const [localAuthority, setLocalAuthority] = useState<string>("");
+  console.log(localAuthority);
   const renderDropdown = () => {
     return (
       <FormControl fullWidth>
@@ -49,6 +56,7 @@ const Start = (props: StartPageProps) => {
           labelId="la-select-label"
           label="Choose local authority"
           onChange={(event: SelectChangeEvent) => {
+            console.log("set...");
             setLocalAuthority(event.target.value as string);
           }}
         >
