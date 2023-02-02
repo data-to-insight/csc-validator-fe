@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "components/table";
 import { Error } from "reducers/ReportReducer";
 import validationRules from "data/validation-rules-list.json";
@@ -11,6 +11,12 @@ interface ReportTableProps {
 
 const ReportTable = (props: ReportTableProps) => {
   const { data, id, error } = props;
+
+  useEffect(() => {
+    if (!error) {
+      document.querySelector("h5")?.scrollIntoView();
+    }
+  }, [error]);
 
   const headers = Object.keys(data);
   const cells = Object.values(data);
@@ -25,7 +31,6 @@ const ReportTable = (props: ReportTableProps) => {
       cell: headers.indexOf(error.columns_affected),
       description:
         validationRules.filter((rule) => {
-          console.log(rule);
           return rule.value === error.rule_code.toString();
         })[0].label || "",
     };

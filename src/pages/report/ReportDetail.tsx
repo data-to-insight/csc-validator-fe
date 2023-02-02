@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Error } from "reducers/ReportReducer";
 
 import DraggablePanes from "components/draggable-panes";
@@ -21,6 +21,10 @@ const ReportDetail = (props: ReportDetailProps) => {
   const skipRendering = ["Header", "errors", "hide"];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setSelectedError(null);
+  }, [childId]);
 
   const handleSelectError = (error: Error | null) => {
     setSelectedError(error);
@@ -78,6 +82,7 @@ const ReportDetail = (props: ReportDetailProps) => {
               <ErrorList
                 errorSelectedHandler={handleSelectError}
                 errorList={Object.values(childItem.errors)}
+                childId={childId}
               />
             ) : (
               <Typography variant="body1">
