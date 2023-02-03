@@ -235,7 +235,12 @@ const LoadData = (props: LoadDataPageProps) => {
 
   return (
     <div>
-      {loading && <Loader type="cover" />}
+      {loading && (
+        <Loader
+          type="cover"
+          label="Running analysis, this may take some time"
+        />
+      )}
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
