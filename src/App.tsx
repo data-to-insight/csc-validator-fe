@@ -105,7 +105,7 @@ function App(props: AppProps) {
             APIName={props.APIName}
           />
         ) : (
-          <Loader type="cover" />
+          <Loader type="cover" label="Loading Python API" />
         )}
       </Container>
     </ThemeProvider>
