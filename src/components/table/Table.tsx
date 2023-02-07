@@ -60,6 +60,7 @@ const TableCellElement = (props: {
   return (
     <TableCell
       scope={outline ? "cell-active" : ""}
+      role={outline ? "cell-active" : ""}
       sx={{
         backgroundColor:
           rowIdx === selectedRow || outline ? "#1d70b8" : "transparent",
@@ -116,6 +117,7 @@ const Table = (props: TableProps) => {
           highlight={highlight}
           rowIdx={rowIdx}
           selectedRow={selectedRow}
+          key={`${rowIdx}-${idx}`}
           handleClick={() => {
             if (selectable) {
               setSelectedRow(rowIdx === selectedRow ? -1 : rowIdx);
