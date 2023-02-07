@@ -46,7 +46,6 @@ const Start = (props: StartPageProps) => {
   };
 
   const [localAuthority, setLocalAuthority] = useState<string>("");
-  console.log(localAuthority);
   const renderDropdown = () => {
     return (
       <FormControl fullWidth>
