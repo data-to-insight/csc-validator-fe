@@ -22,6 +22,10 @@ interface HighlightCell {
   description?: string;
 }
 
+interface LowLightCells {
+  [key: string]: any;
+}
+
 interface TableProps {
   headers: string[];
   rows: TableRowType[];
@@ -29,18 +33,27 @@ interface TableProps {
   selectable?: boolean;
   selectedHandler?: (row: any) => void;
   highlight?: HighlightCell | null;
+  lowlights?: LowLightCells;
 }
 
 const TableCellElement = (props: {
   content: string;
   highlight?: HighlightCell | null;
+  lowlight?: boolean | null;
   selectedRow: number;
   rowIdx: number;
   outline?: boolean | null;
   handleClick: () => void;
 }) => {
-  const { content, highlight, selectedRow, handleClick, outline, rowIdx } =
-    props;
+  const {
+    content,
+    highlight,
+    selectedRow,
+    handleClick,
+    outline,
+    rowIdx,
+    lowlight,
+  } = props;
 
   const [popoverLocation, setPopoverLocation] =
     React.useState<HTMLElement | null>(null);
@@ -57,15 +70,30 @@ const TableCellElement = (props: {
 
   const open = Boolean(popoverLocation);
 
+  const buildStyling = () => {
+    const output = {
+      backgroundColor: "transparent",
+      color: "#000",
+    };
+
+    if (lowlight) {
+      output.backgroundColor = "#A7D3F9";
+      output.color = "#fff";
+    }
+
+    if (rowIdx === selectedRow || outline) {
+      output.backgroundColor = "#1d70b8";
+      output.color = "#fff";
+    }
+
+    return output;
+  };
+
   return (
     <TableCell
       scope={outline ? "cell-active" : ""}
       role={outline ? "cell-active" : ""}
-      sx={{
-        backgroundColor:
-          rowIdx === selectedRow || outline ? "#1d70b8" : "transparent",
-        color: rowIdx === selectedRow || outline ? "#fff" : "#000",
-      }}
+      sx={buildStyling()}
       onClick={handleClick}
       key={`table-cell-${content}`}
     >
@@ -97,7 +125,15 @@ const TableCellElement = (props: {
 };
 
 const Table = (props: TableProps) => {
-  const { headers, rows, id, selectable, selectedHandler, highlight } = props;
+  const {
+    headers,
+    rows,
+    id,
+    selectable,
+    selectedHandler,
+    highlight,
+    lowlights,
+  } = props;
 
   const [selectedRow, setSelectedRow] = useState<number>(-1);
 
@@ -112,6 +148,7 @@ const Table = (props: TableProps) => {
 
       return (
         <TableCellElement
+          lowlight={lowlights && lowlights[`${rowIdx}_${idx}`]}
           outline={outline}
           content={cell as string}
           highlight={highlight}
