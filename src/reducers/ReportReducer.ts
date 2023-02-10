@@ -33,7 +33,7 @@ export type Errors = Error[];
 
 export type Error = {
   ERROR_ID: string | null;
-  ROW_ID: string;
+  ROW_ID: number;
   columns_affected: string;
   la_level: string | null;
   rule_code: number;

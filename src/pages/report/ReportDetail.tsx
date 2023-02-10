@@ -32,6 +32,20 @@ const ReportDetail = (props: ReportDetailProps) => {
 
   const renderTables = () => {
     if (childItem) {
+      type ChildErrorTable = {
+        [key: string]: any;
+      };
+      const childErrorsByTable: ChildErrorTable = {};
+
+      Object.values(childItem.errors).forEach((childError: any) => {
+        if (!childErrorsByTable[childError.tables_affected.toLowerCase()]) {
+          childErrorsByTable[childError.tables_affected.toLowerCase()] = [];
+        }
+        childErrorsByTable[childError.tables_affected.toLowerCase()].push(
+          childError
+        );
+      });
+
       return Object.keys(childItem).map((key) => {
         if (skipRendering.indexOf(key) > -1) {
           return null;
@@ -43,6 +57,7 @@ const ReportDetail = (props: ReportDetailProps) => {
               <strong>{pascalToReadable(key)}</strong>
             </Typography>
             <ReportTable
+              childErrors={childErrorsByTable[key.toLowerCase()] || null}
               error={
                 selectedError &&
                 selectedError.tables_affected.toLowerCase() ===
