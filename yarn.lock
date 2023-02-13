@@ -2342,10 +2342,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@sfdl/sf-mui-components@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.1.10.tgz#62a02e3cecfd4af2773f89e23292a1d0f60bdde1"
-  integrity sha512-fBgz9CpE7n65tRtEtjjejpUSr7ZVxwbIRzDbRTD/MGjNBLmGXxyPISx/chTgnfqD3KY1NeyZTzsmiFkkPW3XGQ==
+"@sfdl/sf-mui-components@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@sfdl/sf-mui-components/-/sf-mui-components-0.1.11.tgz#08088a48a12d83a690e6b29e7a08c3ddfbf66fec"
+  integrity sha512-drIT/ZgWtL9Xdg2xE6TeMV5pqNI70V1sJ6NZ63WERwGWKyvr6pQKYGsqwHN2ScJ2ElFLA8tqL0BpxAJqQq10/g==
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.41"
