@@ -11,6 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import { colors } from "@sfdl/sf-mui-components";
+
 type TableRowType = {
   cells: unknown[];
   raw?: any[];
@@ -77,12 +79,12 @@ const TableCellElement = (props: {
     };
 
     if (lowlight) {
-      output.backgroundColor = "#A7D3F9";
+      output.backgroundColor = colors.secondary;
       output.color = "#fff";
     }
 
     if (rowIdx === selectedRow || outline) {
-      output.backgroundColor = "#1d70b8";
+      output.backgroundColor = colors.primary;
       output.color = "#fff";
     }
 
