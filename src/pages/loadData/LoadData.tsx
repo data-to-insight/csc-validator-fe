@@ -40,9 +40,13 @@ interface LoadDataPageProps extends RouteProps {
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch, data } = props;
 
+  const getInitialSelectedRuleState = (): string[] => {
+    return validationRules.map((rule) => rule.value);
+  };
+
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
-  >([]);
+  >(getInitialSelectedRuleState());
   const [loading, setLoading] = useState(false);
 
   const handleResetClick = () => {
@@ -279,6 +283,7 @@ const LoadData = (props: LoadDataPageProps) => {
             title={`Validation Rules (${getValidationRulesSummary()})`}
           >
             <Selectablelist
+              initialSelectedItems={getInitialSelectedRuleState()}
               values={validationRules}
               onItemSelected={(selectedRules: string[]) => {
                 setSelectedValidationRules(selectedRules);
@@ -290,7 +295,9 @@ const LoadData = (props: LoadDataPageProps) => {
           <Aligner>
             <PrimaryControls
               disableDownload={getTotalFilesLength() < 1}
-              disableButtons={getTotalFilesLength() < 1}
+              disableButtons={
+                getTotalFilesLength() < 1 || selectedValidationRules.length < 1
+              }
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
               onGenerateClick={handleGenerateCSVClick}
