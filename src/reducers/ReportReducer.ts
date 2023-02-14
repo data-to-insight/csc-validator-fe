@@ -141,6 +141,10 @@ export const reportReducer = (
       newReportState.filter = reportAction.payload;
 
       Object.values(newReportState.children).forEach((childItem: Child) => {
+        if (!childItem.CINdetails) {
+          return false;
+        }
+
         childItem.hide =
           childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
       });
