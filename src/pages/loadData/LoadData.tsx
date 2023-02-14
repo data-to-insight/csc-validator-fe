@@ -143,7 +143,7 @@ const LoadData = (props: LoadDataPageProps) => {
     const instructions = [
       {
         label: `Upload an XML file for the CIN census by clicking on the arrow below. 
-        CSV uploads are not yet supported by this tool.`,
+        If you have CSVs, convert them into XML using the DfE XML Generator.`,
         content: null,
       },
       {
