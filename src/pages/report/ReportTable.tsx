@@ -30,9 +30,7 @@ const ReportTable = (props: ReportTableProps) => {
     const output: { [key: string]: any } = {};
 
     childErrors.forEach((childError) => {
-      output[
-        `${childError.ROW_ID}_${headers.indexOf(childError.columns_affected)}`
-      ] = true;
+      output[`${0}_${headers.indexOf(childError.columns_affected)}`] = true;
     });
 
     return output;
@@ -44,7 +42,7 @@ const ReportTable = (props: ReportTableProps) => {
     }
 
     return {
-      row: error.ROW_ID || 0,
+      row: 0,
       cell: headers.indexOf(error.columns_affected),
       description:
         validationRules.filter((rule) => {
