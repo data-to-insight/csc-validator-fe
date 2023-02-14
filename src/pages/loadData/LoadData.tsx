@@ -143,7 +143,7 @@ const LoadData = (props: LoadDataPageProps) => {
     const instructions = [
       {
         label: `Upload an XML file for the CIN census by clicking on the arrow below. 
-        CSV uploads are not yet supported by this tool.`,
+        If you have CSVs, convert them into XML using the DfE XML Generator.`,
         content: null,
       },
       {
@@ -161,25 +161,33 @@ const LoadData = (props: LoadDataPageProps) => {
       {
         label: `On the Error Display screen:`,
         content: (
-          <Typography variant="body2">
-            <ul>
-              <li>Use the 'Child ID' sidebar to select individual children.</li>
-              <li>
+          <ul>
+            <li>
+              <Typography variant="body2">
+                Use the 'Child ID' sidebar to select individual children.
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
                 Scroll down to see the failing locations for the child across
                 all recorded tables. Cells with errors are highlighted in blue
                 when you click on the error description.
-              </li>
-              <li>
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
                 If you click the 'Filter' button, you can type to search for a
                 Child ID, or scroll down and click to display only children with
                 a particular error.
-              </li>
-              <li>
+              </Typography>
+            </li>
+            <li>
+              <Typography variant="body2">
                 To download the Error Report spreadsheet, scroll to the bottom
                 of the page and click the 'Download Error Reports' button
-              </li>
-            </ul>
-          </Typography>
+              </Typography>
+            </li>
+          </ul>
         ),
       },
     ];
