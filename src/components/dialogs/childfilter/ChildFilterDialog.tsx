@@ -10,7 +10,7 @@ interface ChildFilterDialogProps {
 }
 
 const ChildFilterDialog = (props: ChildFilterDialogProps) => {
-  const { dispatch, filterString = "" } = props;
+  const { dispatch, filterString } = props;
 
   const handleChange = (
     evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

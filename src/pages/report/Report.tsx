@@ -124,7 +124,10 @@ const Report = (props: ReportPageProps) => {
             <HeaderControl>
               <Typography variant="h6">Child ID</Typography>
               <ButtonPopover label="Filter">
-                <ChildFilterDialog filterString={""} dispatch={dispatch} />
+                <ChildFilterDialog
+                  filterString={data.filter}
+                  dispatch={dispatch}
+                />
               </ButtonPopover>
             </HeaderControl>
             {renderTable()}
