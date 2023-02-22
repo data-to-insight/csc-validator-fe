@@ -25,7 +25,7 @@ export type Child = {
   Header: any;
   Reviews: any;
   Section47: any;
-  Errors: Errors;
+  errors: Errors;
   hide: boolean;
 };
 
@@ -64,27 +64,20 @@ export interface Children {
 const parseChildren = (children: any, errors: any[]) => {
   const output: Children = {};
 
-  Object.keys(children).forEach((childKey) => {
-    const values = JSON.parse(children[childKey]);
-
-    values.forEach((value: any) => {
-      if (!output[value.LAchildID]) {
-        output[value.LAchildID] = { hide: false };
-      }
-
-      output[value.LAchildID][childKey] = value;
-    });
-  });
-
   JSON.parse(errors[0]).forEach((error: any) => {
     if (!error.LAchildID) {
       //TODO - these are LA wide errors
       return false;
     }
-    //this is where Tambe's change to the error structure needs to be mapped. LAchildID is a guess...
-    if (!output[error.LAchildID].errors) {
-      output[error.LAchildID].errors = {};
+
+    if (!output[error.LAchildID]) {
+      output[error.LAchildID] = { errors: {} };
     }
+
+    //this is where Tambe's change to the error structure needs to be mapped. LAchildID is a guess...
+    /*    if (!output[error.LAchildID].errors) {
+      output[error.LAchildID].errors = {};
+    }*/
 
     const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
       return rule["Rule code"] === error.rule_code;
@@ -93,6 +86,16 @@ const parseChildren = (children: any, errors: any[]) => {
     output[error.LAchildID].errors[
       `${error.rule_code} ${error.tables_affected}_${error.columns_affected}`
     ] = { ...error, ...ruleMeta };
+  });
+
+  Object.keys(children).forEach((childKey) => {
+    const values = JSON.parse(children[childKey]);
+
+    values.forEach((value: any) => {
+      if (output[value.LAchildID]) {
+        output[value.LAchildID][childKey] = value;
+      }
+    });
   });
 
   return output;
