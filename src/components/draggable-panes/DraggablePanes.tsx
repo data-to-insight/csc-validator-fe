@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Draggable, {
   DraggableEvent,
   DraggableEventHandler,
@@ -18,6 +18,20 @@ interface DraggablePanesProps {
 }
 
 const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
+  useEffect(() => {
+    const valRect = document
+      .querySelector('td[scope="cell-active"]')
+      ?.getBoundingClientRect();
+    const wrapperRect = topRef.current?.getBoundingClientRect();
+
+    if (valRect && wrapperRect && topRef) {
+      const y = valRect.top - wrapperRect.top;
+      const x = valRect.left - wrapperRect.left;
+
+      topRef?.current?.scrollTo(x, y);
+    }
+  });
+
   const [y, setY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -56,11 +70,6 @@ const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
   };
 
   const heights = getHeights();
-  const val = document.querySelector('td[scope="cell-active"]');
-
-  if (val) {
-    val.closest("table")?.scrollIntoView();
-  }
 
   return (
     <DraggableContainer ref={containerRef}>
