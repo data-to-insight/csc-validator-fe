@@ -77,7 +77,15 @@ const Report = (props: ReportPageProps) => {
 
     const reportList = Object.values(data.children)
       .filter((child) => {
+        // if there's no CI column, don't show child
         if (!child.ChildIdentifiers) {
+          return false;
+        }
+
+        // if there's no errors, don't show child
+        // Dave: this is a belt and braces thing to test
+        // theoretically, no unerrored children should arrive from the reducer...
+        if (Object.keys(child.errors).length < 1) {
           return false;
         }
 
