@@ -44,6 +44,12 @@ const PrimaryControls = (props: PrimaryControlsProps): JSX.Element => {
       >
         Download CSVs
       </Button>
+      <Button
+        disabled={disableButtons || disableDownload}
+        variant="contained"
+      >
+        Download Report
+      </Button>
     </>
   );
 };
