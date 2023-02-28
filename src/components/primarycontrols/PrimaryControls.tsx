@@ -4,18 +4,22 @@ import { Button } from "@mui/material";
 interface PrimaryControlsProps {
   disableButtons?: boolean;
   disableDownload?: boolean;
+  disableUserReport?: boolean;
   onClearClick: () => void;
   onValidateClick: () => void;
   onGenerateClick: () => void;
+  onReportClick: () => void;
 }
 
 const PrimaryControls = (props: PrimaryControlsProps): JSX.Element => {
   const {
     disableButtons,
     disableDownload,
+    disableUserReport,
     onClearClick,
     onValidateClick,
     onGenerateClick,
+    onReportClick,
   } = props;
 
   return (
@@ -45,8 +49,9 @@ const PrimaryControls = (props: PrimaryControlsProps): JSX.Element => {
         Download CSVs
       </Button>
       <Button
-        disabled={disableButtons || disableDownload}
+        disabled={disableButtons || disableUserReport}
         variant="contained"
+        onClick={onReportClick}
       >
         Download Report
       </Button>

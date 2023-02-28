@@ -138,6 +138,7 @@ const LoadData = (props: LoadDataPageProps) => {
       generateCSVFile(data.tables);
     }
   };
+;
 
   const renderInstructions = () => {
     const instructions = [
@@ -306,9 +307,13 @@ const LoadData = (props: LoadDataPageProps) => {
               disableButtons={
                 getTotalFilesLength() < 1 || selectedValidationRules.length < 1
               }
+              disableUserReport={
+                !data || !data.userReport
+              }
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
               onGenerateClick={handleGenerateCSVClick}
+              onReportClick= {()=>{}}
             />
           </Aligner>
         </Block>

@@ -8,5 +8,5 @@ it("renders Start page", () => {
     onClick: handleClick,
   };
 
-  const view = renderer.create(<Start {...props} />);
+  renderer.create(<Start {...props} />);
 });
