@@ -18,5 +18,5 @@ it("renders LoadData page", () => {
     fileState: [],
   };
 
-  const view = renderer.create(<LoadData {...props} />);
+  renderer.create(<LoadData {...props} />);
 });

@@ -6,12 +6,14 @@ test("Primary Controls display and interaction", () => {
   const onClearClick = jest.fn();
   const onGenerateClick = jest.fn();
   const onValidateClick = jest.fn();
+  const onReportClick = jest.fn();
 
   render(
     <PrimaryControls
       onClearClick={onClearClick}
       onGenerateClick={onGenerateClick}
       onValidateClick={onValidateClick}
+      onReportClick={onReportClick}
     />
   );
 
@@ -23,4 +25,7 @@ test("Primary Controls display and interaction", () => {
 
   fireEvent.click(screen.getByText("Download CSVs"));
   expect(onGenerateClick).toHaveBeenCalled();
+
+  fireEvent.click(screen.getByText("Download Report"));
+  expect(onReportClick).toHaveBeenCalled();
 });

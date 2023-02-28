@@ -18,5 +18,5 @@ it("renders Report page", () => {
     fileState: [],
   };
 
-  const view = renderer.create(<Report {...props} />);
+  renderer.create(<Report {...props} />);
 });

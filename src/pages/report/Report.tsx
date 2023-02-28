@@ -61,6 +61,22 @@ const Report = (props: ReportPageProps) => {
     }
   };
 
+  const generateReport = () => {
+    if (data && data.userReport){
+      const output = generateCSV(Object.values(data.userReport));
+      if (output) {
+        const encodedURI = encodeURI(output);
+        const link = document.createElement("a");
+        document.body.appendChild(link);
+
+        link.download = "User Report.csv";
+        link.href = encodedURI;
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  };
+
   const handleRowSelect = (row: unknown[]) => {
     setSelectedChild(row[0] as string);
   };
@@ -155,6 +171,9 @@ const Report = (props: ReportPageProps) => {
               onValidateClick={() => {}}
               onGenerateClick={() => {
                 generateCSVFile();
+              }}
+              onReportClick={() => {
+                generateReport();
               }}
             />
           </Aligner>
