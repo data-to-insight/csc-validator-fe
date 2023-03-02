@@ -62,7 +62,7 @@ const Report = (props: ReportPageProps) => {
   };
 
   const generateReport = () => {
-    if (data && data.userReport){
+    if (data && data.userReport) {
       const output = generateCSV(Object.values(data.userReport));
       if (output) {
         const encodedURI = encodeURI(output);
