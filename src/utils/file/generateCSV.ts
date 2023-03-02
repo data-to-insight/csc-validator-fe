@@ -1,3 +1,7 @@
+const replaceCommas = (str: string): string => {
+  return str.replaceAll(",", "|");
+};
+
 const generateCSV = (input: any[]): string | null => {
   if (input.length < 0) {
     return null;
@@ -8,7 +12,15 @@ const generateCSV = (input: any[]): string | null => {
   ];
 
   input.forEach((row) => {
-    output.push(Object.values(row).join(","));
+    output.push(
+      Object.values(row)
+        .map((value) => {
+          return value || value === 0
+            ? replaceCommas(JSON.stringify(value))
+            : "-";
+        })
+        .join(",")
+    );
   });
 
   return output.join("\n");
