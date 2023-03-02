@@ -12,6 +12,7 @@ import ChildFilterDialog from "components/dialogs/childfilter";
 import ReportDetail from "./ReportDetail";
 import { Aligner, Spacer } from "../Pages.styles";
 import { generateCSV } from "utils/file/generateCSV";
+import { downloadFile } from "utils/file/download";
 
 interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -48,14 +49,7 @@ const Report = (props: ReportPageProps) => {
         );
 
         if (output) {
-          const encodedURI = encodeURI(output);
-          const link = document.createElement("a");
-          document.body.appendChild(link);
-
-          link.download = `${table}.csv`;
-          link.href = encodedURI;
-          link.click();
-          document.body.removeChild(link);
+          downloadFile(output, `${table}.csv`);
         }
       });
     }
@@ -64,15 +58,9 @@ const Report = (props: ReportPageProps) => {
   const generateReport = () => {
     if (data && data.userReport) {
       const output = generateCSV(Object.values(data.userReport));
-      if (output) {
-        const encodedURI = encodeURI(output);
-        const link = document.createElement("a");
-        document.body.appendChild(link);
 
-        link.download = "User Report.csv";
-        link.href = encodedURI;
-        link.click();
-        document.body.removeChild(link);
+      if (output) {
+        downloadFile(output, `User Report.csv`);
       }
     }
   };
