@@ -3,7 +3,7 @@ const replaceCommas = (str: string): string => {
 };
 
 const generateCSV = (input: any[]): string | null => {
-  if (input.length < 0) {
+  if (input.length < 1) {
     return null;
   }
   const output = [

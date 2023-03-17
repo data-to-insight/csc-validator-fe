@@ -13,3 +13,9 @@ test("generating CSV with null value", () => {
 
   expect(generateCSV(input)).toEqual(output);
 });
+
+test("attemping to convert an empty array returns null", () => {
+  const input: any = [];
+
+  expect(generateCSV(input)).toBe(null);
+});

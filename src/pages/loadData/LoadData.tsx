@@ -32,6 +32,7 @@ import { generateCSV } from "utils/file/generateCSV";
 import { RouteProps, RouteValue } from "../../Router";
 
 import validationRules from "data/validation-rules-list.json";
+import { downloadFile } from "utils/file/download";
 
 interface LoadDataPageProps extends RouteProps {
   handleRouteChange: (route: RouteValue) => void;
@@ -59,14 +60,7 @@ const LoadData = (props: LoadDataPageProps) => {
       const output = generateCSV(Object.values(JSON.parse(tables[table])));
 
       if (output) {
-        const encodedURI = encodeURI(output);
-        const link = document.createElement("a");
-        document.body.appendChild(link);
-
-        link.download = `${table}.csv`;
-        link.href = encodedURI;
-        link.click();
-        document.body.removeChild(link);
+        downloadFile(output, `${table}.csv`);
       }
     });
   };
@@ -138,8 +132,6 @@ const LoadData = (props: LoadDataPageProps) => {
       generateCSVFile(data.tables);
     }
   };
-;
-
   const renderInstructions = () => {
     const instructions = [
       {
@@ -307,13 +299,11 @@ const LoadData = (props: LoadDataPageProps) => {
               disableButtons={
                 getTotalFilesLength() < 1 || selectedValidationRules.length < 1
               }
-              disableUserReport={
-                !data || !data.userReport
-              }
+              disableUserReport={!data || !data.userReport}
               onClearClick={handleResetClick}
               onValidateClick={handleNextClick}
               onGenerateClick={handleGenerateCSVClick}
-              onReportClick= {()=>{}}
+              onReportClick={() => {}}
             />
           </Aligner>
         </Block>
