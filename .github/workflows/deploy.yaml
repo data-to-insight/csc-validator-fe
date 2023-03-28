@@ -2,32 +2,33 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - "release/**"
+      - "main"
 
 jobs:
-  bump-version:
-    name: "Bump Version on main"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Checkout source code"
-        uses: "actions/checkout@v3"
-        with:
-          persist-credentials: false
-          ref: ${{ github.ref }}
-      - name: "cat package.json"
-        run: cat ./package.json
-      - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "cat package.json"
-        run: cat ./package.json
-      - name: "Output Step"
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
+  #  bump-version:
+  #    name: "Bump Version on Main"
+  #    runs-on: ubuntu-latest
+  #
+  #    steps:
+  #      - name: "Checkout source code"
+  #        uses: "actions/checkout@v3"
+  #        with:
+  #          persist-credentials: false
+  #          ref: ${{ github.ref }}
+  #      - name: "cat package.json"
+  #        run: cat ./package.json
+  #      - name: "Automated Version Bump"
+  #        uses: "phips28/gh-action-bump-version@master"
+  #        env:
+  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      - name: "cat package.json"
+  #        run: cat ./package.json
+  #      - name: "Output Step"
+  #        env:
+  #          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+  #        run: echo "new tag $NEW_TAG"
   build-and-deploy:
+    name: "Build and Deploy"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
