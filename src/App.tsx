@@ -11,6 +11,7 @@ import { GatedProps } from "@sfdl/sf-cookie-gate";
 
 import { reportReducer } from "reducers/ReportReducer";
 import { fileReducer, initialData } from "reducers/FileReducer";
+import Version from "components/version";
 
 const CINTheme = { ...SFTheme };
 
@@ -67,7 +68,6 @@ function App(props: AppProps) {
     };
 
     if (initial) {
-      console.log("init...");
       initial = false;
       init();
     }
@@ -107,6 +107,10 @@ function App(props: AppProps) {
         ) : (
           <Loader type="cover" label="Loading Python API" />
         )}
+        <Version
+          versionNumber={process.env.REACT_APP_VERSION || ""}
+          sourceLink="https://github.com/data-to-insight/cin-validator-fe"
+        />
       </Container>
     </ThemeProvider>
   );
