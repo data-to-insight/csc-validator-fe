@@ -1,9 +1,9 @@
-name: "Push C"
+name: "Push Release Commit"
 
 on:
   push:
     branches:
-      - "main"
+      - "release/**"
 
 jobs:
   bump-version:
