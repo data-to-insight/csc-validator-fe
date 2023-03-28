@@ -1,4 +1,4 @@
-name: "Push Commit"
+name: "Push C"
 
 on:
   push:
@@ -14,6 +14,7 @@ jobs:
       - name: "Checkout source code"
         uses: "actions/checkout@v3"
         with:
+          persist-credentials: false
           ref: ${{ github.ref }}
       - name: "cat package.json"
         run: cat ./package.json
