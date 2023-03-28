@@ -96,21 +96,23 @@ function App(props: AppProps) {
     <ThemeProvider theme={theme}>
       <Container>
         {ready && api ? (
-          <Router
-            data={reportState}
-            fileState={fileState}
-            dispatch={reportDispatch}
-            fileDispatch={fileDispatch}
-            api={api}
-            APIName={props.APIName}
-          />
+          <>
+            <Router
+              data={reportState}
+              fileState={fileState}
+              dispatch={reportDispatch}
+              fileDispatch={fileDispatch}
+              api={api}
+              APIName={props.APIName}
+            />
+            <Version
+              versionNumber={process.env.REACT_APP_VERSION || ""}
+              sourceLink="https://github.com/data-to-insight/cin-validator-fe"
+            />
+          </>
         ) : (
           <Loader type="cover" label="Loading Python API" />
         )}
-        <Version
-          versionNumber={process.env.REACT_APP_VERSION || ""}
-          sourceLink="https://github.com/data-to-insight/cin-validator-fe"
-        />
       </Container>
     </ThemeProvider>
   );

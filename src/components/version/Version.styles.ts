@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { greys } from "@sfdl/sf-mui-components";
 
 const Version = styled.div`
   position: relative;
@@ -6,9 +7,10 @@ const Version = styled.div`
   text-align: center;
   bottom: 0;
   right: 0;
+  color: ${greys.mid};
 
   a {
-    color: black;
+    color: ${greys.mid};
   }
 `;
 
