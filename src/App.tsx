@@ -106,7 +106,11 @@ function App(props: AppProps) {
               APIName={props.APIName}
             />
             <Version
-              versionNumber={process.env.REACT_APP_VERSION || ""}
+              versionNumber={
+                process.env.REACT_APP_VERSION && process.env.REACT_APP_DATE
+                  ? `${process.env.REACT_APP_VERSION} - ${process.env.REACT_APP_DATE}`
+                  : ""
+              }
               sourceLink="https://github.com/data-to-insight/cin-validator-fe"
             />
           </>
