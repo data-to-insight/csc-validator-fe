@@ -65,12 +65,24 @@ export interface Children {
 const parseChildren = (children: any, errors: any[]) => {
   const output: Children = {};
 
+  Object.keys(children).forEach((childKey) => {
+    const values = JSON.parse(children[childKey]);
+
+    // get all children and dump them into the output
+    values.forEach((value: any) => {
+      if (!output[value.LAchildID]) {
+        output[value.LAchildID] = { errors: {} };
+      }
+    });
+  });
+
   JSON.parse(errors[0]).forEach((error: any) => {
     if (!error.LAchildID) {
       //TODO - these are LA wide errors
       return false;
     }
 
+    // have we found a missing child? create a new entry
     if (!output[error.LAchildID]) {
       output[error.LAchildID] = { errors: {} };
     }
@@ -129,7 +141,7 @@ export const reportReducer = (
         reportAction.payload.tables,
         reportAction.payload.errors
       );
-      newReportState.userReport = JSON.parse(reportAction.payload.errors[3])
+      newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
 
       newReportState.tables = reportAction.payload.tables;
 
