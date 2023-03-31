@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ReportActionType } from "reducers/ReportReducer";
 import { RouteValue, RouteProps } from "Router";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Checkbox, Grid, Typography } from "@mui/material";
 import { ScrollableFull, HeaderControl } from "./Report.styles";
 
 import { SelectableTable, ButtonPopover, Block } from "@sfdl/sf-mui-components";
@@ -21,6 +21,7 @@ interface ReportPageProps extends RouteProps {
 const Report = (props: ReportPageProps) => {
   const { handleRouteChange, api, data, dispatch } = props;
   const [selectedChild, setSelectedChild] = useState<string | null>(null);
+  const [hideWithoutErrors, setHideWithoutErrors] = useState<boolean>(true);
 
   useEffect(() => {
     const init = async () => {
@@ -74,6 +75,20 @@ const Report = (props: ReportPageProps) => {
     handleRouteChange(RouteValue.LOAD_DATA);
   };
 
+  const renderCheckbox = () => {
+    return (
+      <HeaderControl>
+        <Typography variant="body2">Hide children without errors</Typography>
+        <Checkbox
+          onChange={() => {
+            setHideWithoutErrors(!hideWithoutErrors);
+          }}
+          checked={hideWithoutErrors}
+        />
+      </HeaderControl>
+    );
+  };
+
   const renderTable = () => {
     if (!data.children) {
       return null;
@@ -86,10 +101,8 @@ const Report = (props: ReportPageProps) => {
           return false;
         }
 
-        // if there's no errors, don't show child
-        // Dave: this is a belt and braces thing to test
-        // theoretically, no unerrored children should arrive from the reducer...
-        if (Object.keys(child.errors).length < 1) {
+        // if there's no errors, and we're hiding non-errored children, don't show child
+        if (Object.keys(child.errors).length < 1 && hideWithoutErrors) {
           return false;
         }
 
@@ -142,6 +155,7 @@ const Report = (props: ReportPageProps) => {
                 />
               </ButtonPopover>
             </HeaderControl>
+            {renderCheckbox()}
             {renderTable()}
           </ScrollableFull>
         </Grid>
