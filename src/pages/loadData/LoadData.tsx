@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from "react";
 import {
@@ -74,7 +75,7 @@ const LoadData = (props: LoadDataPageProps) => {
     };
 
     init();
-  });
+  }, []);
 
   const getInitialSelectedRuleState = (rules: Rule[]): string[] => {
     if (rules.length === 0) {
