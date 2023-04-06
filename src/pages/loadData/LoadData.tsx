@@ -74,7 +74,7 @@ const LoadData = (props: LoadDataPageProps) => {
     };
 
     init();
-  }, []);
+  });
 
   const getInitialSelectedRuleState = (rules: Rule[]): string[] => {
     if (rules.length === 0) {
