@@ -125,11 +125,17 @@ const Report = (props: ReportPageProps) => {
   };
 
   const renderDetailView = () => {
-    if (selectedChild && data.children && data.children[selectedChild]) {
+    if (
+      selectedChild &&
+      data.children &&
+      data.children[selectedChild] &&
+      data.validationRules
+    ) {
       return (
         <ReportDetail
           childId={selectedChild}
           childItem={data.children[selectedChild]}
+          validationRules={data.validationRules}
         />
       );
     }

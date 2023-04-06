@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -31,24 +31,62 @@ import { generateCSV } from "utils/file/generateCSV";
 
 import { RouteProps, RouteValue } from "../../Router";
 
-import validationRules from "data/validation-rules-list.json";
 import { downloadFile } from "utils/file/download";
 
 interface LoadDataPageProps extends RouteProps {
   handleRouteChange: (route: RouteValue) => void;
 }
 
+type Rule = {
+  value: string;
+  label: string;
+};
+
 const LoadData = (props: LoadDataPageProps) => {
   const { dispatch, api, fileState, fileDispatch, data } = props;
+  const validationRules = data.validationRules;
 
-  const getInitialSelectedRuleState = (): string[] => {
-    return validationRules.map((rule) => rule.value);
+  const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
+
+  useEffect(() => {
+    const init = async () => {
+      setLoadingMessage("Loading rules");
+      setLoading(true);
+
+      const rules = await api.call("get_rules", {});
+      const parsedRules = JSON.parse(rules).map(
+        (rule: { code: string; description: string }) => {
+          return {
+            value: rule.code,
+            label: rule.description,
+          };
+        }
+      );
+
+      dispatch({
+        type: ReportActionType.SET_VALIDATION_RULES,
+        payload: parsedRules,
+      });
+
+      setSelectedValidationRules(getInitialSelectedRuleState(parsedRules));
+      setLoading(false);
+    };
+
+    init();
+  }, []);
+
+  const getInitialSelectedRuleState = (rules: Rule[]): string[] => {
+    if (rules.length === 0) {
+      return [];
+    }
+
+    return rules.map((rule) => rule.value);
   };
 
   const [selectedValidationRules, setSelectedValidationRules] = useState<
     string[]
-  >(getInitialSelectedRuleState());
-  const [loading, setLoading] = useState(false);
+  >([]);
 
   const handleResetClick = () => {
     dispatch({ type: ReportActionType.RESET, payload: {} });
@@ -76,6 +114,7 @@ const LoadData = (props: LoadDataPageProps) => {
       const file = fileState["2023"];
 
       try {
+        setLoadingMessage("Running analysis, this may take some time");
         setLoading(true);
 
         const fileObject: any = Object.values(file)[0] as any;
@@ -110,6 +149,7 @@ const LoadData = (props: LoadDataPageProps) => {
         const file = fileState["2023"];
 
         try {
+          setLoadingMessage("Generating CSV file");
           setLoading(true);
 
           const fileObject: any = Object.values(file)[0] as any;
@@ -231,6 +271,10 @@ const LoadData = (props: LoadDataPageProps) => {
   };
 
   const getValidationRulesSummary = () => {
+    if (!validationRules) {
+      return "";
+    }
+
     const totalRulesLength = validationRules.length;
     const selectedRulesLength = selectedValidationRules.length;
     const unselectedRulesLength = totalRulesLength - selectedRulesLength;
@@ -240,12 +284,7 @@ const LoadData = (props: LoadDataPageProps) => {
 
   return (
     <div>
-      {loading && (
-        <Loader
-          type="cover"
-          label="Running analysis, this may take some time"
-        />
-      )}
+      {loading && <Loader type="cover" label={loadingMessage} />}
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
@@ -278,19 +317,23 @@ const LoadData = (props: LoadDataPageProps) => {
           <Box>{renderFileTabs()}</Box>
         </Block>
         <Block spacing="blockLarge">
-          <Expando
-            defaultExpanded={false}
-            id="validation-rules-expander"
-            title={`Validation Rules (${getValidationRulesSummary()})`}
-          >
-            <Selectablelist
-              initialSelectedItems={getInitialSelectedRuleState()}
-              values={validationRules}
-              onItemSelected={(selectedRules: string[]) => {
-                setSelectedValidationRules(selectedRules);
-              }}
-            />
-          </Expando>
+          {validationRules && validationRules.length > 0 && (
+            <Expando
+              defaultExpanded={false}
+              id="validation-rules-expander"
+              title={`Validation Rules (${getValidationRulesSummary()})`}
+            >
+              <Selectablelist
+                initialSelectedItems={getInitialSelectedRuleState(
+                  validationRules
+                )}
+                values={validationRules}
+                onItemSelected={(selectedRules: string[]) => {
+                  setSelectedValidationRules(selectedRules);
+                }}
+              />
+            </Expando>
+          )}
         </Block>
         <Block spacing="blockLarge">
           <Aligner>

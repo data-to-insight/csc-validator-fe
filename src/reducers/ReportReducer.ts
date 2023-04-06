@@ -9,6 +9,7 @@ export enum ReportActionType {
   SET_TABLES = "SET_TABLES",
   SET_CHILD = "SET_CHILD",
   SET_RULES = "SET_RULES",
+  SET_VALIDATION_RULES = "SET_VALIDATION_RULES",
   HIDE_ROWS = "HIDE_ROWS",
   RESET = "RESET",
 }
@@ -32,8 +33,7 @@ export type Child = {
 export type Errors = Error[];
 
 export type Error = {
-  ERROR_ID: string | null;
-  ROW_ID: number;
+  row_id: number;
   columns_affected: string;
   la_level: string | null;
   rule_code: number;
@@ -50,12 +50,18 @@ export type Rule = {
 
 export type Rules = Rule[];
 
+export type ValidationRule = {
+  value: "";
+  label: "";
+};
+
 export type Report = {
   children?: Children;
   rules?: Rules;
   filter?: string;
   tables?: any;
   userReport?: any;
+  validationRules?: ValidationRule[];
 };
 
 export interface Children {
@@ -77,28 +83,18 @@ const parseChildren = (children: any, errors: any[]) => {
   });
 
   JSON.parse(errors[0]).forEach((error: any) => {
+    const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
+
     if (!error.LAchildID) {
       //TODO - these are LA wide errors
       return false;
     }
 
-    // have we found a missing child? create a new entry
-    if (!output[error.LAchildID]) {
-      output[error.LAchildID] = { errors: {} };
-    }
-
-    //this is where Tambe's change to the error structure needs to be mapped. LAchildID is a guess...
-    /*    if (!output[error.LAchildID].errors) {
-      output[error.LAchildID].errors = {};
-    }*/
-
     const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
       return rule["Rule code"] === error.rule_code;
     })[0];
 
-    output[error.LAchildID].errors[
-      `${error.rule_code} ${error.tables_affected}_${error.columns_affected}`
-    ] = { ...error, ...ruleMeta };
+    output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
   });
 
   Object.keys(children).forEach((childKey) => {
@@ -126,6 +122,11 @@ export const reportReducer = (
 
     case ReportActionType.UPDATE:
       newReportState = { ...reportAction.payload };
+      return newReportState;
+
+    case ReportActionType.SET_VALIDATION_RULES:
+      console.log(reportAction.payload);
+      newReportState.validationRules = reportAction.payload;
       return newReportState;
 
     case ReportActionType.SET_RULES:
