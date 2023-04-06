@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import Table from "components/table";
-import { Error } from "reducers/ReportReducer";
-import validationRules from "data/validation-rules-list.json";
+import { Error, ValidationRule } from "reducers/ReportReducer";
 
 interface ReportTableProps {
   data: any;
   id: string;
   error?: Error | null;
   childErrors?: Error[] | [] | null;
+  validationRules: ValidationRule[];
 }
 
 const ReportTable = (props: ReportTableProps) => {
-  const { data, id, error, childErrors } = props;
+  const { data, id, error, childErrors, validationRules } = props;
 
   useEffect(() => {
     if (!error) {
@@ -41,13 +41,17 @@ const ReportTable = (props: ReportTableProps) => {
       return null;
     }
 
+    const matchingRules = validationRules.filter((rule) => {
+      return rule.value === error.rule_code.toString();
+    });
+
     return {
       row: 0,
       cell: headers.indexOf(error.columns_affected),
       description:
-        validationRules.filter((rule) => {
-          return rule.value === error.rule_code.toString();
-        })[0].label || "",
+        matchingRules.length > 0 && matchingRules[0].label
+          ? matchingRules[0].label
+          : "",
     };
   };
 

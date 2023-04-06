@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Error } from "reducers/ReportReducer";
+import { Error, ValidationRule } from "reducers/ReportReducer";
 
 import DraggablePanes from "components/draggable-panes";
 
@@ -14,10 +14,11 @@ import { Typography } from "@mui/material";
 interface ReportDetailProps {
   childItem: any;
   childId: string;
+  validationRules: ValidationRule[];
 }
 
 const ReportDetail = (props: ReportDetailProps) => {
-  const { childItem, childId } = props;
+  const { childItem, childId, validationRules } = props;
   const skipRendering = ["Header", "errors", "hide"];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
@@ -57,6 +58,7 @@ const ReportDetail = (props: ReportDetailProps) => {
               <strong>{pascalToReadable(key)}</strong>
             </Typography>
             <ReportTable
+              validationRules={validationRules}
               childErrors={childErrorsByTable[key.toLowerCase()] || null}
               error={
                 selectedError &&
