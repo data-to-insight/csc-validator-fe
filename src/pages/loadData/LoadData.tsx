@@ -10,8 +10,12 @@ import {
   StepLabel,
   StepContent,
   Typography,
+  Select,
+  InputLabel,
+  MenuItem,
+  FormControl,
 } from "@mui/material";
-import { FormatListNumbered } from "@mui/icons-material";
+import { ConstructionOutlined, FormatListNumbered } from "@mui/icons-material";
 
 import { Aligner } from "../Pages.styles";
 
@@ -271,6 +275,30 @@ const LoadData = (props: LoadDataPageProps) => {
     return <Tabs headers={headers} bodies={bodies} id="file-upload-tabs" />;
   };
 
+  const RulesetSelect = () => {
+    const [ruleset, setRuleset] = useState("")
+    async function handleRulesetChange(e: { preventDefault: () => void; target: { value: any; }; }) {
+      e.preventDefault();
+      const selectedRuleset = e.target.value;
+      console.log({selectedRuleset});
+    };
+    return(
+      <FormControl fullWidth>
+      <InputLabel id="select-ruleset-label"> Select validation year</InputLabel>
+      <Select
+        labelId="select-ruleset-label"
+        id="select-ruleset"
+        label="Select validation year"
+        onChange={handleRulesetChange}
+        value=""
+      >
+        <MenuItem value={"cin2022_23"}>2022/2023 rules</MenuItem>
+        <MenuItem value={"cin2023_24"}>2023-2024 rules</MenuItem>
+      </Select>
+      </FormControl>
+    );
+  }
+
   const getValidationRulesSummary = () => {
     if (!validationRules) {
       return "";
@@ -316,6 +344,9 @@ const LoadData = (props: LoadDataPageProps) => {
         </Block>
         <Block spacing="blockLarge">
           <Box>{renderFileTabs()}</Box>
+        </Block>
+        <Block spacing="blockLarge">
+          <Box>{RulesetSelect()}</Box>
         </Block>
         <Block spacing="blockLarge">
           {validationRules && validationRules.length > 0 && (
