@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ReportActionType } from 'reducers/ReportReducer';
 import { RouteValue, RouteProps } from 'Router';
-import { Box, Checkbox, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Grid, Typography, Button } from '@mui/material';
 import { ScrollableFull, HeaderControl } from './Report.styles';
 
 import { SelectableTable, ButtonPopover, Block } from '@sfdl/sf-mui-components';
@@ -10,6 +10,7 @@ import PrimaryControls from 'components/primarycontrols';
 
 import ChildFilterDialog from 'components/dialogs/childfilter';
 import ReportDetail from './ReportDetail';
+import ReportLAWide from './ReportLAWide';
 import { Aligner, Spacer } from '../Pages.styles';
 import { generateCSV } from 'utils/file/generateCSV';
 import { downloadFile } from 'utils/file/download';
@@ -124,6 +125,10 @@ const Report = (props: ReportPageProps) => {
     );
   };
 
+  const renderLAWideView = () => {
+    return <ReportLAWide errors={data.laWide} />;
+  };
+
   const renderDetailView = () => {
     if (
       selectedChild &&
@@ -152,6 +157,16 @@ const Report = (props: ReportPageProps) => {
       >
         <Grid item xs={2} style={{ height: '100%' }}>
           <ScrollableFull>
+            <Block>
+              <Button
+                onClick={() => {
+                  setSelectedChild('LAWide');
+                }}
+              >
+                View LA-wide Errors
+              </Button>
+            </Block>
+
             <HeaderControl>
               <Typography variant='h6'>Child ID</Typography>
               <ButtonPopover label='Filter'>
@@ -166,7 +181,7 @@ const Report = (props: ReportPageProps) => {
           </ScrollableFull>
         </Grid>
         <Grid item xs={10} style={{ height: '100%' }}>
-          {renderDetailView()}
+          {selectedChild === 'LAWide' ? renderLAWideView() : renderDetailView()}
         </Grid>
       </Grid>
       <Block spacing='blockLarge'>

@@ -62,6 +62,7 @@ export type Report = {
   tables?: any;
   userReport?: any;
   validationRules?: ValidationRule[];
+  laWide?: any;
 };
 
 export interface Children {
@@ -146,6 +147,7 @@ export const reportReducer = (
         reportAction.payload.errors
       );
       newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
+      newReportState.laWide = JSON.parse(reportAction.payload.errors[1]);
 
       newReportState.tables = reportAction.payload.tables;
 
