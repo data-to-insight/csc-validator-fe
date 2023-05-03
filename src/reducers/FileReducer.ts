@@ -21,7 +21,6 @@ export const fileReducer = (fileState: any, fileAction: FileAction) => {
 
     case FileActionType.ADD_FILES:
       newState = { ...fileState };
-      console.log(fileAction.year, fileAction.payload);
       if (Object.keys(fileAction.payload).length < 1) {
         newState[fileAction.year] = [];
       } else {

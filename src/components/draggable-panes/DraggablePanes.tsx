@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import Draggable, {
   DraggableEvent,
   DraggableEventHandler,
   DraggableData,
-} from "react-draggable";
+} from 'react-draggable';
 
 import {
   DraggableBottom,
   DraggableTop,
   DraggableHandle,
   DraggableContainer,
-} from "./DraggablePanes.styles";
+} from './DraggablePanes.styles';
 
 interface DraggablePanesProps {
   topContent: any;
@@ -19,17 +19,8 @@ interface DraggablePanesProps {
 
 const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
   useEffect(() => {
-    const valRect = document
-      .querySelector('td[scope="cell-active"]')
-      ?.getBoundingClientRect();
-    const wrapperRect = topRef.current?.getBoundingClientRect();
-
-    if (valRect && wrapperRect && topRef) {
-      const y = valRect.top - wrapperRect.top;
-      const x = valRect.left - wrapperRect.left;
-
-      topRef?.current?.scrollTo(x, y);
-    }
+    const valRect = document.querySelector('td[scope="cell-active"]');
+    valRect?.scrollIntoView();
   });
 
   const [y, setY] = useState(0);
@@ -80,7 +71,7 @@ const DraggablePanes = ({ topContent, bottomContent }: DraggablePanesProps) => {
         {bottomContent}
       </DraggableBottom>
 
-      <Draggable nodeRef={nodeRef} axis="y" bounds="parent" onDrag={handleDrag}>
+      <Draggable nodeRef={nodeRef} axis='y' bounds='parent' onDrag={handleDrag}>
         <DraggableHandle ref={nodeRef}></DraggableHandle>
       </Draggable>
     </DraggableContainer>

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { ReportActionType } from "reducers/ReportReducer";
-import { RouteValue, RouteProps } from "Router";
-import { Box, Checkbox, Grid, Typography } from "@mui/material";
-import { ScrollableFull, HeaderControl } from "./Report.styles";
+import React, { useState, useEffect } from 'react';
+import { ReportActionType } from 'reducers/ReportReducer';
+import { RouteValue, RouteProps } from 'Router';
+import { Box, Checkbox, Grid, Typography, Button } from '@mui/material';
+import { ScrollableFull, HeaderControl } from './Report.styles';
 
-import { SelectableTable, ButtonPopover, Block } from "@sfdl/sf-mui-components";
+import { SelectableTable, ButtonPopover, Block } from '@sfdl/sf-mui-components';
 
-import PrimaryControls from "components/primarycontrols";
+import PrimaryControls from 'components/primarycontrols';
 
-import ChildFilterDialog from "components/dialogs/childfilter";
-import ReportDetail from "./ReportDetail";
-import { Aligner, Spacer } from "../Pages.styles";
-import { generateCSV } from "utils/file/generateCSV";
-import { downloadFile } from "utils/file/download";
+import ChildFilterDialog from 'components/dialogs/childfilter';
+import ReportDetail from './ReportDetail';
+import ReportLAWide from './ReportLAWide';
+import { Aligner, Spacer } from '../Pages.styles';
+import { generateCSV } from 'utils/file/generateCSV';
+import { downloadFile } from 'utils/file/download';
 
 interface ReportPageProps extends RouteProps {
   handleRouteChange: (newRoute: RouteValue) => void;
@@ -25,8 +26,8 @@ const Report = (props: ReportPageProps) => {
 
   useEffect(() => {
     const init = async () => {
-      const children = await api.call("get_children", {});
-      const errors = await api.call("get_errors", {});
+      const children = await api.call('get_children', {});
+      const errors = await api.call('get_errors', {});
 
       dispatch({
         type: ReportActionType.SET_CHILDREN,
@@ -78,7 +79,7 @@ const Report = (props: ReportPageProps) => {
   const renderCheckbox = () => {
     return (
       <HeaderControl>
-        <Typography variant="body2">Hide children without errors</Typography>
+        <Typography variant='body2'>Hide children without errors</Typography>
         <Checkbox
           onChange={() => {
             setHideWithoutErrors(!hideWithoutErrors);
@@ -110,18 +111,22 @@ const Report = (props: ReportPageProps) => {
       })
       .map((child) => {
         return [
-          child.ChildIdentifiers.LAchildID,
+          child.ChildIdentifiers[0].LAchildID,
           child.errors ? Object.keys(child.errors).length : 0,
         ];
       });
 
     return (
       <SelectableTable
-        headers={["Code", "Count"]}
+        headers={['Code', 'Count']}
         rows={reportList}
         onRowSelect={handleRowSelect}
       />
     );
+  };
+
+  const renderLAWideView = () => {
+    return <ReportLAWide errors={data.laWide} />;
   };
 
   const renderDetailView = () => {
@@ -140,21 +145,31 @@ const Report = (props: ReportPageProps) => {
       );
     }
 
-    return <Typography variant="h6">Select child</Typography>;
+    return <Typography variant='h6'>Select child</Typography>;
   };
 
   return (
-    <Box flexGrow={1} style={{ height: "750px", overflowY: "hidden" }}>
+    <Box flexGrow={1} style={{ height: '750px', overflowY: 'hidden' }}>
       <Grid
         container
         spacing={2}
-        style={{ height: "700px", overflowY: "hidden" }}
+        style={{ height: '700px', overflowY: 'hidden' }}
       >
-        <Grid item xs={2} style={{ height: "100%" }}>
+        <Grid item xs={2} style={{ height: '100%' }}>
           <ScrollableFull>
+            <Block>
+              <Button
+                onClick={() => {
+                  setSelectedChild('LAWide');
+                }}
+              >
+                View LA-wide Errors
+              </Button>
+            </Block>
+
             <HeaderControl>
-              <Typography variant="h6">Child ID</Typography>
-              <ButtonPopover label="Filter">
+              <Typography variant='h6'>Child ID</Typography>
+              <ButtonPopover label='Filter'>
                 <ChildFilterDialog
                   filterString={data.filter}
                   dispatch={dispatch}
@@ -165,11 +180,11 @@ const Report = (props: ReportPageProps) => {
             {renderTable()}
           </ScrollableFull>
         </Grid>
-        <Grid item xs={10} style={{ height: "100%" }}>
-          {renderDetailView()}
+        <Grid item xs={10} style={{ height: '100%' }}>
+          {selectedChild === 'LAWide' ? renderLAWideView() : renderDetailView()}
         </Grid>
       </Grid>
-      <Block spacing="blockLarge">
+      <Block spacing='blockLarge'>
         <Spacer>
           <Aligner>
             <PrimaryControls

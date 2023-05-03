@@ -1,6 +1,6 @@
-import React from "react";
-import { Error } from "reducers/ReportReducer";
-import Table from "components/table";
+import React from 'react';
+import { Error } from 'reducers/ReportReducer';
+import Table from 'components/table';
 
 interface ErrorListProps {
   errorList: Error[];
@@ -21,10 +21,10 @@ const ErrorList = ({
     <Table
       selectable={true}
       selectedHandler={handleErrorSelected}
-      headers={["Rule Code", "Rule Description"]}
+      headers={['Rule Code', 'Rule Description']}
       rows={errorList.map((errorItem) => {
         return {
-          cells: [errorItem.rule_code, errorItem["Rule Message"]],
+          cells: [errorItem.rule_code, errorItem.rule_description],
           raw: errorItem as any,
         };
       })}
