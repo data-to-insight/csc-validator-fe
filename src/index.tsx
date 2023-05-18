@@ -1,33 +1,34 @@
-import React, { lazy, Suspense } from "react";
-import ReactDOM from "react-dom/client";
+import React, { lazy, Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
 
-import { Loader } from "@sfdl/sf-mui-components";
-import { withCookieGate } from "@sfdl/sf-cookie-gate";
+import { Loader } from '@sfdl/sf-mui-components';
+import { withCookieGate } from '@sfdl/sf-cookie-gate';
+import { Tool } from 'Router';
 
 const App = lazy(() => {
-  return import("./App");
+  return import('./App');
 });
 
 const Landing = lazy(() => {
-  return import("./Landing");
+  return import('./Landing');
 });
 
 const Core = () => {
   const CookieGate = withCookieGate({
-    options: { cookieName: "my-cookie", cookieOptions: {} },
+    options: { cookieName: 'my-cookie', cookieOptions: {} },
     LandingComponent: Landing,
     ApplicationComponent: App,
   });
 
   return (
-    <Suspense fallback={<Loader type="cover" />}>
-      <CookieGate APIName={"Using: Pyodide"} />
+    <Suspense fallback={<Loader type='cover' />}>
+      <CookieGate APIName={'Using: Pyodide'} tool={Tool.Tool903} />
     </Suspense>
   );
 };
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 root.render(

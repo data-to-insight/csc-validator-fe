@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Error, ValidationRule } from "reducers/ReportReducer";
+import React, { useState, useEffect } from 'react';
+import { Error, ValidationRule } from 'reducers/ReportReducer';
 
-import DraggablePanes from "components/draggable-panes";
+import DraggablePanes from 'components/draggable-panes';
 
-import { pascalToReadable } from "utils/strings/fomatters";
+import { pascalToReadable } from 'utils/strings/fomatters';
 
-import { Block } from "@sfdl/sf-mui-components";
+import { Block } from '@sfdl/sf-mui-components';
 
-import ReportTable from "./ReportTable";
-import ErrorList from "./ErrorList";
-import { Typography } from "@mui/material";
+import ReportTable from './ReportTable';
+import ErrorList from './ErrorList';
+import { Typography } from '@mui/material';
 
 interface ReportDetailProps {
   childItem: any;
@@ -19,7 +19,7 @@ interface ReportDetailProps {
 
 const ReportDetail = (props: ReportDetailProps) => {
   const { childItem, childId, validationRules } = props;
-  const skipRendering = ["Header", "errors", "hide"];
+  const skipRendering = ['errors', 'hide'];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
 
@@ -53,8 +53,8 @@ const ReportDetail = (props: ReportDetailProps) => {
         }
 
         return (
-          <Block spacing="blockExtraLarge">
-            <Typography variant="body1">
+          <Block spacing='blockExtraLarge'>
+            <Typography variant='body1'>
               <strong>{pascalToReadable(key)}</strong>
             </Typography>
             <ReportTable
@@ -83,9 +83,9 @@ const ReportDetail = (props: ReportDetailProps) => {
     <>
       <DraggablePanes
         topContent={
-          <Block spacing="blockLarge">
-            <Block spacing="blockLarge">
-              <Typography variant="h5">Child ID: {childId}</Typography>
+          <Block spacing='blockLarge'>
+            <Block spacing='blockLarge'>
+              <Typography variant='h5'>Child ID: {childId}</Typography>
             </Block>
             {renderTables()}
           </Block>
@@ -94,7 +94,7 @@ const ReportDetail = (props: ReportDetailProps) => {
           <>
             <br />
             <br />
-            <Typography variant="h5">Errors</Typography>
+            <Typography variant='h5'>Errors</Typography>
             {childItem.errors ? (
               <ErrorList
                 errorSelectedHandler={handleSelectError}
@@ -102,7 +102,7 @@ const ReportDetail = (props: ReportDetailProps) => {
                 childId={childId}
               />
             ) : (
-              <Typography variant="body1">
+              <Typography variant='body1'>
                 No errors found for this entry
               </Typography>
             )}

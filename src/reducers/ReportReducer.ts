@@ -4,28 +4,45 @@ export type ReportAction = {
 };
 
 export enum ReportActionType {
-  UPDATE = "UPDATE",
-  SET_CHILDREN = "SET_CHILDREN",
-  SET_TABLES = "SET_TABLES",
-  SET_CHILD = "SET_CHILD",
-  SET_RULES = "SET_RULES",
-  SET_VALIDATION_RULES = "SET_VALIDATION_RULES",
-  HIDE_ROWS = "HIDE_ROWS",
-  RESET = "RESET",
+  UPDATE = 'UPDATE',
+  SET_CHILDREN = 'SET_CHILDREN',
+  SET_TABLES = 'SET_TABLES',
+  SET_CHILD = 'SET_CHILD',
+  SET_RULES = 'SET_RULES',
+  SET_VALIDATION_RULES = 'SET_VALIDATION_RULES',
+  HIDE_ROWS = 'HIDE_ROWS',
+  RESET = 'RESET',
 }
 
+// export type Child = {
+//   LAchildID: string;
+//   Assessments: any;
+//   CINdetails: any;
+//   CINplanDates: any;
+//   ChildCharacteristics: any;
+//   ChildIdentifiers: any;
+//   ChildProtectionPlans: any;
+//   Disabilities: any;
+//   Header: any;
+//   Reviews: any;
+//   Section47: any;
+//   errors: Errors;
+//   hide: boolean;
+// };
+
 export type Child = {
-  LAChildId: string;
-  Assessments: any;
-  CINdetails: any;
-  CINplanDates: any;
-  ChildCharacteristics: any;
-  ChildIdentifiers: any;
-  ChildProtectionPlans: any;
-  Disabilities: any;
+  CHILD: string;
   Header: any;
+  Episodes: any;
   Reviews: any;
+  UASC: any;
+  OC2: any;
+  OC3: any;
+  AD1: any;
+  PlacedAdoption: any;
+  PrevPerm: any;
   Section47: any;
+  Missing: any;
   errors: Errors;
   hide: boolean;
 };
@@ -40,19 +57,19 @@ export type Error = {
   rule_description: string | null;
   rule_type: number;
   tables_affected: string;
-  "Rule Message": string;
+  'Rule Message': string;
 };
 
 export type Rule = {
-  "Rule Message": string;
-  "Rule Code": number;
+  'Rule Message': string;
+  'Rule Code': number;
 };
 
 export type Rules = Rule[];
 
 export type ValidationRule = {
-  value: "";
-  label: "";
+  value: '';
+  label: '';
 };
 
 export type Report = {
@@ -62,6 +79,7 @@ export type Report = {
   tables?: any;
   userReport?: any;
   validationRules?: ValidationRule[];
+  laWide?: any;
 };
 
 export interface Children {
@@ -76,8 +94,9 @@ const parseChildren = (children: any, errors: any[]) => {
 
     // get all children and dump them into the output
     values.forEach((value: any) => {
-      if (!output[value.LAchildID]) {
-        output[value.LAchildID] = { errors: {} };
+      // TODO regularise this to either use (CHILD or child_id) or LAchildID
+      if (!output[value.CHILD]) {
+        output[value.CHILD] = { errors: {} };
       }
     });
   });
@@ -85,24 +104,30 @@ const parseChildren = (children: any, errors: any[]) => {
   JSON.parse(errors[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
-    if (!error.LAchildID) {
-      //TODO - these are LA wide errors
+    // TODO this check is not necessary for LAC
+    if (!error.child_id) {
+      //TODO - these are Header errors
       return false;
     }
 
-    const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
-      return rule["Rule code"] === error.rule_code;
-    })[0];
+    // const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
+    //   return rule['Rule code'] === error.rule_code;
+    // })[0];
 
-    output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
+    // output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
+    output[error.child_id].errors[match] = { ...error };
   });
 
   Object.keys(children).forEach((childKey) => {
     const values = JSON.parse(children[childKey]);
 
     values.forEach((value: any) => {
-      if (output[value.LAchildID]) {
-        output[value.LAchildID][childKey] = value;
+      if (output[value.CHILD]) {
+        if (!output[value.CHILD][childKey]) {
+          output[value.CHILD][childKey] = [value];
+        } else {
+          output[value.CHILD][childKey].push(value);
+        }
       }
     });
   });
@@ -125,7 +150,6 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_VALIDATION_RULES:
-      console.log(reportAction.payload);
       newReportState.validationRules = reportAction.payload;
       return newReportState;
 
@@ -143,6 +167,7 @@ export const reportReducer = (
         reportAction.payload.errors
       );
       newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
+      // newReportState.laWide = JSON.parse(reportAction.payload.errors[1]);
 
       newReportState.tables = reportAction.payload.tables;
 
@@ -158,14 +183,23 @@ export const reportReducer = (
 
       newReportState.filter = reportAction.payload;
 
-      Object.values(newReportState.children).forEach((childItem: Child) => {
-        if (!childItem.CINdetails) {
-          return false;
-        }
+      // Object.values(newReportState.children).forEach((childItem: LAchildID) => {
+      //   if (!childItem.CINdetails) {
+      //     return false;
+      //   }
 
-        childItem.hide =
-          childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
-      });
+      //   childItem.hide =
+      //     childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
+      // });
+
+      // Object.values(newReportState.children).forEach((childItem: child_id) => {
+      //   if (!childItem.Header) {
+      //     return false;
+      //   }
+
+      //   childItem.hide =
+      //     childItem.Header.child_id.indexOf(reportAction.payload) < 0;
+      // });
 
       return newReportState;
   }
