@@ -24,7 +24,7 @@ const ErrorList = ({
       headers={["Rule Code", "Rule Description"]}
       rows={errorList.map((errorItem) => {
         return {
-          cells: [errorItem.rule_code, errorItem["Rule Message"]],
+          cells: [errorItem.rule_code, errorItem.rule_description],
           raw: errorItem as any,
         };
       })}
