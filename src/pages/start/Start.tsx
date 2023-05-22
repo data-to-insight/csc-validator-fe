@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   FormControl,
@@ -11,10 +11,10 @@ import {
   Typography,
   Button,
   Grid,
-} from '@mui/material';
+} from "@mui/material";
 
-import { Block } from '@sfdl/sf-mui-components';
-import { laData } from 'utils/authorityData';
+import { Block } from "@sfdl/sf-mui-components";
+import { laData } from "utils/authorityData";
 
 declare global {
   interface Window {
@@ -28,39 +28,34 @@ interface StartPageProps {
 
 const Start = (props: StartPageProps) => {
   const handleButtonClick = () => {
-    if (process.env.NODE_ENV === 'development') {
-      props.onClick();
-    } else {
-      try {
-        //@ts-ignore
-        gtag('event', 'cin-la-select', {
-          localAuthority,
-          localAuthorityName: laData.filter((la) => {
-            return la.la_id === localAuthority;
-          })[0].la_name,
-          event_callback: () => {
-            console.log('callback...');
-            props.onClick();
-          },
-          debug_mode: true,
-        });
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      //@ts-ignore
+      gtag("event", "cin-la-select", {
+        localAuthority,
+        localAuthorityName: laData.filter((la) => {
+          return la.la_id === localAuthority;
+        })[0].la_name,
+        event_callback: () => {
+          props.onClick();
+        },
+        debug_mode: true,
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const [localAuthority, setLocalAuthority] = useState<string>('');
+  const [localAuthority, setLocalAuthority] = useState<string>("");
   const renderDropdown = () => {
     return (
       <FormControl fullWidth>
-        <InputLabel id='la-select-label'>Choose local authority</InputLabel>
+        <InputLabel id="la-select-label">Choose local authority</InputLabel>
         <Select
           value={localAuthority}
-          labelId='la-select-label'
-          label='Choose local authority'
+          labelId="la-select-label"
+          label="Choose local authority"
           onChange={(event: SelectChangeEvent) => {
-            console.log('set...');
+            console.log("set...");
             setLocalAuthority(event.target.value as string);
           }}
         >
@@ -79,7 +74,7 @@ const Start = (props: StartPageProps) => {
   return (
     <Box flexGrow={1}>
       <Block>
-        <Typography variant='body1'>
+        <Typography variant="body1">
           Data to Insight is a national project led by local authorities with
           support from the ADCS, DLUHC, DfE and Ofsted to help local authorities
           make better use of data.
@@ -87,7 +82,7 @@ const Start = (props: StartPageProps) => {
       </Block>
 
       <Block>
-        <Typography variant='body1'>
+        <Typography variant="body1">
           This tool was developed by local authority data analysts, supported by
           technical expertise from our friends at Social Finance. It will let
           you perform the same kinds of data validation as the DfE’s CIN
@@ -97,7 +92,7 @@ const Start = (props: StartPageProps) => {
         </Typography>
       </Block>
 
-      <Block spacing={'blockLarge'}>
+      <Block spacing={"blockLarge"}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {renderDropdown()}
@@ -105,12 +100,12 @@ const Start = (props: StartPageProps) => {
         </Grid>
       </Block>
 
-      <Block spacing={'blockLarge'}>
+      <Block spacing={"blockLarge"}>
         <Button
           onClick={handleButtonClick}
-          variant='contained'
+          variant="contained"
           sx={{ boxShadow: 0 }}
-          disabled={localAuthority === ''}
+          disabled={localAuthority === ""}
         >
           Start
         </Button>

@@ -4,14 +4,14 @@ export type ReportAction = {
 };
 
 export enum ReportActionType {
-  UPDATE = 'UPDATE',
-  SET_CHILDREN = 'SET_CHILDREN',
-  SET_TABLES = 'SET_TABLES',
-  SET_CHILD = 'SET_CHILD',
-  SET_RULES = 'SET_RULES',
-  SET_VALIDATION_RULES = 'SET_VALIDATION_RULES',
-  HIDE_ROWS = 'HIDE_ROWS',
-  RESET = 'RESET',
+  UPDATE = "UPDATE",
+  SET_CHILDREN = "SET_CHILDREN",
+  SET_TABLES = "SET_TABLES",
+  SET_CHILD = "SET_CHILD",
+  SET_RULES = "SET_RULES",
+  SET_VALIDATION_RULES = "SET_VALIDATION_RULES",
+  HIDE_ROWS = "HIDE_ROWS",
+  RESET = "RESET",
 }
 
 export type Child = {
@@ -40,19 +40,19 @@ export type Error = {
   rule_description: string | null;
   rule_type: number;
   tables_affected: string;
-  'Rule Message': string;
+  "Rule Message": string;
 };
 
 export type Rule = {
-  'Rule Message': string;
-  'Rule Code': number;
+  "Rule Message": string;
+  "Rule Code": number;
 };
 
 export type Rules = Rule[];
 
 export type ValidationRule = {
-  value: '';
-  label: '';
+  value: "";
+  label: "";
 };
 
 export type Report = {
@@ -62,7 +62,6 @@ export type Report = {
   tables?: any;
   userReport?: any;
   validationRules?: ValidationRule[];
-  laWide?: any;
 };
 
 export interface Children {
@@ -87,12 +86,12 @@ const parseChildren = (children: any, errors: any[]) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
     if (!error.LAchildID) {
-      //TODO - these are Header errors
+      //TODO - these are LA wide errors
       return false;
     }
 
     const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
-      return rule['Rule code'] === error.rule_code;
+      return rule["Rule code"] === error.rule_code;
     })[0];
 
     output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
@@ -103,11 +102,7 @@ const parseChildren = (children: any, errors: any[]) => {
 
     values.forEach((value: any) => {
       if (output[value.LAchildID]) {
-        if (!output[value.LAchildID][childKey]) {
-          output[value.LAchildID][childKey] = [value];
-        } else {
-          output[value.LAchildID][childKey].push(value);
-        }
+        output[value.LAchildID][childKey] = value;
       }
     });
   });
@@ -130,6 +125,7 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_VALIDATION_RULES:
+      console.log(reportAction.payload);
       newReportState.validationRules = reportAction.payload;
       return newReportState;
 
@@ -147,7 +143,6 @@ export const reportReducer = (
         reportAction.payload.errors
       );
       newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
-      newReportState.laWide = JSON.parse(reportAction.payload.errors[1]);
 
       newReportState.tables = reportAction.payload.tables;
 
