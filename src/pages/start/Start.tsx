@@ -42,6 +42,7 @@ const Start = (props: StartPageProps) => {
       });
     } catch (err) {
       console.log(err);
+      props.onClick();
     }
   };
 
