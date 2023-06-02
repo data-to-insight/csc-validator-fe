@@ -22,7 +22,11 @@ const Core = () => {
 
   return (
     <Suspense fallback={<Loader type='cover' />}>
-      <CookieGate APIName={'Using: Pyodide'} tool={Tool.Tool903} />
+      <CookieGate
+        APIName={'Using: Pyodide'}
+        tool={Tool.Tool903}
+        wheelPath={'/bin/dist/lac_validator-1.0.3-py3-none-any.whl'}
+      />
     </Suspense>
   );
 };

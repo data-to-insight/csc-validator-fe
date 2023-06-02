@@ -16,7 +16,7 @@ import { FormatListNumbered } from '@mui/icons-material';
 import { Aligner } from '../Pages.styles';
 
 import { FileActionType } from 'reducers/FileReducer';
-import { LoadDataViewProps } from './LoadData';
+import { FileYear, LoadDataViewProps } from './LoadData';
 
 import {
   Tabs,
@@ -207,7 +207,15 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
               }
               disableUserReport={!data || !data.userReport}
               onClearClick={handleResetClick}
-              onValidateClick={handleNextClick}
+              onValidateClick={() => {
+                const file = fileState['thisyear'];
+                const fileObject: any = Object.values(file)[0] as any;
+                fileObject.fileMeta = {
+                  description: FileYear.THIS_YEAR,
+                };
+
+                handleNextClick(fileObject);
+              }}
               onGenerateClick={handleGenerateCSVClick}
               onReportClick={() => {}}
             />

@@ -18,7 +18,7 @@ import { downloadFile } from 'utils/file/download';
 import LoadDataCIN from './LoadDataCIN';
 import LoadData903 from './LoadData903';
 
-enum FileYear {
+export enum FileYear {
   THIS_YEAR = 'this year',
   PREVIOUS_YEAR = 'previous year',
 }
@@ -36,7 +36,7 @@ export interface LoadDataViewProps {
   getTotalFilesLength: () => number;
   data: Report;
   handleResetClick: () => void;
-  handleNextClick: () => void;
+  handleNextClick: (fileObject: any, args?: any) => void;
   handleGenerateCSVClick: () => void;
   selectedValidationRules: string[];
   fileDispatch: React.Dispatch<any>;
@@ -116,25 +116,19 @@ const LoadData = (props: LoadDataPageProps) => {
     }, 0) as number;
   };
 
-  const handleNextClick = async () => {
-    if (api && fileState) {
-      const file = fileState['2023'];
-
+  const handleNextClick = async (fileObject: any, args?: any) => {
+    if (api) {
       try {
         setLoadingMessage('Running analysis, this may take some time');
         setLoading(true);
 
-        const fileObject: any = Object.values(file)[0] as any;
         const tables = await api.call('generate_tables', fileObject.file);
 
-        fileObject.fileMeta = {
-          description: FileYear.THIS_YEAR,
-        };
+        const errorArgs = [fileObject.file];
 
-        const errorArgs = [
-          fileObject.file,
-          { localAuthority: 'Bolton', collectionYear: '2022/23' },
-        ];
+        if (args) {
+          errorArgs.push(args);
+        }
 
         if (selectedValidationRules.length > 0) {
           errorArgs.push(selectedValidationRules);

@@ -1,22 +1,28 @@
 /** @jsxImportSource @emotion/react */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Grid,
   Stepper,
   Step,
   StepLabel,
   StepContent,
   Typography,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
 import { FormatListNumbered } from '@mui/icons-material';
 
+import { laData } from 'utils/authorityData';
 import { Aligner } from '../Pages.styles';
 
 import { FileActionType } from 'reducers/FileReducer';
-import { LoadDataViewProps } from './LoadData';
+import { FileYear, LoadDataViewProps } from './LoadData';
 
 import {
   Tabs,
@@ -47,23 +53,27 @@ const LoadData903 = (props: LoadDataViewProps) => {
     setSelectedValidationRules,
   } = props;
 
+  const [localAuthority, setLocalAuthority] = useState<string>('E09000002'); //default barking and dagenham
+  const [collectionYear, setCollectionYear] = useState<string>('2022/23');
+
   const renderInstructions = () => {
     const instructions = [
       {
-        label: `Upload an XML file for the 903 return by clicking on the arrow below. 
-        If you have CSVs, convert them into XML using the DfE XML Generator.`,
+        label: `Add your files to the loading boxes below. If using CSV's, you can validate with any or all of the tables, but validation checks which are missing the necessary data will not run.`,
         content: null,
       },
       {
-        label: `If you only want to only run the validation for certain rules, use the
-        'Validation Rules' dropdown to select the ones you want.
+        label: `Select your Local Authority and the relevant Collection Year.`,
+        content: null,
+      },
+      {
+        label: `If you only want to only run the validation for certain rules, use the 'Validation Rules' dropdown to select the ones you want.
+
       `,
         content: null,
       },
       {
-        label: `Click 'Validate' to run the selected checks. When complete, the Error
-        Display screen will appear.
-      `,
+        label: `Click 'Validate' to run the selected checks. When complete, the Error Display screen will appear.`,
         content: null,
       },
       {
@@ -114,22 +124,37 @@ const LoadData903 = (props: LoadDataViewProps) => {
     );
   };
 
-  const renderXMLTab = () => {
+  const renderCSVTab = () => {
     return (
       <Box>
+        <Typography variant='h6'>Upload 903 CSV file(s)</Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant='h6'>Upload 903 XML file</Typography>
+          <Grid item xs={6}>
+            <Typography variant='body1'>This year</Typography>
             <Uploader
               onUploadReady={(files: any) => {
                 fileDispatch({
                   type: FileActionType.ADD_FILES,
                   payload: files || {},
-                  year: '2023', //redundant
+                  year: 'thisyear', //redundant
                 });
               }}
-              maxFiles={1}
-              fileList={fileState['2023']}
+              maxFiles={10}
+              fileList={fileState['thisyear']}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant='body1'>Last year</Typography>
+            <Uploader
+              onUploadReady={(files: any) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: 'lastyear', //redundant
+                });
+              }}
+              maxFiles={10}
+              fileList={fileState['lastyear']}
             />
           </Grid>
         </Grid>
@@ -138,9 +163,9 @@ const LoadData903 = (props: LoadDataViewProps) => {
   };
 
   const renderFileTabs = () => {
-    const headers = [{ label: 'XML File' }];
+    const headers = [{ label: 'CSV Files' }];
 
-    const bodies = [renderXMLTab()];
+    const bodies = [renderCSVTab()];
 
     return <Tabs headers={headers} bodies={bodies} id='file-upload-tabs' />;
   };
@@ -151,21 +176,16 @@ const LoadData903 = (props: LoadDataViewProps) => {
       <Box flexGrow={1}>
         <Block>
           This tool will load Python code in your web browser to read and
-          validate your 903 data files locally. None of your 903 data will leave
-          your network via this tool. You can safely use it without installing
-          additional software, and without any data sharing agreement. Once the
-          Python code has loaded, the tool will work entirely offline.
+          validate your SSDA903 data files locally. None of your SSDA903 data
+          will leave your network via this tool. You can safely use it without
+          installing additional software, and without any data sharing
+          agreement. Once the Python code has loaded, the tool will work
+          entirely offline.
         </Block>
         <Block spacing='blockLarge'>
-          To begin, use the boxes below to locate and upload your local 903
-          file. Select the validation rules you want to run, and use the
-          “validate” button to get started. By default, all rules will be run if
-          no specific rules are selected.
-          <br />
-          <br />
-          If you simply want to convert your XML file into CSVs, you can click
-          on "download CSVs" without the need to go through the validation
-          process first.
+          To begin, use the boxes below to locate your local SSDA903 file
+          outputs for the relevant year. Choose which validation rules you want
+          to run, and use the “Validate” button to get started.
         </Block>
         <Block spacing='blockLarge'>
           <Expando
@@ -175,6 +195,56 @@ const LoadData903 = (props: LoadDataViewProps) => {
           >
             {renderInstructions()}
           </Expando>
+        </Block>
+        <Block spacing='blockLarge'>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='la-select-label'>
+                    Choose local authority
+                  </InputLabel>
+                  <Select
+                    value={localAuthority}
+                    labelId='la-select-label'
+                    label='Choose local authority'
+                    onChange={(event: SelectChangeEvent) => {
+                      console.log(event.target.value);
+                      setLocalAuthority(event.target.value as string);
+                    }}
+                  >
+                    {laData.map((laItem) => {
+                      return (
+                        <MenuItem value={laItem.la_id} key={laItem.la_id}>
+                          {laItem.la_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='la-select-label'>
+                    Choose collection year
+                  </InputLabel>
+                  <Select
+                    value={collectionYear}
+                    labelId='cy-select-label'
+                    label='Choose collection year'
+                    onChange={(event: SelectChangeEvent) => {
+                      setCollectionYear(event.target.value as string);
+                    }}
+                  >
+                    <MenuItem value='2022/23'>2022/23</MenuItem>
+                    <MenuItem value='2021/21'>2021/22</MenuItem>
+                    <MenuItem value='2020/21'>2020/21</MenuItem>
+                    <MenuItem value='2019/20'>2019/20</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Box>
         </Block>
         <Block spacing='blockLarge'>
           <Box>{renderFileTabs()}</Box>
@@ -207,7 +277,18 @@ const LoadData903 = (props: LoadDataViewProps) => {
               }
               disableUserReport={!data || !data.userReport}
               onClearClick={handleResetClick}
-              onValidateClick={handleNextClick}
+              onValidateClick={() => {
+                const file = fileState['thisyear'];
+                const fileObject: any = Object.values(file)[0] as any;
+                fileObject.fileMeta = {
+                  description: FileYear.THIS_YEAR,
+                };
+
+                handleNextClick(fileObject, {
+                  localAuthority,
+                  collectionYear,
+                });
+              }}
               onGenerateClick={handleGenerateCSVClick}
               onReportClick={() => {}}
             />

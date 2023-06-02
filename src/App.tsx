@@ -24,6 +24,7 @@ const theme = createTheme(CINTheme);
 interface AppProps extends GatedProps {
   APIName?: string;
   tool: Tool;
+  wheelPath: string;
 }
 
 let api: IAPI | undefined = undefined;
@@ -56,8 +57,7 @@ function App(props: AppProps) {
         apiConfig.options.packages = parsed.packages
           ? parsed.packages
           : [
-              process.env.PUBLIC_URL +
-                '/bin/dist/lac_validator-1.0.3-py3-none-any.whl',
+              process.env.PUBLIC_URL + props.wheelPath,
               'rpc-wrap',
               'fs',
               'plotly',
