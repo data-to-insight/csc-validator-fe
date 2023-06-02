@@ -196,6 +196,51 @@ const LoadData903 = (props: LoadDataViewProps) => {
             {renderInstructions()}
           </Expando>
         </Block>
+        <Grid item xs={6}></Grid>
+        <Block spacing='blockLarge'>
+          <Box>
+            <Typography variant='h6'>
+              Ofsted Provider Information Lookup Tables
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Typography variant='body1'>Children's homes list</Typography>
+                <Uploader
+                  onUploadReady={(files: any) => {
+                    fileDispatch({
+                      type: FileActionType.ADD_FILES,
+                      payload: files || {},
+                      year: 'childrenshomes', //redundant
+                    });
+                  }}
+                  maxFiles={10}
+                  fileList={fileState['childrenshomes']}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <Typography variant='body1'>
+                  Social Care Providers List
+                </Typography>
+                <Uploader
+                  onUploadReady={(files: any) => {
+                    fileDispatch({
+                      type: FileActionType.ADD_FILES,
+                      payload: files || {},
+                      year: 'providers', //redundant
+                    });
+                  }}
+                  maxFiles={10}
+                  fileList={fileState['providers']}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Block>
+
+        <Block spacing='blockLarge'>
+          <Box>{renderFileTabs()}</Box>
+        </Block>
         <Block spacing='blockLarge'>
           <Box>
             <Grid container spacing={2}>
@@ -245,9 +290,6 @@ const LoadData903 = (props: LoadDataViewProps) => {
               </Grid>
             </Grid>
           </Box>
-        </Block>
-        <Block spacing='blockLarge'>
-          <Box>{renderFileTabs()}</Box>
         </Block>
         <Block spacing='blockLarge'>
           {validationRules && validationRules.length > 0 && (

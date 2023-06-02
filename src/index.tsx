@@ -24,16 +24,22 @@ const Core = () => {
     <Suspense fallback={<Loader type='cover' />}>
       <CookieGate
         APIName={'Using: Pyodide'}
-        tool={Tool.Tool903}
-        wheelPath={'/bin/dist/lac_validator-1.0.3-py3-none-any.whl'}
+        tool={tool}
+        wheelPath={wheelPath}
       />
     </Suspense>
   );
 };
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const rootEl = document.getElementById('root') as HTMLElement;
+
+// set some sensible defaults, in case we bail on attribute selection
+const tool = rootEl.getAttribute('data-tool') || Tool.Tool903;
+const wheelPath =
+  rootEl.getAttribute('data-wheelpath') ||
+  '/bin/dist/lac_validator-1.0.3-py3-none-any.whl';
+
+const root = ReactDOM.createRoot(rootEl);
 
 root.render(
   <React.StrictMode>
