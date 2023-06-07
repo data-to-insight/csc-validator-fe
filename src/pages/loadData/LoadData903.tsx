@@ -22,7 +22,7 @@ import { laData } from 'utils/authorityData';
 import { Aligner } from '../Pages.styles';
 
 import { FileActionType } from 'reducers/FileReducer';
-import { FileYear, LoadDataViewProps } from './LoadData';
+import { LoadDataViewProps } from './LoadData';
 
 import {
   Tabs,
@@ -53,7 +53,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
     setSelectedValidationRules,
   } = props;
 
-  const [localAuthority, setLocalAuthority] = useState<string>('E09000002'); //default barking and dagenham
+  const [localAuthority, setLocalAuthority] = useState<string>('');
   const [collectionYear, setCollectionYear] = useState<string>('2022/23');
 
   const renderInstructions = () => {
@@ -150,11 +150,49 @@ const LoadData903 = (props: LoadDataViewProps) => {
                 fileDispatch({
                   type: FileActionType.ADD_FILES,
                   payload: files || {},
-                  year: 'lastyear', //redundant
+                  year: 'prevyear', //redundant
                 });
               }}
               maxFiles={10}
-              fileList={fileState['lastyear']}
+              fileList={fileState['prevyear']}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
+  const renderXMLTab = () => {
+    return (
+      <Box>
+        <Typography variant='h6'>Upload 903 XML file(s)</Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant='body1'>This year</Typography>
+            <Uploader
+              onUploadReady={(files: any) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: 'thisyear', //redundant
+                });
+              }}
+              maxFiles={10}
+              fileList={fileState['thisyear']}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant='body1'>Last year</Typography>
+            <Uploader
+              onUploadReady={(files: any) => {
+                fileDispatch({
+                  type: FileActionType.ADD_FILES,
+                  payload: files || {},
+                  year: 'prevyear', //redundant
+                });
+              }}
+              maxFiles={10}
+              fileList={fileState['prevyear']}
             />
           </Grid>
         </Grid>
@@ -163,11 +201,30 @@ const LoadData903 = (props: LoadDataViewProps) => {
   };
 
   const renderFileTabs = () => {
-    const headers = [{ label: 'CSV Files' }];
+    const headers = [{ label: 'CSV Files' }, { label: 'XML Files' }];
 
-    const bodies = [renderCSVTab()];
+    const bodies = [renderCSVTab(), renderXMLTab()];
 
-    return <Tabs headers={headers} bodies={bodies} id='file-upload-tabs' />;
+    return (
+      <Tabs
+        headers={headers}
+        bodies={bodies}
+        id='file-upload-tabs'
+        onChange={() => {
+          fileDispatch({
+            type: FileActionType.ADD_FILES,
+            payload: {},
+            year: 'prevyear', //redundant
+          });
+
+          fileDispatch({
+            type: FileActionType.ADD_FILES,
+            payload: {},
+            year: 'thisyear', //redundant
+          });
+        }}
+      />
+    );
   };
 
   return (
@@ -213,7 +270,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
                       year: 'childrenshomes', //redundant
                     });
                   }}
-                  maxFiles={10}
+                  maxFiles={1}
                   fileList={fileState['childrenshomes']}
                 />
               </Grid>
@@ -230,7 +287,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
                       year: 'providers', //redundant
                     });
                   }}
-                  maxFiles={10}
+                  maxFiles={1}
                   fileList={fileState['providers']}
                 />
               </Grid>
@@ -313,20 +370,62 @@ const LoadData903 = (props: LoadDataViewProps) => {
         <Block spacing='blockLarge'>
           <Aligner>
             <PrimaryControls
-              disableDownload={getTotalFilesLength() < 1}
+              disableDownload={true}
               disableButtons={
                 getTotalFilesLength() < 1 || selectedValidationRules.length < 1
               }
               disableUserReport={!data || !data.userReport}
               onClearClick={handleResetClick}
               onValidateClick={() => {
-                const file = fileState['thisyear'];
-                const fileObject: any = Object.values(file)[0] as any;
-                fileObject.fileMeta = {
-                  description: FileYear.THIS_YEAR,
+                const thisYear: any = Object.values(fileState['thisyear']).map(
+                  (fileItem: any) => {
+                    fileItem.filename = fileItem.file.name;
+                    fileItem.file.filename = fileItem.file.name;
+                    return fileItem.file;
+                  }
+                ) as any;
+
+                const output: any = {
+                  'This year': thisYear,
                 };
 
-                handleNextClick(fileObject, {
+                if (fileState['prevyear']) {
+                  const prevYear: any = Object.values(
+                    fileState['prevyear']
+                  ).map((fileItem: any) => {
+                    fileItem.filename = fileItem.file.name;
+                    fileItem.file.filename = fileItem.file.name;
+                    return fileItem.file;
+                  }) as any;
+
+                  output['Prev year'] = prevYear;
+                }
+
+                if (fileState['childrenshomes']) {
+                  const childrensHomes: any = Object.values(
+                    fileState['childrenshomes']
+                  ).map((fileItem: any) => {
+                    fileItem.filename = fileItem.file.name;
+                    fileItem.file.filename = fileItem.file.name;
+                    return fileItem.file;
+                  }) as any;
+
+                  output['CH lookup'] = childrensHomes;
+                }
+
+                if (fileState['providers']) {
+                  const providers: any = Object.values(
+                    fileState['providers']
+                  ).map((fileItem: any) => {
+                    fileItem.filename = fileItem.file.name;
+                    fileItem.file.filename = fileItem.file.name;
+                    return fileItem.file;
+                  }) as any;
+
+                  output['SCP lookup'] = providers;
+                }
+
+                handleNextClick('lac_validate', output, {
                   localAuthority,
                   collectionYear,
                 });

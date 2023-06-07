@@ -44,9 +44,9 @@ const Report = (props: ReportPageProps) => {
 
   const generateCSVFile = () => {
     if (data && data.tables) {
-      Object.keys(data.tables).forEach((table) => {
+      Object.keys(data.tables[0]).forEach((table) => {
         const output = generateCSV(
-          Object.values(JSON.parse(data.tables[table]))
+          Object.values(JSON.parse(data.tables[0][table]))
         );
 
         if (output) {
@@ -89,20 +89,6 @@ const Report = (props: ReportPageProps) => {
     );
   };
 
-  const getChildAccessConfig = (child: any) => {
-    const keys = Object.keys(child as Object).filter((key) => {
-      return key !== 'errors';
-    });
-
-    const childKey = keys[0];
-    const childIDKey = child[childKey][0]['CHILD'] ? 'CHILD' : 'LAchildID';
-
-    return {
-      childKey,
-      childIDKey,
-    };
-  };
-
   const renderTable = () => {
     if (!data.children) {
       return null;
@@ -118,11 +104,7 @@ const Report = (props: ReportPageProps) => {
         return !child.hide;
       })
       .map((child) => {
-        const childAccess = getChildAccessConfig(child);
-        return [
-          child[childAccess.childKey][0][childAccess.childIDKey],
-          child.errors ? Object.keys(child.errors).length : 0,
-        ];
+        return [child.id, child.errors ? Object.keys(child.errors).length : 0];
       });
 
     return (

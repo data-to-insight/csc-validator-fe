@@ -36,7 +36,7 @@ export interface LoadDataViewProps {
   getTotalFilesLength: () => number;
   data: Report;
   handleResetClick: () => void;
-  handleNextClick: (fileObject: any, args?: any) => void;
+  handleNextClick: (rpcName: string, fileObject: any, args?: any) => void;
   handleGenerateCSVClick: () => void;
   selectedValidationRules: string[];
   fileDispatch: React.Dispatch<any>;
@@ -116,15 +116,17 @@ const LoadData = (props: LoadDataPageProps) => {
     }, 0) as number;
   };
 
-  const handleNextClick = async (fileObject: any, args?: any) => {
+  const handleNextClick = async (
+    rpcName: string,
+    fileObject: any,
+    args?: any
+  ) => {
     if (api) {
       try {
         setLoadingMessage('Running analysis, this may take some time');
         setLoading(true);
 
-        const tables = await api.call('generate_tables', fileObject.file);
-
-        const errorArgs = [fileObject.file];
+        const errorArgs: any[] = [fileObject];
 
         if (args) {
           errorArgs.push(args);
@@ -134,7 +136,9 @@ const LoadData = (props: LoadDataPageProps) => {
           errorArgs.push(selectedValidationRules);
         }
 
-        const errors = await api.call('lac_validate', errorArgs);
+        const errors = await api.call(rpcName, errorArgs);
+
+        const tables: any = errors.data_tables;
 
         setLoading(false);
         dispatch({

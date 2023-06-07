@@ -45,6 +45,7 @@ export type Child = {
   Missing: any;
   errors: Errors;
   hide: boolean;
+  id: string;
 };
 
 export type Errors = Error[];
@@ -86,47 +87,73 @@ export interface Children {
   [key: string]: any;
 }
 
-const parseChildren = (children: any, errors: any[]) => {
+export const getChildAccessConfig = (children: any) => {
+  const keys = Object.keys(children as Object).filter((key) => {
+    return key !== 'Header' && key !== 'errors';
+  });
+
+  const childKey = keys[0];
+
+  const child = Object.keys(JSON.parse(children[childKey])[0]);
+
+  let childIDKey = 'LAchildID';
+
+  if (child.indexOf('CHILD') > -1) {
+    childIDKey = 'CHILD';
+  }
+
+  if (child.indexOf('child_id') > -1) {
+    childIDKey = 'child_id';
+  }
+
+  return {
+    childKey,
+    childIDKey,
+  };
+};
+
+const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
+
+  const childAccessKeys = getChildAccessConfig(children);
 
   Object.keys(children).forEach((childKey) => {
     const values = JSON.parse(children[childKey]);
 
     // get all children and dump them into the output
     values.forEach((value: any) => {
-      // TODO regularise this to either use (CHILD or child_id) or LAchildID
-      if (!output[value.CHILD]) {
-        output[value.CHILD] = { errors: {} };
+      if (!output[value[childAccessKeys.childIDKey]]) {
+        output[value[childAccessKeys.childIDKey]] = {
+          errors: {},
+          id: value[childAccessKeys.childIDKey],
+        };
       }
     });
   });
 
-  JSON.parse(errors[0]).forEach((error: any) => {
+  JSON.parse(errors.issue_locations[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
+    const subChildAccessKey = 'child_id';
+    //console.log(error, subChildAccessKey);
     // TODO this check is not necessary for LAC
-    if (!error.child_id) {
+    if (!error[subChildAccessKey]) {
       //TODO - these are Header errors
       return false;
     }
 
-    // const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
-    //   return rule['Rule code'] === error.rule_code;
-    // })[0];
-
-    // output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
-    output[error.child_id].errors[match] = { ...error };
+    output[error[subChildAccessKey]].errors[match] = { ...error };
   });
 
   Object.keys(children).forEach((childKey) => {
     const values = JSON.parse(children[childKey]);
 
     values.forEach((value: any) => {
-      if (output[value.CHILD]) {
-        if (!output[value.CHILD][childKey]) {
-          output[value.CHILD][childKey] = [value];
+      if (output[value[childAccessKeys.childIDKey]]) {
+        if (!output[value[childAccessKeys.childIDKey]][childKey]) {
+          output[value[childAccessKeys.childIDKey]][childKey] = [value];
         } else {
-          output[value.CHILD][childKey].push(value);
+          output[value[childAccessKeys.childIDKey]][childKey].push(value);
         }
       }
     });
@@ -163,11 +190,12 @@ export const reportReducer = (
 
     case ReportActionType.SET_CHILDREN:
       newReportState.children = parseChildren(
-        reportAction.payload.tables,
+        reportAction.payload.tables[0],
         reportAction.payload.errors
       );
-      newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
-      // newReportState.laWide = JSON.parse(reportAction.payload.errors[1]);
+      newReportState.userReport = JSON.parse(
+        reportAction.payload.errors.user_report[0]
+      );
 
       newReportState.tables = reportAction.payload.tables;
 
@@ -183,23 +211,17 @@ export const reportReducer = (
 
       newReportState.filter = reportAction.payload;
 
-      // Object.values(newReportState.children).forEach((childItem: LAchildID) => {
-      //   if (!childItem.CINdetails) {
-      //     return false;
-      //   }
+      if (!newReportState.children || newReportState.children === undefined) {
+        return newReportState;
+      }
 
-      //   childItem.hide =
-      //     childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
-      // });
+      Object.keys(newReportState.children).forEach((childKey: string) => {
+        if (newReportState.children) {
+          const child = newReportState.children[childKey];
 
-      // Object.values(newReportState.children).forEach((childItem: child_id) => {
-      //   if (!childItem.Header) {
-      //     return false;
-      //   }
-
-      //   childItem.hide =
-      //     childItem.Header.child_id.indexOf(reportAction.payload) < 0;
-      // });
+          child.hide = childKey.indexOf(reportAction.payload) < 0;
+        }
+      });
 
       return newReportState;
   }

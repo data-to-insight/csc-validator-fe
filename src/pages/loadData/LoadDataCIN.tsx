@@ -125,11 +125,11 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
                 fileDispatch({
                   type: FileActionType.ADD_FILES,
                   payload: files || {},
-                  year: '2023', //redundant
+                  year: 'thisyear', //redundant
                 });
               }}
               maxFiles={1}
-              fileList={fileState['2023']}
+              fileList={fileState['thisyear']}
             />
           </Grid>
         </Grid>
@@ -214,7 +214,7 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
                   description: FileYear.THIS_YEAR,
                 };
 
-                handleNextClick(fileObject);
+                handleNextClick('cin_validate', fileObject.file);
               }}
               onGenerateClick={handleGenerateCSVClick}
               onReportClick={() => {}}

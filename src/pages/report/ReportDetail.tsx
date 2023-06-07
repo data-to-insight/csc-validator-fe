@@ -19,7 +19,7 @@ interface ReportDetailProps {
 
 const ReportDetail = (props: ReportDetailProps) => {
   const { childItem, childId, validationRules } = props;
-  const skipRendering = ['errors', 'hide'];
+  const skipRendering = ['errors', 'hide', 'id'];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
 
@@ -53,7 +53,7 @@ const ReportDetail = (props: ReportDetailProps) => {
         }
 
         return (
-          <Block spacing='blockExtraLarge'>
+          <Block spacing='blockExtraLarge' key={`table-${key}`}>
             <Typography variant='body1'>
               <strong>{pascalToReadable(key)}</strong>
             </Typography>
