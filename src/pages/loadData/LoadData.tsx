@@ -138,6 +138,10 @@ const LoadData = (props: LoadDataPageProps) => {
 
         const errors = await api.call(rpcName, errorArgs);
 
+        if (args.collectionYear) {
+          errorArgs.push(args.collectionYear);
+        }
+
         const tables: any = errors.data_tables;
 
         setLoading(false);

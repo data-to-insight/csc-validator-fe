@@ -54,7 +54,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
   } = props;
 
   const [localAuthority, setLocalAuthority] = useState<string>('');
-  const [collectionYear, setCollectionYear] = useState<string>('2022/23');
+  const [collectionYear, setCollectionYear] = useState<string>('2023');
 
   const renderInstructions = () => {
     const instructions = [
@@ -338,10 +338,10 @@ const LoadData903 = (props: LoadDataViewProps) => {
                       setCollectionYear(event.target.value as string);
                     }}
                   >
-                    <MenuItem value='2022/23'>2022/23</MenuItem>
-                    <MenuItem value='2021/21'>2021/22</MenuItem>
-                    <MenuItem value='2020/21'>2020/21</MenuItem>
-                    <MenuItem value='2019/20'>2019/20</MenuItem>
+                    <MenuItem value='2023'>2022/23</MenuItem>
+                    <MenuItem value='2022'>2021/22</MenuItem>
+                    <MenuItem value='2021'>2020/21</MenuItem>
+                    <MenuItem value='2020'>2019/20</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

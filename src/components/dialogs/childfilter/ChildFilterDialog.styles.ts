@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 const FilterHeader = styled.div`
   display: flex;
@@ -6,4 +6,10 @@ const FilterHeader = styled.div`
   justify-content: space-between;
 `;
 
-export { FilterHeader };
+const TableWrapper = styled.div`
+  width: 400px;
+  height: 400px;
+  overflow-y: auto;
+`;
+
+export { FilterHeader, TableWrapper };

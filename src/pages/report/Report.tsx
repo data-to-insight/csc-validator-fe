@@ -160,6 +160,8 @@ const Report = (props: ReportPageProps) => {
                 <ChildFilterDialog
                   filterString={data.filter}
                   dispatch={dispatch}
+                  allErrors={data.allErrors || []}
+                  data={data}
                 />
               </ButtonPopover>
             </HeaderControl>

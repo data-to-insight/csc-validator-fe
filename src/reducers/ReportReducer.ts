@@ -44,6 +44,7 @@ export type Child = {
   Section47: any;
   Missing: any;
   errors: Errors;
+  errorList?: string[];
   hide: boolean;
   id: string;
 };
@@ -81,17 +82,25 @@ export type Report = {
   userReport?: any;
   validationRules?: ValidationRule[];
   laWide?: any;
+  allErrors?: ErrorList;
+  selectedError?: string;
+  selectedErrorKey?: string;
 };
 
 export interface Children {
   [key: string]: any;
 }
 
+export interface AllErrors {
+  [key: string]: any;
+}
+
+export type ErrorList = any[][];
+
 export const getChildAccessConfig = (children: any) => {
   const keys = Object.keys(children as Object).filter((key) => {
     return key !== 'Header' && key !== 'errors';
   });
-
   const childKey = keys[0];
 
   const child = Object.keys(JSON.parse(children[childKey])[0]);
@@ -114,6 +123,7 @@ export const getChildAccessConfig = (children: any) => {
 
 const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
+  const allErrors: AllErrors = {};
 
   const childAccessKeys = getChildAccessConfig(children);
 
@@ -125,6 +135,7 @@ const parseChildren = (children: any, errors: any) => {
       if (!output[value[childAccessKeys.childIDKey]]) {
         output[value[childAccessKeys.childIDKey]] = {
           errors: {},
+          errorList: [],
           id: value[childAccessKeys.childIDKey],
         };
       }
@@ -142,7 +153,10 @@ const parseChildren = (children: any, errors: any) => {
       return false;
     }
 
+    allErrors[error.rule_code] = error.rule_description;
+
     output[error[subChildAccessKey]].errors[match] = { ...error };
+    output[error[subChildAccessKey]].errorList.push(error.rule_code);
   });
 
   Object.keys(children).forEach((childKey) => {
@@ -159,7 +173,10 @@ const parseChildren = (children: any, errors: any) => {
     });
   });
 
-  return output;
+  return {
+    children: output,
+    allErrors,
+  };
 };
 
 export const reportReducer = (
@@ -189,15 +206,25 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_CHILDREN:
-      newReportState.children = parseChildren(
+      const parsedValues = parseChildren(
         reportAction.payload.tables[0],
         reportAction.payload.errors
       );
+
+      newReportState.children = parsedValues.children;
+      newReportState.allErrors = Object.keys(parsedValues.allErrors).map(
+        (key) => {
+          return [key, parsedValues.allErrors[key]];
+        }
+      );
+
       newReportState.userReport = JSON.parse(
         reportAction.payload.errors.user_report[0]
       );
 
       newReportState.tables = reportAction.payload.tables;
+
+      newReportState.filter = '';
 
       return newReportState;
 
@@ -209,7 +236,9 @@ export const reportReducer = (
         return newReportState;
       }
 
-      newReportState.filter = reportAction.payload;
+      newReportState.filter = reportAction.payload.filter;
+      newReportState.selectedError = reportAction.payload.selectedError;
+      newReportState.selectedErrorKey = reportAction.payload.selectedErrorKey;
 
       if (!newReportState.children || newReportState.children === undefined) {
         return newReportState;
@@ -218,13 +247,21 @@ export const reportReducer = (
       Object.keys(newReportState.children).forEach((childKey: string) => {
         if (newReportState.children) {
           const child = newReportState.children[childKey];
+          child.hide = childKey.indexOf(reportAction.payload.filter) < 0;
 
-          child.hide = childKey.indexOf(reportAction.payload) < 0;
+          // is this child also subject to an error filter?
+          if (reportAction.payload.selectedError && !child.hide) {
+            if (
+              child.errorList.indexOf(
+                reportAction.payload.selectedError.toString()
+              ) < 0
+            ) {
+              child.hide = true;
+            }
+          }
         }
       });
 
       return newReportState;
   }
-
-  return newReportState;
 };
