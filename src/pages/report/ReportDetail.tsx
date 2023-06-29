@@ -19,7 +19,7 @@ interface ReportDetailProps {
 
 const ReportDetail = (props: ReportDetailProps) => {
   const { childItem, childId, validationRules } = props;
-  const skipRendering = ['errors', 'hide', 'id'];
+  const skipRendering = ['errors', 'hide', 'id', 'errorList'];
 
   const [selectedError, setSelectedError] = useState<Error | null>(null);
 

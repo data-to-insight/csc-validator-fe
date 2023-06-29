@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState, MouseEvent, useEffect } from "react";
+import React, { useState, MouseEvent, useEffect } from 'react';
 import {
   Table as MuiTable,
   TableBody,
@@ -9,9 +9,9 @@ import {
   TableHead,
   Popover,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import { colors } from "@sfdl/sf-mui-components";
+import { colors } from '@sfdl/sf-mui-components';
 
 type TableRowType = {
   cells: unknown[];
@@ -74,18 +74,18 @@ const TableCellElement = (props: {
 
   const buildStyling = () => {
     const output = {
-      backgroundColor: "transparent",
-      color: "#000",
+      backgroundColor: 'transparent',
+      color: '#000',
     };
 
     if (lowlight) {
       output.backgroundColor = colors.secondary;
-      output.color = "#fff";
+      output.color = '#fff';
     }
 
     if (rowIdx === selectedRow || outline) {
       output.backgroundColor = colors.primary;
-      output.color = "#fff";
+      output.color = '#fff';
     }
 
     return output;
@@ -93,34 +93,34 @@ const TableCellElement = (props: {
 
   return (
     <TableCell
-      scope={outline ? "cell-active" : ""}
-      role={outline ? "cell-active" : ""}
+      scope={outline ? 'cell-active' : ''}
+      role={outline ? 'cell-active' : ''}
       sx={buildStyling()}
       onClick={handleClick}
       key={`table-cell-${content}`}
     >
       <span onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
-        {content || "-"}
+        {content || '-'}
       </span>
       <Popover
         id={`table-cell-popover-${content}`}
         sx={{
-          pointerEvents: "none",
+          pointerEvents: 'none',
         }}
         open={open}
         anchorEl={popoverLocation}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
+          vertical: 'top',
+          horizontal: 'left',
         }}
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography variant="body1">{highlight?.description}</Typography>
+        <Typography variant='body1'>{highlight?.description}</Typography>
       </Popover>
     </TableCell>
   );
