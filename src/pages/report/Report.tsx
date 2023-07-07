@@ -58,11 +58,15 @@ const Report = (props: ReportPageProps) => {
 
   const generateReport = () => {
     if (data && data.userReport) {
-      const output = generateCSV(Object.values(data.userReport));
+      const fileNames = ['error_report.csv', 'error_summary.csv'];
 
-      if (output) {
-        downloadFile(output, `User Report.csv`);
-      }
+      data.userReport.forEach((report: string, i: number) => {
+        const output = generateCSV(Object.values(JSON.parse(report)));
+
+        if (output) {
+          downloadFile(output, fileNames[i] || `download-${i}.csv`);
+        }
+      });
     }
   };
 

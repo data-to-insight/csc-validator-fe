@@ -14,22 +14,6 @@ export enum ReportActionType {
   RESET = 'RESET',
 }
 
-// export type Child = {
-//   LAchildID: string;
-//   Assessments: any;
-//   CINdetails: any;
-//   CINplanDates: any;
-//   ChildCharacteristics: any;
-//   ChildIdentifiers: any;
-//   ChildProtectionPlans: any;
-//   Disabilities: any;
-//   Header: any;
-//   Reviews: any;
-//   Section47: any;
-//   errors: Errors;
-//   hide: boolean;
-// };
-
 export type Child = {
   CHILD: string;
   Header: any;
@@ -218,9 +202,7 @@ export const reportReducer = (
         }
       );
 
-      newReportState.userReport = JSON.parse(
-        reportAction.payload.errors.user_report[0]
-      );
+      newReportState.userReport = reportAction.payload.errors.user_report;
 
       newReportState.tables = reportAction.payload.tables;
 
