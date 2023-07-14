@@ -2331,10 +2331,10 @@
     pyodide "^0.21.2"
     uuid "^9.0.0"
 
-"@sfdl/sf-cookie-gate@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/@sfdl/sf-cookie-gate/-/sf-cookie-gate-0.0.2.tgz"
-  integrity sha512-7BqipVVmXYrq9T8JxaFyLPRTGWNfWuzNHmdzY7IYNBqBQzlxHnKRUXytztDS4ZsXQtBZKvALGNRDXmNiGDpt7w==
+"@sfdl/sf-cookie-gate@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@sfdl/sf-cookie-gate/-/sf-cookie-gate-0.0.3.tgz#aaef7fb735c31b805a25fe93df298ba73c3ad149"
+  integrity sha512-U8BEwRNRtsPDODAuNFWa05FVEPgIugWTsfRb2Ys4UczQ6XQRKSftnu8+fscWKhsL1jTJjMN2bR1lmLvB1a92Dg==
   dependencies:
     "@types/js-cookie" "^3.0.2"
     "@types/react" "^18.0.24"
@@ -7009,6 +7009,11 @@ js-cookie@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.1.tgz"
   integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
+
+js-cookie@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.5.tgz#0b7e2fd0c01552c58ba86e0841f94dc2557dcdbc"
+  integrity sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==
 
 js-sdsl@^4.1.4:
   version "4.1.4"

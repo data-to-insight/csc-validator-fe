@@ -17,6 +17,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { FormatListNumbered } from '@mui/icons-material';
+import Cookies from 'js-cookie';
 
 import { laData } from 'utils/authorityData';
 import { Aligner } from '../Pages.styles';
@@ -53,7 +54,9 @@ const LoadData903 = (props: LoadDataViewProps) => {
     setSelectedValidationRules,
   } = props;
 
-  const [localAuthority, setLocalAuthority] = useState<string>('');
+  const [localAuthority, setLocalAuthority] = useState<string>(
+    Cookies.get('903-cookie') || ''
+  );
   const [collectionYear, setCollectionYear] = useState<string>('2023');
 
   const renderInstructions = () => {
@@ -311,7 +314,6 @@ const LoadData903 = (props: LoadDataViewProps) => {
                     labelId='la-select-label'
                     label='Choose local authority'
                     onChange={(event: SelectChangeEvent) => {
-                      console.log(event.target.value);
                       setLocalAuthority(event.target.value as string);
                     }}
                   >
