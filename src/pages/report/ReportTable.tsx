@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import Table from "components/table";
-import { Error, ValidationRule } from "reducers/ReportReducer";
+import React, { useEffect } from 'react';
+import Table from 'components/table';
+import { Error, ValidationRule } from 'reducers/ReportReducer';
 
 interface ReportTableProps {
   data: any;
@@ -15,12 +15,14 @@ const ReportTable = (props: ReportTableProps) => {
 
   useEffect(() => {
     if (!error) {
-      document.querySelector("h5")?.scrollIntoView();
+      document.querySelector('h5')?.scrollIntoView();
     }
   }, [error]);
 
-  const headers = Object.keys(data);
-  const cells = Object.values(data);
+  const headers = Object.keys(data[0]);
+  const cells = data.map((row: any) => {
+    return { cells: Object.values(row) };
+  });
 
   const getLowLights = () => {
     if (!childErrors || childErrors.length < 1) {
@@ -30,7 +32,9 @@ const ReportTable = (props: ReportTableProps) => {
     const output: { [key: string]: any } = {};
 
     childErrors.forEach((childError) => {
-      output[`${0}_${headers.indexOf(childError.columns_affected)}`] = true;
+      output[
+        `${childError.row_id}_${headers.indexOf(childError.columns_affected)}`
+      ] = true;
     });
 
     return output;
@@ -46,12 +50,12 @@ const ReportTable = (props: ReportTableProps) => {
     });
 
     return {
-      row: 0,
+      row: error.row_id,
       cell: headers.indexOf(error.columns_affected),
       description:
         matchingRules.length > 0 && matchingRules[0].label
           ? matchingRules[0].label
-          : "",
+          : '',
     };
   };
 
@@ -60,7 +64,7 @@ const ReportTable = (props: ReportTableProps) => {
       lowlights={getLowLights()}
       highlight={getHighlight()}
       headers={headers}
-      rows={[{ cells }]}
+      rows={cells}
       id={id}
     />
   );

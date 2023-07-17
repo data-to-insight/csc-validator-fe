@@ -1,7 +1,8 @@
-import renderer from "react-test-renderer";
-import Report from "./Report";
+import renderer from 'react-test-renderer';
+import Report from './Report';
+import { Tool } from 'Router';
 
-it("renders Report page", () => {
+it('renders Report page', () => {
   const handleRouteChange = jest.fn();
   const mockDispatch = jest.fn();
   const mockAPI = {
@@ -14,8 +15,9 @@ it("renders Report page", () => {
     dispatch: mockDispatch,
     fileDispatch: mockDispatch,
     api: mockAPI,
-    APIName: "mock",
+    APIName: 'mock',
     fileState: [],
+    tool: Tool.ToolCIN,
   };
 
   renderer.create(<Report {...props} />);

@@ -1,14 +1,19 @@
-import React, { Dispatch, useState } from "react";
-import { ReportAction, Report } from "reducers/ReportReducer";
-import { FileAction } from "reducers/FileReducer";
+import React, { Dispatch, useState } from 'react';
+import { ReportAction, Report } from 'reducers/ReportReducer';
+import { FileAction } from 'reducers/FileReducer';
 
-import { LoadData, Report as ReportPage } from "pages";
-import { Body } from "@sfdl/sf-mui-components";
-import { IAPI } from "@sfdl/prpc";
+import { LoadData, Report as ReportPage } from 'pages';
+import { Body } from '@sfdl/sf-mui-components';
+import { IAPI } from '@sfdl/prpc';
 
 export enum RouteValue {
-  LOAD_DATA = "LOAD_DATA",
-  REPORT = "REPORT",
+  LOAD_DATA = 'LOAD_DATA',
+  REPORT = 'REPORT',
+}
+
+export enum Tool {
+  Tool903 = 'Tool903',
+  ToolCIN = 'ToolCIN',
 }
 
 export interface RouteProps {
@@ -18,6 +23,7 @@ export interface RouteProps {
   fileDispatch: Dispatch<FileAction>;
   api: IAPI;
   APIName?: string;
+  tool: Tool;
 }
 
 const Router = (props: RouteProps) => {
@@ -42,8 +48,12 @@ const Router = (props: RouteProps) => {
     }
   };
 
+  const renderTitle = () => {
+    return `${props.tool === Tool.Tool903 ? '903' : 'CIN'} Validator`;
+  };
+
   return (
-    <Body title="CIN Validator" chip={props.APIName || "Sample"}>
+    <Body title={renderTitle()} chip={props.APIName || 'Sample'}>
       {renderRoute()}
     </Body>
   );

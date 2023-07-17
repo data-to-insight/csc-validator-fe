@@ -4,30 +4,33 @@ export type ReportAction = {
 };
 
 export enum ReportActionType {
-  UPDATE = "UPDATE",
-  SET_CHILDREN = "SET_CHILDREN",
-  SET_TABLES = "SET_TABLES",
-  SET_CHILD = "SET_CHILD",
-  SET_RULES = "SET_RULES",
-  SET_VALIDATION_RULES = "SET_VALIDATION_RULES",
-  HIDE_ROWS = "HIDE_ROWS",
-  RESET = "RESET",
+  UPDATE = 'UPDATE',
+  SET_CHILDREN = 'SET_CHILDREN',
+  SET_TABLES = 'SET_TABLES',
+  SET_CHILD = 'SET_CHILD',
+  SET_RULES = 'SET_RULES',
+  SET_VALIDATION_RULES = 'SET_VALIDATION_RULES',
+  HIDE_ROWS = 'HIDE_ROWS',
+  RESET = 'RESET',
 }
 
 export type Child = {
-  LAChildId: string;
-  Assessments: any;
-  CINdetails: any;
-  CINplanDates: any;
-  ChildCharacteristics: any;
-  ChildIdentifiers: any;
-  ChildProtectionPlans: any;
-  Disabilities: any;
+  CHILD: string;
   Header: any;
+  Episodes: any;
   Reviews: any;
+  UASC: any;
+  OC2: any;
+  OC3: any;
+  AD1: any;
+  PlacedAdoption: any;
+  PrevPerm: any;
   Section47: any;
+  Missing: any;
   errors: Errors;
+  errorList?: string[];
   hide: boolean;
+  id: string;
 };
 
 export type Errors = Error[];
@@ -40,19 +43,19 @@ export type Error = {
   rule_description: string | null;
   rule_type: number;
   tables_affected: string;
-  "Rule Message": string;
+  'Rule Message': string;
 };
 
 export type Rule = {
-  "Rule Message": string;
-  "Rule Code": number;
+  'Rule Message': string;
+  'Rule Code': number;
 };
 
 export type Rules = Rule[];
 
 export type ValidationRule = {
-  value: "";
-  label: "";
+  value: '';
+  label: '';
 };
 
 export type Report = {
@@ -62,52 +65,102 @@ export type Report = {
   tables?: any;
   userReport?: any;
   validationRules?: ValidationRule[];
+  laWide?: any;
+  allErrors?: ErrorList;
+  selectedError?: string;
+  selectedErrorKey?: string;
 };
 
 export interface Children {
   [key: string]: any;
 }
 
-const parseChildren = (children: any, errors: any[]) => {
+export interface AllErrors {
+  [key: string]: any;
+}
+
+export type ErrorList = any[][];
+
+export const getChildAccessConfig = (children: any) => {
+  const keys = Object.keys(children as Object).filter((key) => {
+    return key !== 'Header' && key !== 'errors';
+  });
+  const childKey = keys[0];
+
+  const child = Object.keys(JSON.parse(children[childKey])[0]);
+
+  let childIDKey = 'LAchildID';
+
+  if (child.indexOf('CHILD') > -1) {
+    childIDKey = 'CHILD';
+  }
+
+  if (child.indexOf('child_id') > -1) {
+    childIDKey = 'child_id';
+  }
+
+  return {
+    childKey,
+    childIDKey,
+  };
+};
+
+const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
+  const allErrors: AllErrors = {};
+
+  const childAccessKeys = getChildAccessConfig(children);
 
   Object.keys(children).forEach((childKey) => {
     const values = JSON.parse(children[childKey]);
 
     // get all children and dump them into the output
     values.forEach((value: any) => {
-      if (!output[value.LAchildID]) {
-        output[value.LAchildID] = { errors: {} };
+      if (!output[value[childAccessKeys.childIDKey]]) {
+        output[value[childAccessKeys.childIDKey]] = {
+          errors: {},
+          errorList: [],
+          id: value[childAccessKeys.childIDKey],
+        };
       }
     });
   });
 
-  JSON.parse(errors[0]).forEach((error: any) => {
+  JSON.parse(errors.issue_locations[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
-    if (!error.LAchildID) {
-      //TODO - these are LA wide errors
+    const subChildAccessKey = 'child_id';
+    //console.log(error, subChildAccessKey);
+    // TODO this check is not necessary for LAC
+    if (!error[subChildAccessKey]) {
+      //TODO - these are Header errors
       return false;
     }
 
-    const ruleMeta = JSON.parse(errors[1]).filter((rule: any) => {
-      return rule["Rule code"] === error.rule_code;
-    })[0];
+    allErrors[error.rule_code] = error.rule_description;
 
-    output[error.LAchildID].errors[match] = { ...error, ...ruleMeta };
+    output[error[subChildAccessKey]].errors[match] = { ...error };
+    output[error[subChildAccessKey]].errorList.push(error.rule_code);
   });
 
   Object.keys(children).forEach((childKey) => {
     const values = JSON.parse(children[childKey]);
 
     values.forEach((value: any) => {
-      if (output[value.LAchildID]) {
-        output[value.LAchildID][childKey] = value;
+      if (output[value[childAccessKeys.childIDKey]]) {
+        if (!output[value[childAccessKeys.childIDKey]][childKey]) {
+          output[value[childAccessKeys.childIDKey]][childKey] = [value];
+        } else {
+          output[value[childAccessKeys.childIDKey]][childKey].push(value);
+        }
       }
     });
   });
 
-  return output;
+  return {
+    children: output,
+    allErrors,
+  };
 };
 
 export const reportReducer = (
@@ -125,7 +178,6 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_VALIDATION_RULES:
-      console.log(reportAction.payload);
       newReportState.validationRules = reportAction.payload;
       return newReportState;
 
@@ -138,13 +190,23 @@ export const reportReducer = (
       return newReportState;
 
     case ReportActionType.SET_CHILDREN:
-      newReportState.children = parseChildren(
-        reportAction.payload.tables,
+      const parsedValues = parseChildren(
+        reportAction.payload.tables[0],
         reportAction.payload.errors
       );
-      newReportState.userReport = JSON.parse(reportAction.payload.errors[3]);
+
+      newReportState.children = parsedValues.children;
+      newReportState.allErrors = Object.keys(parsedValues.allErrors).map(
+        (key) => {
+          return [key, parsedValues.allErrors[key]];
+        }
+      );
+
+      newReportState.userReport = reportAction.payload.errors.user_report;
 
       newReportState.tables = reportAction.payload.tables;
+
+      newReportState.filter = '';
 
       return newReportState;
 
@@ -156,19 +218,32 @@ export const reportReducer = (
         return newReportState;
       }
 
-      newReportState.filter = reportAction.payload;
+      newReportState.filter = reportAction.payload.filter;
+      newReportState.selectedError = reportAction.payload.selectedError;
+      newReportState.selectedErrorKey = reportAction.payload.selectedErrorKey;
 
-      Object.values(newReportState.children).forEach((childItem: Child) => {
-        if (!childItem.CINdetails) {
-          return false;
+      if (!newReportState.children || newReportState.children === undefined) {
+        return newReportState;
+      }
+
+      Object.keys(newReportState.children).forEach((childKey: string) => {
+        if (newReportState.children) {
+          const child = newReportState.children[childKey];
+          child.hide = childKey.indexOf(reportAction.payload.filter) < 0;
+
+          // is this child also subject to an error filter?
+          if (reportAction.payload.selectedError && !child.hide) {
+            if (
+              child.errorList.indexOf(
+                reportAction.payload.selectedError.toString()
+              ) < 0
+            ) {
+              child.hide = true;
+            }
+          }
         }
-
-        childItem.hide =
-          childItem.CINdetails.LAchildID.indexOf(reportAction.payload) < 0;
       });
 
       return newReportState;
   }
-
-  return newReportState;
 };

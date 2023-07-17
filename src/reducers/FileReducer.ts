@@ -5,9 +5,9 @@ export type FileAction = {
 };
 
 export enum FileActionType {
-  ADD_FILES = "ADD_FILES",
-  SET_FILES = "SET_FILES",
-  CLEAR_FILES = "CLEAR_FILES",
+  ADD_FILES = 'ADD_FILES',
+  SET_FILES = 'SET_FILES',
+  CLEAR_FILES = 'CLEAR_FILES',
 }
 
 export const initialData = {};
@@ -21,7 +21,6 @@ export const fileReducer = (fileState: any, fileAction: FileAction) => {
 
     case FileActionType.ADD_FILES:
       newState = { ...fileState };
-      console.log(fileAction.year, fileAction.payload);
       if (Object.keys(fileAction.payload).length < 1) {
         newState[fileAction.year] = [];
       } else {

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   FormControl,
@@ -11,10 +11,11 @@ import {
   Typography,
   Button,
   Grid,
-} from "@mui/material";
+} from '@mui/material';
 
-import { Block } from "@sfdl/sf-mui-components";
-import { laData } from "utils/authorityData";
+import { Block } from '@sfdl/sf-mui-components';
+import { laData } from 'utils/authorityData';
+import { Tool } from 'Router';
 
 declare global {
   interface Window {
@@ -23,20 +24,23 @@ declare global {
 }
 
 interface StartPageProps {
-  onClick: () => void;
+  onClick: (la: string) => void;
+  tool: Tool;
 }
 
 const Start = (props: StartPageProps) => {
   const handleButtonClick = () => {
     try {
+      const selectedLa = laData.filter((la) => {
+        return la.la_id === localAuthority;
+      })[0];
+
       //@ts-ignore
-      gtag("event", "cin-la-select", {
+      gtag('event', 'cin-la-select', {
         localAuthority,
-        localAuthorityName: laData.filter((la) => {
-          return la.la_id === localAuthority;
-        })[0].la_name,
+        localAuthorityName: selectedLa.la_name,
         event_callback: () => {
-          props.onClick();
+          props.onClick(selectedLa.la_id);
         },
         debug_mode: true,
       });
@@ -46,17 +50,16 @@ const Start = (props: StartPageProps) => {
     }
   };
 
-  const [localAuthority, setLocalAuthority] = useState<string>("");
+  const [localAuthority, setLocalAuthority] = useState<string>('');
   const renderDropdown = () => {
     return (
       <FormControl fullWidth>
-        <InputLabel id="la-select-label">Choose local authority</InputLabel>
+        <InputLabel id='la-select-label'>Choose local authority</InputLabel>
         <Select
           value={localAuthority}
-          labelId="la-select-label"
-          label="Choose local authority"
+          labelId='la-select-label'
+          label='Choose local authority'
           onChange={(event: SelectChangeEvent) => {
-            console.log("set...");
             setLocalAuthority(event.target.value as string);
           }}
         >
@@ -75,7 +78,7 @@ const Start = (props: StartPageProps) => {
   return (
     <Box flexGrow={1}>
       <Block>
-        <Typography variant="body1">
+        <Typography variant='body1'>
           Data to Insight is a national project led by local authorities with
           support from the ADCS, DLUHC, DfE and Ofsted to help local authorities
           make better use of data.
@@ -83,17 +86,28 @@ const Start = (props: StartPageProps) => {
       </Block>
 
       <Block>
-        <Typography variant="body1">
-          This tool was developed by local authority data analysts, supported by
-          technical expertise from our friends at Social Finance. It will let
-          you perform the same kinds of data validation as the DfE’s CIN
-          (children in need) statutory data submission tool. You can run this
-          tool at any time, using your year-to-date extract of CIN data. We
-          recommend a monthly data checking cycle.
-        </Typography>
+        {props.tool === Tool.ToolCIN ? (
+          <Typography variant='body1'>
+            This tool was developed by local authority data analysts, supported
+            by technical expertise from our friends at Social Finance. It will
+            let you perform the same kinds of data validation as the DfE’s CIN
+            (children in need) statutory data submission tool. You can run this
+            tool at any time, using your year-to-date extract of CIN data. We
+            recommend a monthly data checking cycle.
+          </Typography>
+        ) : (
+          <Typography variant='body1'>
+            This tool was developed by local authority data analysts, supported
+            by technical expertise from our friends at Social Finance. It will
+            let you perform the same kinds of data validation as the DfE’s 903
+            statutory data submission tool. You can run this tool at any time,
+            using your year-to-date extract of 903 data. We recommend a monthly
+            data checking cycle.
+          </Typography>
+        )}
       </Block>
 
-      <Block spacing={"blockLarge"}>
+      <Block spacing={'blockLarge'}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {renderDropdown()}
@@ -101,12 +115,12 @@ const Start = (props: StartPageProps) => {
         </Grid>
       </Block>
 
-      <Block spacing={"blockLarge"}>
+      <Block spacing={'blockLarge'}>
         <Button
           onClick={handleButtonClick}
-          variant="contained"
+          variant='contained'
           sx={{ boxShadow: 0 }}
-          disabled={localAuthority === ""}
+          disabled={localAuthority === ''}
         >
           Start
         </Button>
