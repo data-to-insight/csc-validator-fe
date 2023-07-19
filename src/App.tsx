@@ -72,7 +72,7 @@ function App(props: AppProps) {
       initial = false;
       init();
     }
-  }, []);
+  }, [props.wheelPath]);
 
   /**
    * Handlers
