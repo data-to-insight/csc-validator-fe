@@ -47,6 +47,8 @@ export interface LoadDataViewProps {
   getValidationRulesSummary: () => string;
   getInitialSelectedRuleState: (rules: ValidationRule[]) => string[];
   setSelectedValidationRules: (rules: string[]) => void;
+  collectionYear: string;
+  setCollectionYear: (year: string) => void;
 }
 
 const LoadData = (props: LoadDataPageProps) => {
@@ -55,13 +57,14 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [collectionYear, setCollectionYear] = useState<string>('2023');
 
   useEffect(() => {
     const init = async () => {
       setLoadingMessage('Loading rules');
       setLoading(true);
 
-      const rules = await api.call('get_rules', {});
+      const rules = await api.call('get_rules', collectionYear);
       const parsedRules = JSON.parse(rules).map(
         (rule: { code: string; description: string }) => {
           return {
@@ -81,7 +84,7 @@ const LoadData = (props: LoadDataPageProps) => {
     };
 
     init();
-  }, []);
+  }, [collectionYear]);
 
   const getInitialSelectedRuleState = (rules: Rule[]): string[] => {
     if (rules.length === 0) {
@@ -216,6 +219,8 @@ const LoadData = (props: LoadDataPageProps) => {
     getValidationRulesSummary,
     getInitialSelectedRuleState,
     setSelectedValidationRules,
+    collectionYear,
+    setCollectionYear,
   };
 
   return (
