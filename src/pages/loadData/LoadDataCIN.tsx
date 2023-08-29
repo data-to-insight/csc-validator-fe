@@ -245,7 +245,7 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
                   description: FileYear.THIS_YEAR,
                 };
 
-                handleNextClick('cin_validate', fileObject.file);
+                handleNextClick('cin_validate', fileObject.file, {collectionYear});
               }}
               onGenerateClick={handleGenerateCSVClick}
               onReportClick={() => {}}
