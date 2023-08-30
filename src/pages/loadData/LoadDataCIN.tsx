@@ -54,8 +54,6 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
     setCollectionYear,
   } = props;
 
-  // const [collectionYear, setCollectionYear] = useState<string>('2023');
-  console.log('collectionYear CIN', collectionYear);
 
   const renderInstructions = () => {
     const instructions = [

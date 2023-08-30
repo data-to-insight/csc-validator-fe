@@ -59,8 +59,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
   const [localAuthority, setLocalAuthority] = useState<string>(
     Cookies.get('903-cookie') || ''
   );
-  // const [collectionYear, setCollectionYear] = useState<string>('2023');
-  console.log(collectionYear, 'collectionYear before change');
+
   const renderInstructions = () => {
     const instructions = [
       {
@@ -429,8 +428,6 @@ const LoadData903 = (props: LoadDataViewProps) => {
 
                   output['SCP lookup'] = providers;
                 }
-                console.log('collectionYear', collectionYear);
-                console.log('typeof collectionYear', typeof collectionYear);
                 handleNextClick('lac_validate', output, {
                   localAuthority,
                   collectionYear,
