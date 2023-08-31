@@ -138,7 +138,7 @@ const LoadData = (props: LoadDataPageProps) => {
         if (selectedValidationRules.length > 0) {
           errorArgs.push(selectedValidationRules);
         }
-
+        console.log('errorArgs', errorArgs)
         const errors = await api.call(rpcName, errorArgs);
 
         if (args && args.collectionYear) {
