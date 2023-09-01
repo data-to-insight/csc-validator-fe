@@ -109,6 +109,8 @@ const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
   const allErrors: AllErrors = {};
 
+  console.log(errors);
+
   const childAccessKeys = getChildAccessConfig(children);
 
   Object.keys(children).forEach((childKey) => {
