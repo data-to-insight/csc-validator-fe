@@ -57,8 +57,8 @@ const ChildFilterDialog = (props: ChildFilterDialogProps) => {
       <TableWrapper>
         <SelectableTable
           rows={Object.values(allErrors)}
-          headers={['Error']}
-          onRowSelect={(row, key) => {
+          headers={['Code', 'Error', 'Count']}
+          onRowSelect={(row: any, key: any) => {
             handleErrorValueChange(row[0] as string, key as string);
           }}
           initiallySelectedRow={props.data.selectedErrorKey}

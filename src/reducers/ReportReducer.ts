@@ -109,8 +109,6 @@ const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
   const allErrors: AllErrors = {};
 
-  console.log(errors);
-
   const childAccessKeys = getChildAccessConfig(children);
 
   Object.keys(children).forEach((childKey) => {
@@ -139,7 +137,14 @@ const parseChildren = (children: any, errors: any) => {
       return false;
     }
 
-    allErrors[error.rule_code] = error.rule_description;
+    if (!allErrors[error.rule_code]) {
+      allErrors[error.rule_code] = {
+        description: error.rule_description,
+        count: 1,
+      };
+    } else {
+      allErrors[error.rule_code].count = allErrors[error.rule_code].count + 1;
+    }
 
     output[error[subChildAccessKey]].errors[match] = { ...error };
     output[error[subChildAccessKey]].errorList.push(error.rule_code);
@@ -200,7 +205,11 @@ export const reportReducer = (
       newReportState.children = parsedValues.children;
       newReportState.allErrors = Object.keys(parsedValues.allErrors).map(
         (key) => {
-          return [key, parsedValues.allErrors[key]];
+          return [
+            key,
+            parsedValues.allErrors[key].description,
+            parsedValues.allErrors[key].count,
+          ];
         }
       );
 
