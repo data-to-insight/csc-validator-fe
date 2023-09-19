@@ -239,6 +239,8 @@ export const reportReducer = (
 
       Object.keys(newReportState.children).forEach((childKey: string) => {
         if (newReportState.children) {
+          console.log(childKey.indexOf(reportAction.payload.filter) < 0);
+
           const child = newReportState.children[childKey];
           child.hide = childKey.indexOf(reportAction.payload.filter) < 0;
 
@@ -254,6 +256,8 @@ export const reportReducer = (
           }
         }
       });
+
+      console.log(newReportState);
 
       return newReportState;
   }
