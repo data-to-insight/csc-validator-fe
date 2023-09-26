@@ -1,5 +1,5 @@
-import React, { ChangeEvent, Dispatch } from 'react';
-import { Box, TextField } from '@mui/material';
+import React, { Dispatch } from 'react';
+import { Box } from '@mui/material';
 import { SelectableTable } from '@sfdl/sf-mui-components';
 
 import {
@@ -17,20 +17,7 @@ interface ChildFilterDialogProps {
 }
 
 const ChildFilterDialog = (props: ChildFilterDialogProps) => {
-  const { dispatch, filterString, allErrors, data } = props;
-
-  const handleChange = (
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    dispatch({
-      type: ReportActionType.HIDE_ROWS,
-      payload: {
-        filter: evt.currentTarget.value,
-        selectedError: data.selectedError,
-        selectedErrorKey: data.selectedErrorKey,
-      },
-    });
-  };
+  const { dispatch, allErrors, data } = props;
 
   const handleErrorValueChange = (value: string, key: string) => {
     dispatch({
@@ -45,20 +32,14 @@ const ChildFilterDialog = (props: ChildFilterDialogProps) => {
 
   return (
     <Box>
-      <FilterHeader>
-        <TextField
-          value={filterString}
-          label='Child ID'
-          size='small'
-          onChange={handleChange}
-        />
-      </FilterHeader>
+      <FilterHeader></FilterHeader>
 
       <TableWrapper>
         <SelectableTable
           rows={Object.values(allErrors)}
-          headers={['Error']}
-          onRowSelect={(row, key) => {
+          headers={['Code', 'Error', 'Count']}
+          onRowSelect={(row: any, key: any) => {
+            console.log(row, key);
             handleErrorValueChange(row[0] as string, key as string);
           }}
           initiallySelectedRow={props.data.selectedErrorKey}

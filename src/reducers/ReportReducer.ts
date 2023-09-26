@@ -137,7 +137,14 @@ const parseChildren = (children: any, errors: any) => {
       return false;
     }
 
-    allErrors[error.rule_code] = error.rule_description;
+    if (!allErrors[error.rule_code]) {
+      allErrors[error.rule_code] = {
+        description: error.rule_description,
+        count: 1,
+      };
+    } else {
+      allErrors[error.rule_code].count = allErrors[error.rule_code].count + 1;
+    }
 
     output[error[subChildAccessKey]].errors[match] = { ...error };
     output[error[subChildAccessKey]].errorList.push(error.rule_code);
@@ -198,7 +205,11 @@ export const reportReducer = (
       newReportState.children = parsedValues.children;
       newReportState.allErrors = Object.keys(parsedValues.allErrors).map(
         (key) => {
-          return [key, parsedValues.allErrors[key]];
+          return [
+            key,
+            parsedValues.allErrors[key].description,
+            parsedValues.allErrors[key].count,
+          ];
         }
       );
 
@@ -228,6 +239,8 @@ export const reportReducer = (
 
       Object.keys(newReportState.children).forEach((childKey: string) => {
         if (newReportState.children) {
+          console.log(childKey.indexOf(reportAction.payload.filter) < 0);
+
           const child = newReportState.children[childKey];
           child.hide = childKey.indexOf(reportAction.payload.filter) < 0;
 
@@ -243,6 +256,8 @@ export const reportReducer = (
           }
         }
       });
+
+      console.log(newReportState);
 
       return newReportState;
   }

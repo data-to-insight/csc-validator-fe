@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { ReportActionType } from 'reducers/ReportReducer';
 import { RouteValue, RouteProps } from 'Router';
-import { Box, Checkbox, Grid, Typography, Button } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  Grid,
+  Typography,
+  Button,
+  TextField,
+} from '@mui/material';
 import { ScrollableFull, HeaderControl } from './Report.styles';
 
 import { SelectableTable, ButtonPopover, Block } from '@sfdl/sf-mui-components';
@@ -68,6 +75,19 @@ const Report = (props: ReportPageProps) => {
         }
       });
     }
+  };
+
+  const handleChildIdFilterChange = (
+    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    dispatch({
+      type: ReportActionType.HIDE_ROWS,
+      payload: {
+        filter: evt.currentTarget.value,
+        selectedError: data.selectedError,
+        selectedErrorKey: data.selectedErrorKey,
+      },
+    });
   };
 
   const handleRowSelect = (row: unknown[]) => {
@@ -159,7 +179,7 @@ const Report = (props: ReportPageProps) => {
             </Block>
 
             <HeaderControl>
-              <Typography variant='h6'>Child ID</Typography>
+              {renderCheckbox()}
               <ButtonPopover label='Filter'>
                 <ChildFilterDialog
                   filterString={data.filter}
@@ -169,7 +189,16 @@ const Report = (props: ReportPageProps) => {
                 />
               </ButtonPopover>
             </HeaderControl>
-            {renderCheckbox()}
+
+            <div>
+              <TextField
+                value={data.filter}
+                label='Child ID'
+                size='small'
+                onChange={handleChildIdFilterChange}
+              />
+            </div>
+
             {renderTable()}
           </ScrollableFull>
         </Grid>
