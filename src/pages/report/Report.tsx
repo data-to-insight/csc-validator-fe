@@ -174,7 +174,7 @@ const Report = (props: ReportPageProps) => {
                   setSelectedChild('LAWide');
                 }}
               >
-                View LA-wide Errors
+                Multichild Errors
               </Button>
             </Block>
 

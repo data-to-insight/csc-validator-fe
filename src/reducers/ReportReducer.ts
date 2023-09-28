@@ -126,6 +126,8 @@ const parseChildren = (children: any, errors: any) => {
     });
   });
 
+  console.log(JSON.parse(errors.multichild_issues[0]));
+
   JSON.parse(errors.issue_locations[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
