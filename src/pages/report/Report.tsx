@@ -14,6 +14,7 @@ import { ScrollableFull, HeaderControl } from './Report.styles';
 import { SelectableTable, ButtonPopover, Block } from '@sfdl/sf-mui-components';
 
 import PrimaryControls from 'components/primarycontrols';
+import ReportMultiChildView from './ReportMultiChildView';
 
 import ChildFilterDialog from 'components/dialogs/childfilter';
 import ReportDetail from './ReportDetail';
@@ -140,6 +141,10 @@ const Report = (props: ReportPageProps) => {
     );
   };
 
+  const renderLAWideView = () => {
+    return <ReportMultiChildView rows={data.laWide} />;
+  };
+
   const renderDetailView = () => {
     if (
       selectedChild &&
@@ -168,15 +173,17 @@ const Report = (props: ReportPageProps) => {
       >
         <Grid item xs={2} style={{ height: '100%' }}>
           <ScrollableFull>
-            <Block>
-              <Button
-                onClick={() => {
-                  setSelectedChild('LAWide');
-                }}
-              >
-                Multichild Errors
-              </Button>
-            </Block>
+            {data.laWide && (
+              <Block>
+                <Button
+                  onClick={() => {
+                    setSelectedChild('LAWide');
+                  }}
+                >
+                  Multichild Errors
+                </Button>
+              </Block>
+            )}
 
             <HeaderControl>
               {renderCheckbox()}
@@ -203,7 +210,7 @@ const Report = (props: ReportPageProps) => {
           </ScrollableFull>
         </Grid>
         <Grid item xs={10} style={{ height: '100%' }}>
-          {selectedChild === 'LAWide' ? null : renderDetailView()}
+          {selectedChild === 'LAWide' ? renderLAWideView() : renderDetailView()}
         </Grid>
       </Grid>
       <Block spacing='blockLarge'>
