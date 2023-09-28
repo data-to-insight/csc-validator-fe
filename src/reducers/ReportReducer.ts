@@ -108,6 +108,7 @@ export const getChildAccessConfig = (children: any) => {
 const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
   const allErrors: AllErrors = {};
+  let laWide = undefined;
 
   const childAccessKeys = getChildAccessConfig(children);
 
@@ -125,6 +126,10 @@ const parseChildren = (children: any, errors: any) => {
       }
     });
   });
+
+  if (errors.multichild_issues && errors.multichild_issues[0]) {
+    laWide = JSON.parse(errors.multichild_issues[0]);
+  }
 
   JSON.parse(errors.issue_locations[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
@@ -167,6 +172,7 @@ const parseChildren = (children: any, errors: any) => {
   return {
     children: output,
     allErrors,
+    laWide,
   };
 };
 
@@ -212,6 +218,7 @@ export const reportReducer = (
           ];
         }
       );
+      newReportState.laWide = parsedValues.laWide;
 
       newReportState.userReport = reportAction.payload.errors.user_report;
 
@@ -256,8 +263,6 @@ export const reportReducer = (
           }
         }
       });
-
-      console.log(newReportState);
 
       return newReportState;
   }
