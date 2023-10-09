@@ -265,7 +265,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography variant='body1'>Children's homes list</Typography>
+                <Typography variant='body1'>Combined provider table or Children's homes list </Typography>
                 <Uploader
                   onUploadReady={(files: any) => {
                     fileDispatch({
