@@ -18,8 +18,8 @@ const rootEl = document.getElementById('root') as HTMLElement;
 // set some sensible defaults, in case we bail on attribute selection
 const tool = rootEl.getAttribute('data-tool') || Tool.Tool903;
 const wheelPath =
-  rootEl.getAttribute('data-wheelpath') ||
-  '/bin/dist/lac_validator-1.0.3-py3-none-any.whl';
+  rootEl.getAttribute('data-wheelpath') ||  
+  '/bin/dist/csc_validator_be_903-0.1.0-py3-none-any.whl';
 
 const Core = () => {
   const CookieGate = withCookieGate({
