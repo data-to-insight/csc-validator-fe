@@ -52,12 +52,13 @@ const LoadData903 = (props: LoadDataViewProps) => {
     getValidationRulesSummary,
     getInitialSelectedRuleState,
     setSelectedValidationRules,
+    collectionYear,
+    setCollectionYear,
   } = props;
 
   const [localAuthority, setLocalAuthority] = useState<string>(
     Cookies.get('903-cookie') || ''
   );
-  const [collectionYear, setCollectionYear] = useState<string>('2023');
 
   const renderInstructions = () => {
     const instructions = [
@@ -264,7 +265,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography variant='body1'>Children's homes list</Typography>
+                <Typography variant='body1'>Combined provider table or Children's homes list </Typography>
                 <Uploader
                   onUploadReady={(files: any) => {
                     fileDispatch({
@@ -340,6 +341,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
                       setCollectionYear(event.target.value as string);
                     }}
                   >
+                    <MenuItem value='2024'>2023/24</MenuItem>
                     <MenuItem value='2023'>2022/23</MenuItem>
                     <MenuItem value='2022'>2021/22</MenuItem>
                     <MenuItem value='2021'>2020/21</MenuItem>
@@ -426,7 +428,6 @@ const LoadData903 = (props: LoadDataViewProps) => {
 
                   output['SCP lookup'] = providers;
                 }
-
                 handleNextClick('lac_validate', output, {
                   localAuthority,
                   collectionYear,

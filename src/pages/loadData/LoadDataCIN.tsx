@@ -10,6 +10,11 @@ import {
   StepLabel,
   StepContent,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from '@mui/material';
 import { FormatListNumbered } from '@mui/icons-material';
 
@@ -45,7 +50,10 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
     getValidationRulesSummary,
     getInitialSelectedRuleState,
     setSelectedValidationRules,
+    collectionYear,
+    setCollectionYear,
   } = props;
+
 
   const renderInstructions = () => {
     const instructions = [
@@ -180,6 +188,27 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
           <Box>{renderFileTabs()}</Box>
         </Block>
         <Block spacing='blockLarge'>
+          <FormControl fullWidth>
+            <InputLabel id='la-select-label'>
+              Choose collection year
+            </InputLabel>
+            <Select
+              value={collectionYear}
+              labelId='cy-select-label'
+              label='Choose collection year'
+              onChange={(event: SelectChangeEvent) => {
+                setCollectionYear(event.target.value as string);
+              }}
+            >
+              <MenuItem value='2024'>2023/24</MenuItem>
+              <MenuItem value='2023'>2022/23</MenuItem>
+              <MenuItem value='2022'>2021/22</MenuItem>
+              <MenuItem value='2021'>2020/21</MenuItem>
+              <MenuItem value='2020'>2019/20</MenuItem>
+            </Select>
+          </FormControl>
+        </Block>
+        <Block spacing='blockLarge'>
           {validationRules && validationRules.length > 0 && (
             <Expando
               defaultExpanded={false}
@@ -214,7 +243,7 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
                   description: FileYear.THIS_YEAR,
                 };
 
-                handleNextClick('cin_validate', fileObject.file);
+                handleNextClick('cin_validate', {"This year":[fileObject.file]}, {collectionYear});
               }}
               onGenerateClick={handleGenerateCSVClick}
               onReportClick={() => {}}

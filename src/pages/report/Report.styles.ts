@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { spacing } from "@sfdl/sf-mui-components";
+import styled from '@emotion/styled';
+import { spacing } from '@sfdl/sf-mui-components';
 
 interface DoublePanelProps {
   color?: string;
@@ -37,7 +37,7 @@ const HeaderControl = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 0 ${spacing.s} ${spacing.m} ${spacing.s};
 `;
 

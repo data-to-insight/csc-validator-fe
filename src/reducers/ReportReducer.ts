@@ -108,6 +108,7 @@ export const getChildAccessConfig = (children: any) => {
 const parseChildren = (children: any, errors: any) => {
   const output: Children = {};
   const allErrors: AllErrors = {};
+  let laWide = undefined;
 
   const childAccessKeys = getChildAccessConfig(children);
 
@@ -126,6 +127,10 @@ const parseChildren = (children: any, errors: any) => {
     });
   });
 
+  if (errors.multichild_issues && errors.multichild_issues[0]) {
+    laWide = JSON.parse(errors.multichild_issues[0]);
+  }
+
   JSON.parse(errors.issue_locations[0]).forEach((error: any) => {
     const match = `${error.rule_code} ${error.tables_affected}_${error.columns_affected}_${error.row_id}`;
 
@@ -137,7 +142,14 @@ const parseChildren = (children: any, errors: any) => {
       return false;
     }
 
-    allErrors[error.rule_code] = error.rule_description;
+    if (!allErrors[error.rule_code]) {
+      allErrors[error.rule_code] = {
+        description: error.rule_description,
+        count: 1,
+      };
+    } else {
+      allErrors[error.rule_code].count = allErrors[error.rule_code].count + 1;
+    }
 
     output[error[subChildAccessKey]].errors[match] = { ...error };
     output[error[subChildAccessKey]].errorList.push(error.rule_code);
@@ -160,6 +172,7 @@ const parseChildren = (children: any, errors: any) => {
   return {
     children: output,
     allErrors,
+    laWide,
   };
 };
 
@@ -198,9 +211,14 @@ export const reportReducer = (
       newReportState.children = parsedValues.children;
       newReportState.allErrors = Object.keys(parsedValues.allErrors).map(
         (key) => {
-          return [key, parsedValues.allErrors[key]];
+          return [
+            key,
+            parsedValues.allErrors[key].description,
+            parsedValues.allErrors[key].count,
+          ];
         }
       );
+      newReportState.laWide = parsedValues.laWide;
 
       newReportState.userReport = reportAction.payload.errors.user_report;
 
@@ -228,6 +246,8 @@ export const reportReducer = (
 
       Object.keys(newReportState.children).forEach((childKey: string) => {
         if (newReportState.children) {
+          console.log(childKey.indexOf(reportAction.payload.filter) < 0);
+
           const child = newReportState.children[childKey];
           child.hide = childKey.indexOf(reportAction.payload.filter) < 0;
 
