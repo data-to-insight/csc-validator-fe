@@ -34,3 +34,15 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
           target-folder: dev
+
+      - name: Pushes files to 903/LAC repo
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: 'build'
+          destination_repo: 'data-to-insight/quality-lac-data-beta'
+          destination_branch: 'gh-pages'
+          user_email: 'dave.tickle@socialfinance.org.uk'
+          user_name: 'dotloadmovie'
+          commit_message: 'Release to 903'
