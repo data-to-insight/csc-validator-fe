@@ -42,7 +42,7 @@ jobs:
         with:
           source_file: 'build'
           destination_repo: 'data-to-insight/quality-lac-data-beta'
-          destination_branch: 'gh-pages'
+          destination_branch: 'gh-pages-test'
           user_email: 'dave.tickle@socialfinance.org.uk'
           user_name: 'dotloadmovie'
           commit_message: 'Release to 903'
