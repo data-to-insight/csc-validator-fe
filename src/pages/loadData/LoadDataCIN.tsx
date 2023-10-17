@@ -202,9 +202,6 @@ const LoadDataCIN = (props: LoadDataViewProps) => {
             >
               <MenuItem value='2024'>2023/24</MenuItem>
               <MenuItem value='2023'>2022/23</MenuItem>
-              <MenuItem value='2022'>2021/22</MenuItem>
-              <MenuItem value='2021'>2020/21</MenuItem>
-              <MenuItem value='2020'>2019/20</MenuItem>
             </Select>
           </FormControl>
         </Block>
