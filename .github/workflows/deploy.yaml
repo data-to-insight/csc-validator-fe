@@ -26,6 +26,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
+          node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_cin-0.1.3-py3-none-any.whl --tool ToolCIN
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
@@ -33,3 +34,19 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
+
+      - name: Modify for 903
+        run: node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_903-0.1.0-py3-none-any.whl --tool Tool903
+
+      - name: Pushes files to 903/LAC repo
+        if: github.ref == 'refs/heads/main'
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source_file: 'build/.'
+          destination_repo: 'data-to-insight/csc-validator-fe-publish-903'
+          destination_branch: 'gh-pages'
+          user_email: 'dave.tickle@socialfinance.org.uk'
+          user_name: 'dotloadmovie'
+          commit_message: 'Release to 903'
