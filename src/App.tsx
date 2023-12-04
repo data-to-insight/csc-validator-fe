@@ -116,7 +116,7 @@ function App(props: AppProps) {
               sourceLink='https://github.com/data-to-insight/cin-validator-fe'
             />
             <Version versionNumber='0.1.3' sourceLink='https://github.com/data-to-insight/csc-validator-be-cin'/>
-            <Version versionNumber='0.1.0' sourceLink='https://github.com/data-to-insight/csc-validator-be-903'/>
+            <Version versionNumber='0.1.1' sourceLink='https://github.com/data-to-insight/csc-validator-be-903'/>
           </>
         ) : (
           <Loader type='cover' label='Loading Python API' />
