@@ -19,7 +19,7 @@ const rootEl = document.getElementById('root') as HTMLElement;
 const tool = rootEl.getAttribute('data-tool') || Tool.Tool903;
 const wheelPath =
   rootEl.getAttribute('data-wheelpath') ||  
-  '/bin/dist/csc_validator_be_903-0.1.4-py3-none-any.whl';
+  '/bin/dist/csc_validator_be_903-0.1.5-py3-none-any.whl';
 
 const Core = () => {
   const CookieGate = withCookieGate({
