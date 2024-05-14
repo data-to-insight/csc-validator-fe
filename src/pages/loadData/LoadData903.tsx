@@ -341,6 +341,7 @@ const LoadData903 = (props: LoadDataViewProps) => {
                       setCollectionYear(event.target.value as string);
                     }}
                   >
+                    <MenuItem value='2025'>2024/25</MenuItem>
                     <MenuItem value='2024'>2023/24</MenuItem>
                     <MenuItem value='2023'>2022/23</MenuItem>
                   </Select>

@@ -57,7 +57,7 @@ const LoadData = (props: LoadDataPageProps) => {
 
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
-  const [collectionYear, setCollectionYear] = useState<string>('2023');
+  const [collectionYear, setCollectionYear] = useState<string>('2025');
 
   useEffect(() => {
     const init = async () => {
