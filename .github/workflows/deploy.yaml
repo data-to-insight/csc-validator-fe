@@ -47,6 +47,7 @@ jobs:
           source_file: 'build/.'
           destination_repo: 'data-to-insight/csc-validator-fe-publish-903'
           destination_branch: 'gh-pages'
-          user_email: 'dave.tickle@socialfinance.org.uk'
-          user_name: 'dotloadmovie'
+          user_email: 'william.levack-payne@eastsussex.gov.uk'
+          user_name: 'WillLP-code'
+          token: ${{ secrets.MY_TOKEN }}
           commit_message: 'Release to 903'
