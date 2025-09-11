@@ -36,7 +36,7 @@ jobs:
           folder: build # The folder the action should deploy.
 
       - name: Modify for 903
-        run: node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_903-0.1.10-py3-none-any.whl --tool Tool903
+        run: node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_903-0.1.11-py3-none-any.whl --tool Tool903
 
       - name: Pushes files to 903/LAC repo
         if: github.ref == 'refs/heads/main'
