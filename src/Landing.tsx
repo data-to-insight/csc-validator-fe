@@ -39,7 +39,7 @@ const Landing = (props: LandingProps) => {
           }
           sourceLink='https://github.com/data-to-insight/cin-validator-fe'
         />
-        <Version versionNumber='0.1.6' sourceLink='https://github.com/data-to-insight/csc-validator-be-cin'/>
+        <Version versionNumber='0.1.7' sourceLink='https://github.com/data-to-insight/csc-validator-be-cin'/>
         <Version versionNumber='0.1.10' sourceLink='https://github.com/data-to-insight/csc-validator-be-903'/>
       </Container>
     </ThemeProvider>
