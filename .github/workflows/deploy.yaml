@@ -49,5 +49,5 @@ jobs:
           destination_branch: 'gh-pages'
           user_email: 'william.levack-payne@eastsussex.gov.uk'
           user_name: 'WillLP-code'
-          token: ${{ secrets.MY_TOKEN }}
+          # token: ${{ secrets.MY_TOKEN }}
           commit_message: 'Release to 903'
