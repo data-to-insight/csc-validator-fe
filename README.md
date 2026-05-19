@@ -64,3 +64,9 @@ Contributions/patches/enhancements are welcomed. Please raise a PR for your bran
 - Lint passing
 - Test coverage for new components and functions
 - Clear commit messages (the application makes heavy use of conventional commits via commitizen. If these are ignored the PR will not be accepted)
+
+## Updating tokens and secrets
+When getting an erorr in your actions such as: `remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed for 'https://github.com/data-to-insight/csc-validator-fe-publish-903.git/'` you'll need to update personal access tokens to give the actions permissions to push to the 903 repo.
+
+In your settings menu for your GitHub account, go to the developer settings, and then create a fine grained token (called MY_TOKEN) with push access to `https://github.com/data-to-insight/csc-validator-fe-publish-903` (to do this it will have to be owned by D2I). Once generated, paste it  into the API_TOKEN_GITHUB secret at `https://github.com/data-to-insight/csc-validator-fe/settings/secrets/actions`.
