@@ -26,7 +26,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-          node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_cin-0.1.12-py3-none-any.whl --tool ToolCIN
+          node scripts/productionise-html.js --wheelPath /bin/dist/csc_validator_be_cin-0.1.13-py3-none-any.whl --tool ToolCIN
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
