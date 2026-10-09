@@ -7,7 +7,7 @@ import { LoadStatus } from "../enums/LoadStatus";
 
 //importScripts is a global. Only run it if it is available (ignore if the module is loaded onto window)
 if (typeof importScripts === "function") {
-  importScripts("https://cdn.jsdelivr.net/pyodide/v0.21.2/full/pyodide.js");
+  importScripts("https://cdn.jsdelivr.net/npm/pyodide@314.0.7/pyodide.min.js");
 }
 
 let pyodideInst: PyodideInterface;
